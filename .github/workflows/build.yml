@@ -11,9 +11,8 @@ jobs:
 
       - name: Run make
         run: |
-          sudo apt update
           sudo apt install libopenal-dev libsndfile-dev
-          make
+          make build utils
         
       - uses: actions/upload-artifact@v3
         with:
