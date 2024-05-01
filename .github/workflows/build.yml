@@ -1,11 +1,11 @@
 name: Build and Release
 
 on:
-  push: {}  # This triggers the workflow on any push event
+  push: {}
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest  # Build on Ubuntu with Clang available
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3  # Checkout the repository code
 

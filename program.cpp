@@ -22,8 +22,14 @@ std::vector<Model> modelBuffer;
 std::vector<Script> scriptBuffer;
 
 uint loadObject(const char *name) {
-    Debg("Loading object " + std::string(name));
-    modelBuffer.push_back(loadModel(std::string(assetsDir + name)));
+    Debg("Loading model  " + std::string(name));
+    Model m = loadModel(std::string(assetsDir + name));
+    for(u32 i =0; i < modelBuffer.size(); i++)
+        if(modelBuffer[i].freed){
+            modelBuffer[i] = m;
+            return i;
+        }
+    modelBuffer.push_back(m);
     return modelBuffer.size() - 1;
 }
 
@@ -48,7 +54,7 @@ uint loadScript(const char *name, void* gd) {
 }
 
 
-//TODO: Fix
+// TODO: Fix
 // Currently not working with some Y rotation angles( > 90 - < 0)
 
 // Determines if the object should be rendered based on its
@@ -102,9 +108,7 @@ void* getResource(u8 type, u64 uID) {
 
 int main() {
     Spec("Stigl Game Engine - c2024");
-    bool
-        triggersVisible = false,
-        mouseCentered = false;
+    bool mouseCentered = false;
     u32
         deltaTime = 0,
         lastObjectCount = 0,
@@ -116,7 +120,6 @@ int main() {
         .gameObjects = &gameObjects,
         .exitFuncs = &exitFuncs,
         
-        .triggersVisible = &triggersVisible,
         .mouseCentered = &mouseCentered,
         .isGameRunning = &isRunning,
 

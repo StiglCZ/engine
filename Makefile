@@ -2,7 +2,7 @@ CC= clang++
 ARGS0= $(CC) -Wall -Wextra -g -Ofast -march=native -lX11 -ftree-vectorize -funroll-loops
 ARGS1= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -c
 ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -shared bin/o/types.o
-ARGS3= $(CC) -Wall -Wextra -s -Osize
+ARGS3= $(CC) -Wall -Wextra -s -Ofast
 
 # Object, scripts and utils output arguments
 D1= -o bin/o
@@ -38,6 +38,7 @@ utils:
 	$(ARGS3) utilities/ppm2png.cpp   $(D3)/ppm2png -lpng
 	$(ARGS3) utilities/scenemkr.cpp  $(D3)/scenemkr
 	$(ARGS3) utilities/modelopt2.cpp $(D3)/modelopt2
+	$(ARGS3) utilities/sceneview.cpp $(D3)/sceneview
 run: build
 	cd bin && ./a.out
 all: build utils

@@ -23,6 +23,7 @@ matrix4x4 viewMatrix = {
     {0, 0, 0, 1},
 };
 
+// Matrix by Vector multiply
 /* Readable implementation
    vector vec2;
    for(int n =0; n < 4; n++)

@@ -157,13 +157,14 @@ void freeModels() {
     }
 }
 
+// Somehow, this works, no idea how
 void Screenshot(const char* filename){
     Info("Saving screenshot " + std::string(filename) + "...");
     XImage *xi = XGetImage(disp, win, 0, 0, SIZE_X, SIZE_Y, AllPlanes, ZPixmap);
     u8 pixels[SIZE_X * SIZE_Y * 3];
     int* d = (int*)xi->data;
     for(int i =0; i < SIZE_Y * SIZE_X; i++){
-        int a = *d++;
+        int a = *d++; // Why?
         pixels[i * 3+2] = a & 0xFF;
         pixels[i * 3+1] = a >> 8 & 0xFF;
         pixels[i * 3+0] = a >> 16 & 0xFF;

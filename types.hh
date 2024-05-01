@@ -167,7 +167,7 @@ struct CamProps {
 struct GameData {
     std::vector<GameObject> *const gameObjects;
     std::vector<void*>      *const exitFuncs;
-    bool *const triggersVisible, *const mouseCentered, *const isGameRunning;
+    bool *const mouseCentered, *const isGameRunning;
     matrix4x4 *const viewMatrix, *const projMatrix;
     const u32 streamSize, W, H;
     const fx AR;
