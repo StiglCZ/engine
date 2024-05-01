@@ -10,8 +10,11 @@ jobs:
       - uses: actions/checkout@v3  # Checkout the repository code
 
       - name: Run make
-        run: make
-
+        run: |
+          sudo apt update
+          sudo apt install libopenal-dev
+          make
+        
       - uses: actions/upload-artifact@v3
         with:
           name: built-artifacts
