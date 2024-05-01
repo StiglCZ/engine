@@ -14,7 +14,7 @@ extern "C" {
         
         u32 index = gd->loadObject("car.obj");
         GameObject go = emptyGameObj;
-        go.color = {0x00, 0xBB, 0x00};
+        go.color = {0xAA, 0x22, 0xCC};
         go.model = index;
         go.coll = {1, 3, 1};
         go.script = scriptIndex;

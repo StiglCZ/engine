@@ -78,9 +78,9 @@ void convert(std::ifstream& ifs) {
         writeV3(ofs, objs[i].pos);
         writeV3(ofs, objs[i].rot);
         writeV3(ofs, objs[i].sca);
-        v3 collcol = {255, 255, 255};
-        writeV3(ofs, collcol);
-        writeV3(ofs, collcol);
+        v3 col = {255, 255, 255};
+        writeV3(ofs, objs[i].sca);
+        writeV3(ofs, col);
         ofs.write((char*)&objs[i].model, sizeof(long long));
         ofs.write((char*)&flags, sizeof(long long));
     }
