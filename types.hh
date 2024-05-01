@@ -1,0 +1,202 @@
+#ifndef TYPES
+#define TYPES
+#include <vector>
+
+typedef float fx;
+
+struct Vector3 {
+    fx X, Y, Z;
+    friend Vector3 operator+(const Vector3& lhs, const Vector3& rhs);
+    friend Vector3 operator-(const Vector3& lhs, const Vector3& rhs);
+    friend Vector3 operator*(const Vector3& lhs, const Vector3& rhs);
+    friend Vector3 operator/(const Vector3& lhs, const Vector3& rhs);
+    friend Vector3 operator/(const Vector3& lhs, const fx& rhs);
+    friend Vector3 operator*(const Vector3& lhs, const fx& rhs);
+    friend void operator-=(Vector3& lhs, const Vector3& rhs);
+    friend void operator+=(Vector3& lhs, const Vector3& rhs);
+    friend void operator*=(Vector3& lhs, const Vector3& rhs);
+    friend void operator/=(Vector3& lhs, const Vector3& rhs);
+    friend void operator/=(Vector3& lhs, const fx& rhs);
+    friend void operator*=(Vector3& lhs, const fx& rhs);
+    friend bool operator==(const Vector3& lhs, const Vector3& rhs);
+    friend bool operator!=(const Vector3& lhs, const Vector3& rhs);
+    friend bool operator>(const Vector3 &lhs, const Vector3 &rhs);
+    friend bool operator<(const Vector3 &lhs, const Vector3 &rhs);
+};
+
+struct Vector2 {
+    fx X, Y;
+    friend Vector2 operator+(const Vector2& lhs, const Vector2& rhs);
+    friend Vector2 operator-(const Vector2& lhs, const Vector2& rhs);
+    friend Vector2 operator*(const Vector2& lhs, const Vector2& rhs);
+    friend Vector2 operator/(const Vector2& lhs, const Vector2& rhs);
+    friend Vector2 operator/(const Vector2& lhs, const fx& rhs);
+    friend Vector2 operator*(const Vector2& lhs, const fx& rhs);
+    friend bool operator==(const Vector2& lhs, const Vector2& rhs);
+    friend bool operator!=(const Vector2& lhs, const Vector2& rhs);
+};
+
+
+struct Point {
+    int X, Y;
+    friend Point operator*(const Point& lhs, const Point& rhs);
+    friend Point operator/(const Point& lhs, const Point& rhs);
+    friend Point operator/(const Point& lhs, const int& rhs);
+    friend Point operator*(const Point& lhs, const int& rhs);
+};
+
+struct Color {
+    unsigned short R, G, B;
+    friend Color operator+(const Color& lhs, const Color& rhs);
+};
+
+struct Face {
+    unsigned short* m;
+    unsigned int count;
+};
+
+typedef struct GameObject GameObject;
+typedef struct Quartenion Quartenion;
+typedef struct GameData GameData;
+typedef struct Trigger Trigger;
+typedef struct Vector3 Vector3;
+typedef struct Script Script;
+typedef struct Color color;
+typedef struct Point Point;
+typedef struct Model Model;
+typedef struct Face Face;
+
+typedef fx matrix4x4[4][4];
+typedef fx matrix3x3[3][3];
+typedef fx matrix2x2[2][2];
+
+typedef fx matrix3x2[3][2];
+typedef fx matrix2x3[2][3];
+
+typedef unsigned long  u64;
+typedef unsigned int   u32;
+typedef unsigned short u16;
+typedef unsigned char  u8;
+
+typedef long  i64;
+typedef int   i32;
+typedef short i16;
+typedef char  i8;
+typedef bool  i1;
+
+typedef double f64;
+typedef float  f32;
+typedef float single;
+
+const matrix4x4 matIdentify = {
+    {1, 0, 0, 0},
+    {0, 1, 0, 0},
+    {0, 0, 1, 0},
+    {0, 0, 0, 1},
+};
+const matrix4x4 modelMat = {
+    {1, 1, 1, 0},
+    {1, 1, 1, 0},
+    {1, 1, 1, 0},
+    {0, 0, 0, 1},
+};
+
+// types.o required
+extern void matrixCombine(const matrix3x3 a, const matrix3x3 b, matrix3x3 c);
+extern void matrixCombine(const matrix4x4 a, const matrix4x4 b, matrix4x4 c);
+
+extern void matrixCopy(fx*       a, const fx*       b, Point src, u32 dstX);
+extern void matrixCopy(matrix3x3 a, const matrix3x3 b);
+extern void matrixCopy(matrix4x4 a, const matrix3x3 b);
+extern void matrixCopy(matrix4x4 a, const matrix4x4 b);
+
+extern void flipMatrix(fx *mat, u16 size);
+extern void flipMatrix4x4(matrix4x4 mat);
+extern void flipMatrix3x3(matrix3x3 mat);
+
+extern void rotateX(matrix3x3 out, fx w);
+extern void rotateY(matrix3x3 out, fx w);
+extern void rotateZ(matrix3x3 out, fx w);
+extern void rotateW(matrix3x3 out, Vector3 w);
+extern void rotateW(matrix4x4 out, Vector3 w);
+
+extern fx distance(Vector3 a, Vector3 b);
+extern fx magnitude(Vector3 a);
+extern const GameObject emptyGameObj;
+// Structs
+struct Script {
+    void (*init)(void* arg, u32 scriptIndex);
+    void (*start)(u32 index);
+    void (*update)(u32 index);
+    void* handle;
+};
+
+struct Model{
+    std::vector<Vector3> verticies;
+    std::vector<Face> faces;
+    Vector3 bias;
+    u64 uId;
+    i1 freed;
+};
+
+struct GameObject {
+    u32 model, script, colliding = 0;
+    u64 flags, id;
+    Color color = {};
+    Vector3
+        position = {},
+        rotation = {},
+        scale = {},
+        coll = {},
+        velocity = {};
+};
+
+struct VirtCam {
+    Vector3 pos, rot;
+    const fx FOV;
+    matrix4x4 m;
+};
+
+struct CamProps {
+    Vector3 pos, rot;
+    void (*const sync)(CamProps*);
+    i8 cullEnabled = 0;
+    const fx FOV, FarPlane, NearPlane;
+};
+
+struct GameData {
+    std::vector<GameObject> *const gameObjects;
+    std::vector<void*>      *const exitFuncs;
+    bool *const triggersVisible, *const mouseCentered, *const isGameRunning;
+    matrix4x4 *const viewMatrix, *const projMatrix;
+    const u32 streamSize, W, H;
+    const fx AR;
+    u32 *const deltaTime, *const gameObjUID;
+    CamProps *const cp;
+    Point *const mouse;
+    u8 *const keys, *const btns, *const stream;
+    u32 (*const loadObject) (const char* name);
+    u32 (*const loadScript) (const char* name, void* gd);
+    void  (*const drawText) (Point pos, const char* str);
+    void  (*const screenShot) (const char* filename);
+    void* (*const getResource)  (u8 type, u64 uID);
+};
+
+enum ResourceType {
+    RESOURCE_Zero = 0,
+    RESOURCE_Script = 1,
+    RESOURCE_Model_by_permanent_id = 2,
+    RESOURCE_Model_by_temporary_id= 3,
+    RESOURCE_Keycode = 4,
+};
+
+#define memcpy(a, b, c)              \
+    for(typeof(c) i = 0; i < c; i++) \
+        a[i] = b[i];
+
+#define strcpy(a, b)    \
+    int i = 0;          \
+    while (a[i])        \
+        b[i] = a[i++];
+    
+#endif

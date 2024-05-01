@@ -1,0 +1,25 @@
+#ifndef RENDERER
+#define RENDERER
+
+#include "types.hh"
+
+#define FOV 80.0
+#define SIZE_X 1280
+#define SIZE_Y 720
+#define FAR 100.0
+#define NEAR 0.01
+#define CUTOFF 0
+
+// Mul is faster than div
+constexpr fx HALFSIZE_X = SIZE_X / 2.0,
+             HALFSIZE_Y = SIZE_Y / 2.0,
+             OVERHALFSIZE_X = 1.0 / HALFSIZE_X,
+             OVERHALFSIZE_Y = 1.0 / HALFSIZE_Y,
+             AR = (float)SIZE_X / SIZE_Y,
+             AR2 = AR * AR;
+
+extern matrix4x4 viewMatrix;
+extern matrix4x4 projMatrix;
+
+extern void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale);
+#endif
