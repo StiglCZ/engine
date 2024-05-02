@@ -2,6 +2,7 @@
 #include "physics.hh"
 #include <string>
 #include "scene.hh"
+#include <iostream>
 //EXAMPLE MAIN SCRIPT
 extern "C" {
     GameData* gd2;
@@ -11,6 +12,11 @@ extern "C" {
         gd->loadScript("physics.so", gd);
         //gd->loadScript("audio.so", gd);
         //gd->loadScript("scenemgr.so", gd);
+        // Test some calculations
+        Vector2 cam = {0, 0}, portal = {0, 1}, virtcam = {5, 5};
+        Vector2 vpos = portal - cam;
+        Vector2 vpos2 = virtcam - vpos;
+        std::cout << vpos2.X << " " << vpos2.Y << "\n";
         
         u32 index = gd->loadObject("car.obj");
         GameObject go = emptyGameObj;

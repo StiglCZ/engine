@@ -153,7 +153,6 @@ struct GameObject {
 
 struct VirtCam {
     Vector3 pos, rot;
-    const fx FOV;
     matrix4x4 m;
 };
 
@@ -198,5 +197,10 @@ enum ResourceType {
     int i = 0;          \
     while (a[i])        \
         b[i] = a[i++];
-    
+
+#define printvec3(v3)                                                   \
+    std::cout << '[' << v3.X << ", " << v3.Y << ", " << v3.Z << "]\n";
+#define infovec3(v3)                                                    \
+    Info('[' + std::to_string(v3.X) + ", " + std::to_string(v3.Y) + ", " + std::to_string(v3.Z) + "]\n");
+
 #endif
