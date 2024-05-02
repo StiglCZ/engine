@@ -8,8 +8,8 @@ extern "C" {
     double angleX = 0;
     void Init(GameData* gd, u32 scriptIndex){
         gd->loadScript("movement.so", gd);
-        //gd->loadScript("audio.so", gd);
         gd->loadScript("physics.so", gd);
+        //gd->loadScript("audio.so", gd);
         //gd->loadScript("scenemgr.so", gd);
         
         u32 index = gd->loadObject("car.obj");

@@ -1,3 +1,4 @@
+// Depends on: collision.so
 #ifndef PHYSICS
 #define PHYSICS
 

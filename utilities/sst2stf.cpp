@@ -73,18 +73,17 @@ void convert(std::ifstream& ifs) {
     sized(objs.size());
 
     unsigned long long flags = 0;
+    v3 col = {255, 255, 255};
     for(unsigned i =0; i < objs.size(); i++){
-        //if(!objs[i].model)continue;
         writeV3(ofs, objs[i].pos);
         writeV3(ofs, objs[i].rot);
         writeV3(ofs, objs[i].sca);
-        v3 col = {255, 255, 255};
         writeV3(ofs, objs[i].sca);
         writeV3(ofs, col);
         ofs.write((char*)&objs[i].model, sizeof(long long));
         ofs.write((char*)&flags, sizeof(long long));
     }
-    
+
     ofs.close();
 }
 int main(int argc, char **argv) {

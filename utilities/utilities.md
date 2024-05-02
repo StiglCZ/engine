@@ -7,6 +7,9 @@ Optimizes/(deoptimizes) obj files, with the second gen of stiglengine model opti
 ### scenemkr
 Converts raw-text scene file into its binary form
 
+### sceneview
+Allows you to view contents of a scene file(stf format)
+
 ### ppm2png
 Converts PPM3/PPM6(also known as the format the engine saves screenshots as) to normal, png format.
 
