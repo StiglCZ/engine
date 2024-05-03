@@ -55,6 +55,10 @@ struct Face {
     unsigned int count;
 };
 
+struct Camera {
+    Vector3 pos, rot;
+};
+
 typedef struct GameObject GameObject;
 typedef struct Quartenion Quartenion;
 typedef struct GameData GameData;
@@ -149,11 +153,6 @@ struct GameObject {
         scale = {},
         coll = {},
         velocity = {};
-};
-
-struct VirtCam {
-    Vector3 pos, rot;
-    matrix4x4 m;
 };
 
 struct CamProps {

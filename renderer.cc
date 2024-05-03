@@ -95,3 +95,18 @@ void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale) {
         DrawPoly(verts, f->count, matrix);
     }
 }
+
+void MatrixFromPortal(Vector3 camera_pos, Vector3 camera_rot,
+                      Vector3 portal_pos, Vector3 portal_rot,
+                      Vector3 portac_pos, Vector3 portac_rot,
+                      matrix4x4 target) {
+    // Solve the position & rotation
+    portac_pos -= portal_pos + camera_pos;
+    portac_rot -= portal_rot + camera_rot;
+
+    // Write everything into the matrix
+    target[0][3] = portac_pos.X;
+    target[1][3] = portac_pos.Y;
+    target[2][3] = portac_pos.Z;
+    rotateW(target, portac_rot);
+}
