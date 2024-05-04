@@ -11,6 +11,9 @@ extern "C"{
         d = gd;
         d->gameObjects->push_back(go);
         d->cp->pos = {0, 0, 0};
+    }
+    void Start(u32 index){
+        (void)index; // Unused
         W = getKey(d, "w");
         A = getKey(d, "a");
         S = getKey(d, "s");
@@ -20,9 +23,6 @@ extern "C"{
         F = getKey(d, "F");
         G = getKey(d, "G");
         H = getKey(d, "H");
-    }
-    void Start(u32 index){
-        (void)index; // Unused
     }
     fx f = 0, wp = 0, ap = 0;
     void Update(u32 index){

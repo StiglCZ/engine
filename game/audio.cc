@@ -109,10 +109,10 @@ const AudioControl ac = {
 };
 
 extern "C" {
-    void Init(GameData* gd, u32 si) {
+    void Init(GameData* d, u32 si) {
         (void)si; // Unused
-        ((void**)gd->stream)[3] = (void*)&ac;
+        ((void**)d->stream)[3] = (void*)&ac;
         AudioInit();
-        gd->exitFuncs->push_back((void*)AudioDestroy);
+        d->exitFuncs->push_back((void*)AudioDestroy);
     }
 }

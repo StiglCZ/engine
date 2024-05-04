@@ -2,12 +2,10 @@
 #include "physics.hh"
 #include <string>
 #include "scene.hh"
-#include <iostream>
-#include <cmath>
 
 //EXAMPLE MAIN SCRIPT
 extern "C" {
-    GameData* gd2;
+    GameData* d;
     double angleX = 0;
     void Init(GameData* gd, u32 scriptIndex){
         gd->loadScript("movement.so", gd);
@@ -26,14 +24,14 @@ extern "C" {
         go.position.Y += 20;
         go.flags = 10;
         gd->gameObjects->push_back(go);
-        gd2 = gd;
+        d = gd;
     }
     void Start(u32 index){
         // Make physics object
-        std::vector<u32>* a = (std::vector<u32>*)((void**)gd2->stream)[2];
+        std::vector<u32>* a = (std::vector<u32>*)((void**)d->stream)[2];
         a->push_back(index);
-        if((*gd2->gameObjects)[index].flags == 10){
-            PhysicsProps* pp = (PhysicsProps*)((void**)gd2->stream)[4];
+        if((*d->gameObjects)[index].flags == 10){
+            PhysicsProps* pp = (PhysicsProps*)((void**)d->stream)[4];
             pp->physicsObjects->push_back(index);
 
             /*AudioControl* control = ((AudioControl**)gd2->stream)[3];
@@ -45,7 +43,7 @@ extern "C" {
     }
     void Update(uint index){
         (void)index; // Unused
-        if((*gd2->gameObjects)[index].flags == 10)
-            gd2->drawText({1, 10}, std::to_string(1000000.0 / (u32)*gd2->deltaTime).c_str());
+        if((*d->gameObjects)[index].flags == 10)
+            d->drawText({1, 10}, std::to_string(1000000.0 / (u32)*d->deltaTime).c_str());
     }
 }

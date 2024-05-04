@@ -1,13 +1,13 @@
 #include "../types.hh"
 extern "C" {
-    GameData* gd2;
+    GameData* d;
     std::vector<u32> collidingObjects;
     void Init(GameData* gd, u32 scriptIndex){
-        gd2 = gd;
+        d = gd;
         GameObject go = emptyGameObj;
         go.script = scriptIndex;
         gd->gameObjects->push_back(go);
-        ((void**)gd2->stream)[2] =
+        ((void**)d->stream)[2] =
             (void*)&collidingObjects;
     }
     // TODO: Add rotation support somehow
@@ -33,17 +33,17 @@ extern "C" {
         (void)index; // Unused
         for(u32 i =0; i < collidingObjects.size(); i++){
             u32 n = collidingObjects[i];
-            (*gd2->gameObjects)[n].colliding = 0;
-            for(u32 j =0; j < gd2->gameObjects->size();j++){
+            (*d->gameObjects)[n].colliding = 0;
+            for(u32 j =0; j < d->gameObjects->size();j++){
                 if(n == j)continue;
                 if(AABB(
-                        (*gd2->gameObjects)[n].position,
-                        (*gd2->gameObjects)[n].position + (*gd2->gameObjects)[n].coll,
-                        (*gd2->gameObjects)[j].position,
-                        (*gd2->gameObjects)[j].position + (*gd2->gameObjects)[j].coll
+                        (*d->gameObjects)[n].position,
+                        (*d->gameObjects)[n].position + (*d->gameObjects)[n].coll,
+                        (*d->gameObjects)[j].position,
+                        (*d->gameObjects)[j].position + (*d->gameObjects)[j].coll
                    )){
-                    (*gd2->gameObjects)[n].colliding = j;
-                    (*gd2->gameObjects)[j].colliding = n;
+                    (*d->gameObjects)[n].colliding = j;
+                    (*d->gameObjects)[j].colliding = n;
                 }
             }
         }
