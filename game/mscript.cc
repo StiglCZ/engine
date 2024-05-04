@@ -14,10 +14,6 @@ extern "C" {
         gd->loadScript("physics.so", gd);
         //gd->loadScript("audio.so", gd);
         //gd->loadScript("scenemgr.so", gd);
-        // Test some calculations
-        Vector2 cam = {0, 0}, portal = {3, 3}, virtcam = {10, 10};
-        Vector2 vpos = virtcam - portal - cam;
-        std::cout << vpos.X << " " << vpos.Y << "\n";
         
         u32 index = gd->loadObject("car.obj");
         GameObject go = emptyGameObj;
@@ -31,14 +27,6 @@ extern "C" {
         go.flags = 10;
         gd->gameObjects->push_back(go);
         gd2 = gd;
-
-        fx dstw = gd2->cp->FarPlane - gd2->cp->NearPlane;
-        fx fov = gd2->cp->FOV;
-        fx blue = std::tan((fov / 2.0) / (180.0 / M_PI)) * dstw;
-        std::cout <<
-            fov << "\n" << dstw
-                << "\n" << blue
-                << "\n";
     }
     void Start(u32 index){
         // Make physics object

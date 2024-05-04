@@ -8,7 +8,7 @@
 #define SIZE_Y 720
 #define FAR 100.0
 #define NEAR 0.01
-#define CUTOFF 0
+#define CUTOFF_N 0
 
 // Mul is faster than div
 constexpr fx HALFSIZE_X = SIZE_X / 2.0,

@@ -5,11 +5,11 @@
 typedef fx Rvector[4];
 
 const fx
-    a = 1.0 / tan(degToRad(FOV) / 2.0),
+    a = 1.0 / tan(rad(FOV) / 2.0),
     b = a / AR,
     c = (-NEAR - FAR) / AR,
     d = 2.0 * FAR * NEAR / AR;
-
+    
 matrix4x4 projMatrix = {
     {a, 0, 0, 0},
     {0, b, 0, 0},
@@ -49,6 +49,7 @@ matrix4x4 viewMatrix = {
    but this is just faster, please do not edit this
    unless you somehow make it faster(still on the CPU tho)
 */
+
 inline void MVm(fx* mat, Vector3 vec, Rvector vec2) {
     #pragma unroll
     for(u8 i =0; i < 4; i++){
@@ -65,15 +66,20 @@ u32 linesCounter = 0;
 void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
     Point result[count];
     for(u32 i =0; i < count;i++){
-        Rvector vec2;
-        MVm((fx*)matrix, verts[i], vec2);
+        Rvector vec;
+        MVm((fx*)matrix, verts[i], vec);
         
-        // Ensures no objects behind the camera are being rendered
-        if(vec2[2] > CUTOFF)return;
+        // Clipping
+        if(
+           fabs(vec[0]) > FOV / 4 + 1 ||
+           fabs(vec[1]) > (FOV * AR) / 4 + 1 ||
+           // Ensures no objects behind the camera are being rendered
+           vec[2] > CUTOFF_N
+        )return;
         
         // Converts 4D objs back into 2D objs
-        result[i].X = (int)(vec2[0]  / (vec2[3] * OVERHALFSIZE_X)) + HALFSIZE_X;
-        result[i].Y = (int)(-vec2[1] / (vec2[3] * OVERHALFSIZE_Y)) + HALFSIZE_Y;
+        result[i].X = (int)(vec[0]  / (vec[3] * OVERHALFSIZE_X)) + HALFSIZE_X;
+        result[i].Y = (int)(-vec[1] / (vec[3] * OVERHALFSIZE_Y)) + HALFSIZE_Y;
     }
     DrawLine(result[0], result[count-1]);
     for(u32 i = 0; i < count - 1; i++)

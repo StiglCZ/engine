@@ -149,14 +149,14 @@ int main() {
     };
     modelBufferPtr = &modelBuffer;
     
-    modelBuffer.push_back({});                             // Fallback model
+    modelBuffer.push_back((Model){});                      // Fallback model
     scriptBuffer.push_back({d_init, d_other, d_other, 0}); // Fallback script
     
     signal(SIGINT, Exiter);
     
     Info("Loading scripts...");
-    
     std::vector<std::string> scripts = getFiles(scriptsDir);
+    
     if(!scripts.size()){
         Err("ERR: Script/s not found!", -1);
         exit(1);
@@ -208,13 +208,17 @@ int main() {
                 Vector3 scale = gameObjects[i].scale;
                 // Fixes the scaling on X and Z rotation
                 // Y rotation doesn't seem to be nearly as broken
-                // Isn't perfect! 
+                // Isn't perfect!
                 scale.Y /=
-                    fabs(sin(gameObjects[i].rotation.X)) *
-                    fabs(sin(gameObjects[i].rotation.Z)) + 1;
+                    (fabs(sin(gameObjects[i].rotation.X)) + 1) *
+                    (fabs(sin(gameObjects[i].rotation.Z)) + 1) *
+                    (fabs(sin(camProps.rot.X)) + 1) *
+                    (fabs(sin(camProps.rot.Z)) + 1);
                 scale.Z *=
-                    fabs(sin(gameObjects[i].rotation.X)) *
-                    fabs(sin(gameObjects[i].rotation.Z)) + 1;
+                    (fabs(sin(gameObjects[i].rotation.X)) + 1) *
+                    (fabs(sin(gameObjects[i].rotation.Z)) + 1) *
+                    (fabs(sin(camProps.rot.X)) + 1) *
+                    (fabs(sin(camProps.rot.Z)) + 1);
                 
                 DrawModel(&modelBuffer[gameObjects[i].model], modelMatrix, &scale);
             }
