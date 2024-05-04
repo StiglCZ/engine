@@ -14,7 +14,10 @@ jobs:
         run: sudo apt install libopenal-dev libsndfile-dev
         
       - name: Run make
-        run: make build utils
+        run: |
+          make all
+          make -C bin/utilities/blender_ext
+          cp utilities/blender_ext/scene_extension.zip bin/
 
       # Upload the bin folder
       - uses: actions/upload-artifact@v3
