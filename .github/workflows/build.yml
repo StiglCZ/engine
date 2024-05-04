@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository code
-      - uses: actions/checkout@latest
+      - uses: actions/checkout@v3  
 
       - name: Install deps
         run: sudo apt install libopenal-dev libsndfile-dev
@@ -20,7 +20,7 @@ jobs:
           cp utilities/blender_ext/scene_extension.zip bin/
 
       # Upload the bin folder
-      - uses: actions/upload-artifact@latest
+      - uses: actions/upload-artifact@v3
         with:
           name: built-artifacts
           path: bin/**
