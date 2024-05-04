@@ -145,7 +145,7 @@ extern const Color GREEN;
 extern const Color BLUE;
 
 extern const GameObject emptyGameObj;
-// Structs
+
 struct Script {
     void (*init)(void* arg, u32 scriptIndex);
     void (*start)(u32 index);
@@ -219,5 +219,8 @@ enum ResourceType {
     std::cout << '[' << v3.X << ", " << v3.Y << ", " << v3.Z << "]\n";
 #define infovec3(v3)                                                    \
     Info('[' + std::to_string(v3.X) + ", " + std::to_string(v3.Y) + ", " + std::to_string(v3.Z) + "]\n");
+
+#define getKey(gd, key) \
+    (u64)gd->getResource(4, (u64)key)
 
 #endif

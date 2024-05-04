@@ -5,27 +5,24 @@ extern "C"{
     GameData* d;
     u8 W, S, A, D, space;
     u8 T, F, G, H;
-    u8 getKey(const char* str){
-        return (u64)d->getResource(4, (u64)str);
-    }
     void Init(GameData* gd, u32 scriptIndex){
         GameObject go = emptyGameObj;
         go.script = scriptIndex;
         d = gd;
         d->gameObjects->push_back(go);
         d->cp->pos = {0, 0, 0};
+        W = getKey(d, "w");
+        A = getKey(d, "a");
+        S = getKey(d, "s");
+        D = getKey(d, "d");
+        space = getKey(d, "space");
+        T = getKey(d, "T");
+        F = getKey(d, "F");
+        G = getKey(d, "G");
+        H = getKey(d, "H");
     }
     void Start(u32 index){
         (void)index; // Unused
-        W = getKey("w");
-        A = getKey("a");
-        S = getKey("s");
-        D = getKey("d");
-        space = getKey("space");
-        T = getKey("T");
-        F = getKey("F");
-        G = getKey("G");
-        H = getKey("H");
     }
     fx f = 0, wp = 0, ap = 0;
     void Update(u32 index){
@@ -52,8 +49,6 @@ extern "C"{
             ((*d->gameObjects)[3]).position.X -= 0.003;
         if(d->keys[H])
             ((*d->gameObjects)[3]).position.X += 0.003;
-        if(d->keys[H])
-            d->screenShot("file.ppm");
         d->cp->pos = {ap, 0, wp};
     }
 }
