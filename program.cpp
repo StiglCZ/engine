@@ -54,27 +54,6 @@ uint loadScript(const char *name, void* gd) {
     return scriptBuffer.size() -1;
 }
 
-
-// TODO: Fix
-// Currently not working with some Y rotation angles( > 90 - < 0)
-
-// Determines if the object should be rendered based on its
-// position and the camera position and rotation
-bool CalcCull(CamProps* cullConf, Vector3 pos) {
-    Vector2 cullAxis = {
-        (fx)cos(cullConf->rot.Y),
-        (fx)sin(cullConf->rot.Y)
-    };
-    Point results;
-    results.X = cullAxis.X > 0;
-    results.Y = cullAxis.Y > 0;
-    Vector3 diff = pos - cullConf->pos;
-    u8 Q1 = diff.X > 0, Q2 = diff.Y > 0;
-    return
-         (Q1 &&  results.X &&  Q2 &&  results.Y) ||
-        (!Q1 && !results.X && !Q2 && !results.Y);
-}
-
 // Utils
 void CamSync(CamProps* cp) {
     matrix3x3 m;
@@ -107,6 +86,37 @@ void* getResource(u8 type, u64 uID) {
     return 0;
 }
 
+void RenderObject(GameObject& go, CamProps& cp) {
+    if(go.model == 0 || modelBuffer[go.model].freed ||
+       magnitude(go.position - cp.pos) > FAR
+      )return;
+    ChangeColor(go.color);
+    
+    matrix4x4 modelMatrix = {};
+    rotateW(modelMatrix, go.rotation);
+    Vector3 pos = go.position + cp.pos;
+    modelMatrix[0][3] = pos.X;
+    modelMatrix[1][3] = pos.Y;
+    modelMatrix[2][3] = pos.Z;
+    
+    Vector3 scale = go.scale;
+    // Fixes the scaling on X and Z rotation
+    // Y rotation doesn't seem to be nearly as broken
+    // Isn't perfect!
+    scale.Y /=
+        (fabs(sin(go.rotation.X)) + 1) *
+        (fabs(sin(go.rotation.Z)) + 1) *
+        (fabs(sin(cp.rot.X)) + 1) *
+        (fabs(sin(cp.rot.Z)) + 1);
+    scale.Z *=
+        (fabs(sin(go.rotation.X)) + 1) *
+        (fabs(sin(go.rotation.Z)) + 1) *
+        (fabs(sin(cp.rot.X)) + 1) *
+        (fabs(sin(cp.rot.Z)) + 1);
+                
+    DrawModel(&modelBuffer[go.model], modelMatrix, &scale);
+}
+
 int main() {
     Spec("Stigl Game Engine - c2024");
     bool mouseCentered = false;
@@ -116,7 +126,7 @@ int main() {
         gameObjectUID = 0;
     std::vector<GameObject> gameObjects;
     std::vector<PortCamPair> portCamPairs;
-    CamProps camProps{{}, {}, CamSync, 0, FOV, FAR, NEAR};
+    CamProps camProps{{}, {}, CamSync, FOV, FAR, NEAR};
     u8 stream[STREAM_SIZE];
     GameData gd = {
         .portCamPairs = &portCamPairs,
@@ -181,8 +191,8 @@ int main() {
             // Start function
             if(gameObjects.size() > lastObjectCount){
                 for(u32 i = lastObjectCount; i < gameObjects.size();i++){
-                    scriptBuffer[gameObjects[i].script].start(i);
                     gameObjects[i].id = gameObjectUID++;
+                    scriptBuffer[gameObjects[i].script].start(i);
                 }
                 lastObjectCount = gameObjects.size();
             }
@@ -192,40 +202,11 @@ int main() {
                 if(gameObjects[i].script < scriptBuffer.size())
                     scriptBuffer[gameObjects[i].script].update(i);
         }
-        
-        { // Rendering
-            for(u32 i =0; i < gameObjects.size();i++){
-                if(gameObjects[i].model == 0 || modelBuffer[gameObjects[i].model].freed ||
-                   magnitude(gameObjects[i].position - camProps.pos) > FAR ||
-                   (camProps.cullEnabled && CalcCull(&camProps, gameObjects[i].position))
-                  )continue;
-                ChangeColor(gameObjects[i].color);
 
-                matrix4x4 modelMatrix = {};
-                rotateW(modelMatrix, gameObjects[i].rotation);
-                Vector3 pos = gameObjects[i].position + camProps.pos;
-                modelMatrix[0][3] = pos.X;
-                modelMatrix[1][3] = pos.Y;
-                modelMatrix[2][3] = pos.Z;
-                
-                Vector3 scale = gameObjects[i].scale;
-                // Fixes the scaling on X and Z rotation
-                // Y rotation doesn't seem to be nearly as broken
-                // Isn't perfect!
-                scale.Y /=
-                    (fabs(sin(gameObjects[i].rotation.X)) + 1) *
-                    (fabs(sin(gameObjects[i].rotation.Z)) + 1) *
-                    (fabs(sin(camProps.rot.X)) + 1) *
-                    (fabs(sin(camProps.rot.Z)) + 1);
-                scale.Z *=
-                    (fabs(sin(gameObjects[i].rotation.X)) + 1) *
-                    (fabs(sin(gameObjects[i].rotation.Z)) + 1) *
-                    (fabs(sin(camProps.rot.X)) + 1) *
-                    (fabs(sin(camProps.rot.Z)) + 1);
-                
-                DrawModel(&modelBuffer[gameObjects[i].model], modelMatrix, &scale);
-            }
-        }
+        // Render all the objects
+        for(u32 i =0; i < gameObjects.size() && isRunning;i++)
+            RenderObject(gameObjects[i], camProps);    
+        
         deltaTime = time() - intialTime;                            // Calculate the frametime
         FrameFinished();                                            // Switch the framebuffers
         usleep(min<u32>(SLEEP_TIME - deltaTime, SLEEP_TIME));       // Prevent GPU overload from too many frames(max in case of overflow)

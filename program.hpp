@@ -20,6 +20,5 @@ int main();
 void d_init(void*, u32);
 void d_other(u32);
 u64 time();
-bool CalcCull(CamProps*, Vector3);
 #endif
 

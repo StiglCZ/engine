@@ -102,6 +102,20 @@ void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale) {
     }
 }
 
+bool CheckClipping(matrix4x4 m, Vector3 point) {
+    matrix4x4 temp1;
+    matrixCombine(viewMatrix, m, temp1);
+    matrixCombine(projMatrix, temp1, m);
+    Rvector vec;
+    MVm((fx*)m, point, vec);
+
+    fx fovd4 = FOV / 4;
+    return
+        fabs(vec[0]) < fovd4      + 1 &&
+        fabs(vec[1]) < fovd4 * AR + 1 &&
+        vec[2] <= 0;
+}
+
 void MatrixFromPortal(Vector3 camera_pos, Vector3 camera_rot,
                       Vector3 portal_pos, Vector3 portal_rot,
                       Vector3 portac_pos, Vector3 portac_rot,

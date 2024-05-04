@@ -180,3 +180,8 @@ the file consists of:
 #### Why dont I use git for this?
 
 I.. don't want to. As cool as it would look to have everyday commits on github chart, I just dont feel its required. Eventually I will have to release to upload it on github, and therefore use git tho, so.. I hope that will go well.
+
+
+#### Contributing
+
+If you choose to contribute.. you have to go according to the (mainly)syntax standards. Keep those spaces aligned! Also, don't add 5 dependencies because you feel like it. The engine is lightweight, and personally I wouldn't use openal if there was anything else supporting good 3d audio(because it takes over 5Megs of ram), but I had to. Use the cppstdlib if you need to :)

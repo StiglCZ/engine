@@ -168,7 +168,6 @@ struct GameObject {
 struct CamProps {
     Vector3 pos, rot;
     void (*const sync)(CamProps*);
-    i8 cullEnabled = 0;
     const fx FOV, FarPlane, NearPlane;
 };
 
