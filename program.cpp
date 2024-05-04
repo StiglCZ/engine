@@ -124,10 +124,20 @@ int main() {
         deltaTime = 0,
         lastObjectCount = 0,
         gameObjectUID = 0;
+    
+    u8  stream[STREAM_SIZE];
     std::vector<GameObject> gameObjects;
     std::vector<PortCamPair> portCamPairs;
-    CamProps camProps{{}, {}, CamSync, FOV, FAR, NEAR};
-    u8 stream[STREAM_SIZE];
+    
+    CamProps camProps = {
+        .pos = {},
+        .rot = {},
+        .sync = CamSync,
+        .fov = FOV,
+        .far = FAR,
+        .near = NEAR
+    };
+    
     GameData gd = {
         .portCamPairs = &portCamPairs,
         .gameObjects = &gameObjects,

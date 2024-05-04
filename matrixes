@@ -101,3 +101,7 @@ SOLVED
 //|   |
 //|___|
 
+
+Portals: 
+Near plane = The distance of the player from the portal
+Aspect ratio = of the portal

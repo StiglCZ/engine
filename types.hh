@@ -60,8 +60,8 @@ struct Camera {
 };
 
 struct Portal {
-    Vector3 pos;
-    Vector2 rot;
+    Vector3 pos, rot;
+    Vector2 scale;
 };
 
 struct PortCamPair {
@@ -70,10 +70,10 @@ struct PortCamPair {
 };
 
 typedef struct GameObject GameObject;
-typedef struct Quartenion Quartenion;
 typedef struct GameData GameData;
 typedef struct Trigger Trigger;
 typedef struct Vector3 Vector3;
+typedef struct Vector2 Vector2;
 typedef struct Script Script;
 typedef struct Color color;
 typedef struct Point Point;
@@ -100,7 +100,7 @@ typedef bool  i1;
 
 typedef double f64;
 typedef float  f32;
-typedef float single;
+typedef float  single;
 
 const matrix4x4 matIdentify = {
     {1, 0, 0, 0},
@@ -136,6 +136,14 @@ extern void rotateW(matrix4x4 out, Vector3 w);
 
 extern fx distance(Vector3 a, Vector3 b);
 extern fx magnitude(Vector3 a);
+
+extern const Color WHITE;
+extern const Color GRAY;
+extern const Color BLACK;
+extern const Color RED;
+extern const Color GREEN;
+extern const Color BLUE;
+
 extern const GameObject emptyGameObj;
 // Structs
 struct Script {
@@ -168,7 +176,7 @@ struct GameObject {
 struct CamProps {
     Vector3 pos, rot;
     void (*const sync)(CamProps*);
-    const fx FOV, FarPlane, NearPlane;
+    const fx fov, far, near;
 };
 
 struct GameData {

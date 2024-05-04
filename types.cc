@@ -290,11 +290,23 @@ fx magnitude(const Vector3 a) {
 }
 
 const GameObject emptyGameObj = {
-    0, 0, 0, 0, 0,
-    {0, 0, 0},
-    {0, 0, 0},
-    {0, 0, 0},
-    {1, 1, 1},
-    {0, 0, 0},
-    {0, 0, 0}
+    .model     = 0,
+    .script    = 0,
+    .colliding = 0,
+    .flags     = 0,
+    .id        = 0,
+    .color     = BLACK,
+    
+    .position = {0, 0, 0},
+    .rotation = {0, 0, 0},
+    .scale    = {1, 1, 1},
+    .coll     = {0, 0, 0},
+    .velocity = {0, 0, 0},
 };
+
+const Color WHITE = {255, 255, 255};
+const Color GRAY  = {127, 127, 127};
+const Color BLACK = {000, 000, 000};
+const Color RED   = {255, 000, 000};
+const Color GREEN = {000, 255, 000};
+const Color BLUE  = {000, 000, 255};
