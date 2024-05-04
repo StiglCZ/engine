@@ -7,14 +7,16 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3  # Checkout the repository code
+      # Checkout the repository code
+      - uses: actions/checkout@v3  
 
       - name: Install deps
         run: sudo apt install libopenal-dev libsndfile-dev
         
       - name: Run make
         run: make build utils
-        
+
+      # Upload the bin folder
       - uses: actions/upload-artifact@v3
         with:
           name: built-artifacts

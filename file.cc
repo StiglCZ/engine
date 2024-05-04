@@ -14,13 +14,14 @@ u64 uIDc = random(); // ID counter
 
 const u32 SIGNATURE = 0xAABB;
 
-[[deprecated("Use std::find_first_of")]]
+[[deprecated("Use std::find_first_of or substr")]]
 inline bool begins(std::string str, std::string bgn) {
     if(bgn.size() > str.size())return false;
     for(u32 i =0; i < bgn.size();i++)
         if(str[i] != bgn[i])return false;
     return true;
 }
+
 // Uselless, for now
 std::vector<std::string> split(std::string str, char c) {
     std::string tmp;
@@ -34,6 +35,7 @@ std::vector<std::string> split(std::string str, char c) {
     result.push_back(tmp);
     return result;
 }
+
 std::vector<std::string> read_filelines(std::string filename) {
     std::ifstream file(filename);
     std::vector<std::string> lines;
@@ -104,12 +106,14 @@ Model loadObj(std::vector<std::string> file) {
     }
     return m;
 }
+
 fx biggest(Vector3 v) {
     fx big = v.X;
     if(v.Y > big) big = v.Y;
     if(v.Z > big) big = v.Z;
     return big;
 }
+
 void optimize2Obj(std::string fileName) {
     std::vector<Vector3> vecs;
     std::vector<std::vector<u16>> faces;

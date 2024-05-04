@@ -14,18 +14,17 @@
 void scriptErr(int source) {
     if(source == 1) // Missing function isn't critical
         Debg("Script  error: " + std::string(dlerror()));
-    else Warn("Script  error: " + std::string(dlerror()));
+    else
+        Warn("Script  error: " + std::string(dlerror()));
 }
 
 std::vector<void *> handlers;
-std::vector<std::string> files;
 void* loadScript(char* file) {
     Debg(std::string("Loading script ") + file);
     // RTLD_LAZY can be used if theres some unlinked function
     void* handle = dlopen(file, RTLD_NOW);
     if(!handle)scriptErr(0);
     handlers.push_back(handle);
-    files.push_back(file);
     return handle;
 }
 

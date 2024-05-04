@@ -10,7 +10,7 @@ D2= -o bin/scripts
 D3= -o bin/utils
 
 build: setup objects scripts
-	$(ARGS0) program.cpp native.cc renderer.cc scripting.cc bin/o/logging.o bin/o/types.o bin/o/math.o bin/o/file.o -o bin/a.out
+	$(ARGS0) program.cpp native.cc renderer.cc scripting.cc bin/o/logging.o bin/o/types.o bin/o/file.o -o bin/a.out
 	strip bin/a.out
 	strip bin/scripts/*
 	rm -rf bin/o
@@ -21,16 +21,15 @@ setup:
 objects:
 	$(ARGS1) net.cc         $(D1)/net.o
 	$(ARGS1) file.cc        $(D1)/file.o
-	$(ARGS1) math.cc        $(D1)/math.o
 	$(ARGS1) types.cc       $(D1)/types.o
 	$(ARGS1) logging.cc     $(D1)/logging.o
 	$(ARGS1) game/saving.cc $(D1)/saving.o
 scripts:
 	$(ARGS2) game/mscript.cc   bin/o/logging.o    $(D2)/main.so
 	$(ARGS2) game/audio.cc     -lopenal -lsndfile $(D2)/audio.so bin/o/logging.o
-	$(ARGS2) game/physics.cc   bin/o/math.o       $(D2)/physics.so
+	$(ARGS2) game/physics.cc   	                  $(D2)/physics.so
 	$(ARGS2) game/scene.cc     bin/o/logging.o    $(D2)/scenemgr.so
-	$(ARGS2) game/movement.cc  bin/o/math.o       $(D2)/movement.so
+	$(ARGS2) game/movement.cc                     $(D2)/movement.so
 	$(ARGS2) game/collision.cc                    $(D2)/collision.so
 utils:
 	mkdir -p bin/utils

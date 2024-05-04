@@ -21,5 +21,9 @@ constexpr fx HALFSIZE_X = SIZE_X / 2.0,
 extern matrix4x4 viewMatrix;
 extern matrix4x4 projMatrix;
 
-extern void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale);
+extern void DrawModel(Model *model, matrix4x4 matrix, Vector3 *scale);
+extern void MatrixFromPortal(Vector3 camera_pos, Vector3 camera_rot,
+                      Vector3 portal_pos, Vector3 portal_rot,
+                      Vector3 portac_pos, Vector3 portac_rot,
+                      matrix4x4 target);
 #endif

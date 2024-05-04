@@ -93,11 +93,8 @@ void RenderObject(GameObject& go, CamProps& cp) {
     ChangeColor(go.color);
     
     matrix4x4 modelMatrix = {};
-    rotateW(modelMatrix, go.rotation);
     Vector3 pos = go.position + cp.pos;
-    modelMatrix[0][3] = pos.X;
-    modelMatrix[1][3] = pos.Y;
-    modelMatrix[2][3] = pos.Z;
+    fillMat(modelMatrix, pos, go.rotation);
     
     Vector3 scale = go.scale;
     // Fixes the scaling on X and Z rotation
@@ -215,7 +212,7 @@ int main() {
 
         // Render all the objects
         for(u32 i =0; i < gameObjects.size() && isRunning;i++)
-            RenderObject(gameObjects[i], camProps);    
+            RenderObject(gameObjects[i], camProps);
         
         deltaTime = time() - intialTime;                            // Calculate the frametime
         FrameFinished();                                            // Switch the framebuffers

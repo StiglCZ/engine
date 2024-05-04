@@ -223,4 +223,10 @@ enum ResourceType {
 #define getKey(gd, key) \
     (u64)gd->getResource(4, (u64)key)
 
+#define fillMat(mat, pos, rot)                                          \
+    rotateW(mat, rot);                                                  \
+    mat[0][3] = pos.X;                                                  \
+    mat[1][3] = pos.Y;                                                  \
+    mat[2][3] = pos.Z;
+
 #endif

@@ -123,10 +123,6 @@ void MatrixFromPortal(Vector3 camera_pos, Vector3 camera_rot,
     // Solve the position & rotation
     portac_pos -= portal_pos + camera_pos;
     portac_rot -= portal_rot + camera_rot;
-
     // Write everything into the matrix
-    target[0][3] = portac_pos.X;
-    target[1][3] = portac_pos.Y;
-    target[2][3] = portac_pos.Z;
-    rotateW(target, portac_rot);
+    fillMat(target, portac_pos, portac_rot);
 }
