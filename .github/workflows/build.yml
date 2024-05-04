@@ -16,7 +16,7 @@ jobs:
       - name: Run make
         run: |
           make all
-          make -C bin/utilities/blender_ext
+          make -C utilities/blender_ext
           cp utilities/blender_ext/scene_extension.zip bin/
 
       # Upload the bin folder
