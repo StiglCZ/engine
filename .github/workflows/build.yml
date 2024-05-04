@@ -9,10 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3  # Checkout the repository code
 
+      - name: Install deps
+        run: sudo apt install libopenal-dev libsndfile-dev
+        
       - name: Run make
-        run: |
-          sudo apt install libopenal-dev libsndfile-dev
-          make build utils
+        run: make build utils
         
       - uses: actions/upload-artifact@v3
         with:

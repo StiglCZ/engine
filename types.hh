@@ -59,6 +59,16 @@ struct Camera {
     Vector3 pos, rot;
 };
 
+struct Portal {
+    Vector3 pos;
+    Vector2 rot;
+};
+
+struct PortCamPair {
+    Camera cam;
+    Portal port;
+};
+
 typedef struct GameObject GameObject;
 typedef struct Quartenion Quartenion;
 typedef struct GameData GameData;
@@ -163,8 +173,9 @@ struct CamProps {
 };
 
 struct GameData {
-    std::vector<GameObject> *const gameObjects;
-    std::vector<void*>      *const exitFuncs;
+    std::vector<PortCamPair> *const portCamPairs;
+    std::vector<GameObject>  *const gameObjects;
+    std::vector<void*>       *const exitFuncs;
     bool *const mouseCentered, *const isGameRunning;
     matrix4x4 *const viewMatrix, *const projMatrix;
     const u32 streamSize, W, H;

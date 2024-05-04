@@ -5,6 +5,7 @@
 #include "native.hh"
 #include "renderer.hh"
 #include "logging.hh"
+#include "types.hh"
 #include <signal.h>
 #include <vector>
 #include <chrono>
@@ -114,9 +115,11 @@ int main() {
         lastObjectCount = 0,
         gameObjectUID = 0;
     std::vector<GameObject> gameObjects;
+    std::vector<PortCamPair> portCamPairs;
     CamProps camProps{{}, {}, CamSync, 0, FOV, FAR, NEAR};
     u8 stream[STREAM_SIZE];
     GameData gd = {
+        .portCamPairs = &portCamPairs,
         .gameObjects = &gameObjects,
         .exitFuncs = &exitFuncs,
         
