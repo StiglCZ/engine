@@ -55,20 +55,6 @@ struct Face {
     unsigned int count;
 };
 
-struct Camera {
-    Vector3 pos, rot;
-};
-
-struct Portal {
-    Vector3 pos, rot;
-    Vector2 scale;
-};
-
-struct PortCamPair {
-    Camera cam;
-    Portal port;
-};
-
 typedef struct GameObject GameObject;
 typedef struct GameData GameData;
 typedef struct Trigger Trigger;
@@ -175,12 +161,11 @@ struct GameObject {
 
 struct CamProps {
     Vector3 pos, rot;
-    void (*const sync)(CamProps*);
+    void (*const sync)(CamProps*, bool);
     const fx fov, far, near;
 };
 
 struct GameData {
-    std::vector<PortCamPair> *const portCamPairs;
     std::vector<GameObject>  *const gameObjects;
     std::vector<void*>       *const exitFuncs;
     bool *const mouseCentered, *const isGameRunning;

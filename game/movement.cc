@@ -30,7 +30,7 @@ extern "C"{
         if(d->keys[space]){
             f += 0.01;
             d->cp->rot = {0, f, 0};
-            d->cp->sync(d->cp);
+            d->cp->sync(d->cp, false);
         }
         if(d->keys[W])
             wp -= SPEED;

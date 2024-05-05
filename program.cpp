@@ -55,10 +55,24 @@ uint loadScript(const char *name, void* gd) {
 }
 
 // Utils
-void CamSync(CamProps* cp) {
+void CamSync(CamProps* cp, bool updateProjection) {
     matrix3x3 m;
     rotateW(m, cp->rot);
     matrixCopy(viewMatrix, m);
+    if(updateProjection){
+        const fx
+            xp = 1.0 / tan(rad(FOV) / 2.0),
+            yp = xp / AR,
+            np = (-NEAR - FAR) / AR,
+            fp = 2.0 * FAR * NEAR / AR;
+        matrix4x4 projMatrix2 = {
+            {xp, 00, 00, 00},
+            {00, yp, 00, 00},
+            {00, 00, np, fp},
+            {00, 00, 01, 01},
+        };
+        matrixCopy(projMatrix, projMatrix2);
+    }
 }
 
 /*
@@ -124,11 +138,10 @@ int main() {
     
     u8  stream[STREAM_SIZE];
     std::vector<GameObject> gameObjects;
-    std::vector<PortCamPair> portCamPairs;
     
     CamProps camProps = {
-        .pos = {},
-        .rot = {},
+        .pos = {0, 0, 0},
+        .rot = {0, 0, 0}, // Forward
         .sync = CamSync,
         .fov = FOV,
         .far = FAR,
@@ -136,7 +149,6 @@ int main() {
     };
     
     GameData gd = {
-        .portCamPairs = &portCamPairs,
         .gameObjects = &gameObjects,
         .exitFuncs = &exitFuncs,
         
