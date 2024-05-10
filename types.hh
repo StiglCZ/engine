@@ -198,7 +198,7 @@ enum ResourceType {
 #else
 
 #define typeof(T) auto
-
+typedef unsigned int uint;
 #endif
 #define strcpy(a, b)    \
     int i = 0;          \

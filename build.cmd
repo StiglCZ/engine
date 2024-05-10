@@ -12,6 +12,6 @@ mkdir bin\o bin\assets bin\scripts
 
 %CC1% game\mscript.cc -o bin\scripts\main.dll
 %CC1% game\physics.cc -o bin\scripts\physics.dll
-%CC1% game\scene.cc bin\o\logging.o -o bin\scripts\scene.dll
+%CC1% game\scene.cc bin\o\logging.obj -o bin\scripts\scene.dll
 %CC1% game\movement.cc -o bin\scripts\movement.dll
 %CC1% game\collision.cc -o bin\scripts\collision.dll

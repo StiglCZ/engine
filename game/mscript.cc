@@ -41,7 +41,7 @@ extern "C" {
         //AudioControl* ac = ((AudioControl**)gd2->stream)[3];
         //ac->Play3D({0, 0, 0}, {-1, 0, 0}, {0,0,0},ac->LoadTrack("./assets/stal2.mp3"), 1.0);
     }
-    void Update(uint index){
+    void Update(u32 index){
         (void)index; // Unused
         if((*d->gameObjects)[index].flags == 10){
             d->drawText({1, 10}, ("dT: " +std::to_string(1000000.0 / (u32)*d->deltaTime)).c_str());
