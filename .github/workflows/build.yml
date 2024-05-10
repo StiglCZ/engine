@@ -73,7 +73,7 @@ jobs:
       - name: Compile the binaries
         run: |
           .\build.cmd
-          clang++ -Wno-everything -Ofast -shared bin\o\types.obj game/audio.cc -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
+          clang++ -Wno-everything -Ofast -shared bin\o\types.obj bin\o\logging.obj game/audio.cc -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
 
       - uses: actions/upload-artifact@v4
         with:
