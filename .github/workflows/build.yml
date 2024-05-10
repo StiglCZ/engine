@@ -17,7 +17,7 @@ jobs:
       # Upload the bin folder
       - uses: actions/upload-artifact@v4
         with:
-          name: built-artifacts
+          name: linux-build
           path: bin/**
           
   build-blender-extension:
@@ -28,8 +28,8 @@ jobs:
         run: make -C utilities/blender_ext
       - uses: actions/upload-artifact@v4
         with:
-          name: blender-extension-zip
-          path: utilities/blender_ext/**
+          name: blender-extension
+          path: utilities/blender_ext/scene_extension.zip
 
   build-for-windows:
     runs-on: windows-latest
