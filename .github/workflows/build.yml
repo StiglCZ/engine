@@ -46,7 +46,6 @@ jobs:
           key: ${{ env.cache-name }}-build-0
           
       - name: Install audio dependencies
-        working-directory: temp\
         if: steps.cache-step.outputs.cache-hit != 'true'
         run: |
            C:\msys64\usr\bin\wget.exe https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2-win64.zip -O sndfile.zip
@@ -54,7 +53,7 @@ jobs:
            7z x sndfile.zip
            7z x openal.zip
 
-           di
+           dir
 
       - name: Compile the binaries
         run: .\build.cmd
