@@ -35,7 +35,34 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      
+
+      - name: Get cached audio libs
+        id: cache-step
+        uses: action/cache@v4
+        env:
+          cache-name: cache-windows-audio
+        with:
+          path: D:\audio
+          key: ${{ env.cache-name }}-build-0
+          
+      - name: Install audio dependencies
+        if: steps.cache-step.outputs.cache-hit != 'true'
+        run: |
+           mkdir D:\audio
+           mkdir D:\audio\openal
+           mkdir D:\audio\sndfile
+
+           mkdir pre-cached
+           mkdir pre-cached\includes
+           mkdir pre-cached\dlls
+           
+           C:\msys64\usr\bin\wget.exe https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2-win64.zip -O D:\audio\sndfile.zip
+           C:\msys64\usr\bin\wget.exe https://github.com/kcat/openal-soft/releases/download/1.23.1/openal-soft-1.23.1-bin.zip     -O D:\audio\openal.zip
+           Expand-Archive -Path "D:\audio\sndfile.zip" -DestinationPath "D:\audio\sndfile"
+           Expand-Archive -Path "D:\audio\openal.zip"  -DestinationPath "D:\audio\openal"
+           xcopy D:\audio\sndfile\bin\*.* D:\audio\openal\bin\Win64\soft_oal.dll pre-cached\dlls\
+           xcopy D:\audio\sndfile\include\*.* D:\audio\openal\include\* pre-cached\includes\
+
       - name: Compile the binaries
         run: .\build.cmd
 
