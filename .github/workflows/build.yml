@@ -1,4 +1,4 @@
-name: Build for linux
+name: Build
 
 on: [push, pull_request]
 
@@ -14,7 +14,6 @@ jobs:
       - name: Run make
         run: |
           make all
-          make -C utilities/blender_ext
           cp utilities/blender_ext/scene_extension.zip bin/
 
       # Upload the bin folder
@@ -22,6 +21,18 @@ jobs:
         with:
           name: built-artifacts
           path: bin/**
+          
+  build-blender-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run make
+        run: make -C utilities/blender_ext
+      - uses: actions/upload-artifact@v4
+        with:
+          name: blender-extension-zip
+          path: bin/utilities/blender_ext/**
+
   build-for-windows:
     runs-on: windows-latest
     steps:
@@ -30,7 +41,6 @@ jobs:
       - name: Run make
         run: |
           make all
-          make -C utilities/blender_ext
           xcopy utilities/blender_ext/scene_extension.zip bin/
 
       - uses: actions/upload-artifact@v4
