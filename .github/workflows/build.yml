@@ -38,11 +38,11 @@ jobs:
 
       - name: Get cached audio libs
         id: cache-step
-        uses: action/cache@v4
+        uses: actions/cache@v4
         env:
           cache-name: cache-windows-audio
         with:
-          path: D:\audio
+          path: pre-cached\
           key: ${{ env.cache-name }}-build-0
           
       - name: Install audio dependencies
