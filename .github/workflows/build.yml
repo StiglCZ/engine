@@ -42,7 +42,9 @@ jobs:
         env:
           cache-name: cache-windows-audio
         with:
-          path: pre-cached\
+          path: |
+            lib\
+            include\
           key: ${{ env.cache-name }}-build-0
           
       - name: Install audio dependencies
