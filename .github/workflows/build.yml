@@ -44,26 +44,19 @@ jobs:
         with:
           path: pre-cached\
           key: ${{ env.cache-name }}-build-0
+        run:
+          md temp
           
       - name: Install audio dependencies
+        working-directory: temp\
         if: steps.cache-step.outputs.cache-hit != 'true'
         run: |
-           mkdir D:\audio
-           mkdir D:\audio\openal
-           mkdir D:\audio\sndfile
+           C:\msys64\usr\bin\wget.exe https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2-win64.zip -O sndfile.zip
+           C:\msys64\usr\bin\wget.exe https://github.com/kcat/openal-soft/releases/download/1.23.1/openal-soft-1.23.1-bin.zip     -O openal.zip
+           7z x sndfile.zip
+           7z x openal.zip
 
-           mkdir pre-cached
-           mkdir pre-cached\includes
-           mkdir pre-cached\dlls
-           
-           C:\msys64\usr\bin\wget.exe https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2-win64.zip -O D:\audio\sndfile.zip
-           C:\msys64\usr\bin\wget.exe https://github.com/kcat/openal-soft/releases/download/1.23.1/openal-soft-1.23.1-bin.zip     -O D:\audio\openal.zip
-           7z x D:\audio\sndfile.zip -o"D:\audio\sndfile\"
-           7z x D:\audio\openal.zip  -o"D:\audio\openal\"
-           copy D:\audio\sndfile\bin\*.*               pre-cached\dlls\
-           copy D:\audio\openal\bin\Win64\soft_oal.dll pre-cached\dlls\
-           copy D:\audio\sndfile\include\*.*           pre-cached\includes\
-           copy D:\audio\openal\include\*              pre-cached\includes\
+           dir
 
       - name: Compile the binaries
         run: .\build.cmd
