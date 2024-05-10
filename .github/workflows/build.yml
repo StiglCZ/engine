@@ -60,10 +60,10 @@ jobs:
            C:\msys64\usr\bin\wget.exe https://github.com/kcat/openal-soft/releases/download/1.23.1/openal-soft-1.23.1-bin.zip     -O D:\audio\openal.zip
            7z x D:\audio\sndfile.zip -oD:\audio\sndfile
            7z x D:\audio\openal.zip  -oD:\audio\openal
-           xcopy D:\audio\sndfile\bin\*.*               pre-cached\dlls\
-           xcopy D:\audio\openal\bin\Win64\soft_oal.dll pre-cached\dlls\
-           xcopy D:\audio\sndfile\include\*.*           pre-cached\includes\
-           xcopy D:\audio\openal\include\*              pre-cached\includes\
+           copy D:\audio\sndfile\bin\*.*               pre-cached\dlls\
+           copy D:\audio\openal\bin\Win64\soft_oal.dll pre-cached\dlls\
+           copy D:\audio\sndfile\include\*.*           pre-cached\includes\
+           copy D:\audio\openal\include\*              pre-cached\includes\
 
       - name: Compile the binaries
         run: .\build.cmd
