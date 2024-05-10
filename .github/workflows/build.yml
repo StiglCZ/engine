@@ -3,10 +3,9 @@ name: Build for linux
 on: [push, pull_request]
 
 jobs:
-  build-and-release:
+  build-for-linux:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository code
       - uses: actions/checkout@v4
 
       - name: Install deps
@@ -23,4 +22,18 @@ jobs:
         with:
           name: built-artifacts
           path: bin/**
+  build-for-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run make
+        run: |
+          make all
+          make -C utilities/blender_ext
+          xcopy utilities/blender_ext/scene_extension.zip bin/
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: built-artifacts
+          path: bin/**
