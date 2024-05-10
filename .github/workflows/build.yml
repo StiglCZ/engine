@@ -38,8 +38,8 @@ jobs:
       
       - name: Run make
         run: |
-          make all
-          xcopy utilities/blender_ext/scene_extension.zip bin/
+          set CC=g++
+          make -e all
 
       - uses: actions/upload-artifact@v4
         with:
