@@ -58,8 +58,8 @@ jobs:
            
            C:\msys64\usr\bin\wget.exe https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2-win64.zip -O D:\audio\sndfile.zip
            C:\msys64\usr\bin\wget.exe https://github.com/kcat/openal-soft/releases/download/1.23.1/openal-soft-1.23.1-bin.zip     -O D:\audio\openal.zip
-           Expand-Archive -Path "D:\audio\sndfile.zip" -DestinationPath "D:\audio\sndfile"
-           Expand-Archive -Path "D:\audio\openal.zip"  -DestinationPath "D:\audio\openal"
+           7z x D:\audio\sndfile.zip -o "D:\audio\sndfile"
+           7z x D:\audio\openal.zip  -o "D:\audio\openal"
            xcopy D:\audio\sndfile\bin\*.* D:\audio\openal\bin\Win64\soft_oal.dll pre-cached\dlls\
            xcopy D:\audio\sndfile\include\*.* D:\audio\openal\include\* pre-cached\includes\
 
