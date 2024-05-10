@@ -38,8 +38,7 @@ jobs:
       
       - name: Run make
         run: |
-          set CC=g++
-          make -e all
+          .\build.cmd
 
       - uses: actions/upload-artifact@v4
         with:

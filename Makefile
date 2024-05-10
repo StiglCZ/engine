@@ -15,9 +15,9 @@ build: setup objects scripts
 	strip bin/scripts/*
 	rm -rf bin/o
 setup:
-	#utilities/linecount.sh
-	mkdir  bin
-	mkdir  bin/o bin/assets bin/scripts
+	utilities/linecount.sh
+	mkdir -p bin
+	mkdir -p bin/o bin/assets bin/scripts
 objects:
 	$(ARGS1) net.cc         $(D1)/net.o
 	$(ARGS1) file.cc        $(D1)/file.o
