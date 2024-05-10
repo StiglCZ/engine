@@ -36,11 +36,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Run make
-        run: |
-          .\build.cmd
+      - name: Compile the binaries
+        run: .\build.cmd
 
       - uses: actions/upload-artifact@v4
         with:
-          name: built-artifacts
+          name: windows-build
           path: bin/**
