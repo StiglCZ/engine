@@ -57,12 +57,13 @@ jobs:
 
            md lib
            md include
+           md include\AL
 
            copy libsndfile-1.2.2-win64\bin\sndfile.dll lib\sndfile.dll
            copy libsndfile-1.2.2-win64\include\sndfile.h include\sndfile.h
 
            copy openal-soft-1.23.1-bin\bin\Win64\soft_oal.dll lib\openal.dll
-           copy openal-soft-1.23.1-bin\include\AL include\
+           copy openal-soft-1.23.1-bin\include\AL\*.h include\AL\
 
            dir include
            dir lib
