@@ -191,10 +191,15 @@ enum ResourceType {
     RESOURCE_Keycode = 4,
 };
 
+#ifndef _WIN32
 #define memcpy(a, b, c)              \
     for(typeof(c) i = 0; i < c; i++) \
         a[i] = b[i];
+#else
 
+#define typeof(T) auto
+
+#endif
 #define strcpy(a, b)    \
     int i = 0;          \
     while (a[i])        \
@@ -213,11 +218,5 @@ enum ResourceType {
     mat[0][3] = pos.X;                                                  \
     mat[1][3] = pos.Y;                                                  \
     mat[2][3] = pos.Z;
-
-#ifndef __unix__
-#define typeof(T) \
-    auto
-
-#endif
 
 #endif
