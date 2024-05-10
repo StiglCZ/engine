@@ -214,4 +214,10 @@ enum ResourceType {
     mat[1][3] = pos.Y;                                                  \
     mat[2][3] = pos.Z;
 
+#ifndef __unix__
+#define typeof(T) \
+    auto
+
+#endif
+
 #endif
