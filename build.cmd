@@ -1,5 +1,5 @@
 set CC0= clang++ -Ofast -c
-set CC1= clang++ -Ofast -shared bin\scripts\o\types.o
+set CC1= clang++ -Ofast -shared bin\o\types.o
 
 mkdir bin
 mkdir bin\o bin\assets bin\scripts
@@ -8,7 +8,7 @@ mkdir bin\o bin\assets bin\scripts
 %CC0% file.cc -o bin\o\file.o
 %CC0% types.cc -o bin\o\types.o
 %CC0% logging.cc -o bin\o\logging.o
-%CC0% saving.cc -o bin\o\saving.o
+%CC0% game\saving.cc -o bin\o\saving.o
 
 %CC1% game\mscript.cc -o bin\scripts\main.so
 %CC1% game\physics.cc -o bin\scripts\physics.so
