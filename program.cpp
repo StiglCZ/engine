@@ -6,7 +6,6 @@
 #include "renderer.hh"
 #include "logging.hh"
 #include "types.hh"
-#include <signal.h>
 #include <vector>
 #include <chrono>
 
@@ -111,7 +110,7 @@ void RenderObject(GameObject& go, CamProps& cp) {
     fillMat(modelMatrix, pos, go.rotation);
     
     Vector3 scale = go.scale;
-    // Fixes the scaling on X and Z rotation
+    // Fixes the scaling when X and Z rotation are non zero
     // Y rotation doesn't seem to be nearly as broken
     // Isn't perfect!
     scale.Y /=
@@ -184,8 +183,6 @@ int main() {
     modelBuffer.push_back((Model){});                      // Fallback model
     scriptBuffer.push_back({d_init, d_other, d_other, 0}); // Fallback script
     
-    signal(SIGINT, Exiter);
-    
     Info("Loading scripts...");
     std::vector<std::string> scripts = getFiles(scriptsDir);
     
@@ -197,9 +194,9 @@ int main() {
     // Main script at index 1
     // Loads all scripts and orders them
     for(auto str : scripts)
-        if(str == "main.so" || str == "init.so")
+        if(str == "main.so")
             loadScript((char*)str.c_str(), &gd);
-    if(scriptBuffer.size() == 1)
+    if(scriptBuffer.size() <= 1)
         Err("Main script not found!", 1);
 
     NativeInit(SIZE_X, SIZE_Y, (char*)Title);

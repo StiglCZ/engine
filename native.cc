@@ -7,6 +7,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
+#include <signal.h>
 
 #include "native.hh"
 #include "renderer.hh"
@@ -107,6 +108,8 @@ void NativeInit(int w, int h, char* title) {
     XSetStandardProperties(disp, win, title, title, None, NULL, 0, NULL);
     // Intialize back buffer(for double-buffering)
     backBuffer = XCreatePixmap(disp, win, w, h, DefaultDepth(disp, DefaultScreen(disp)));
+
+    signal(SIGINT, Exiter);
     
     // Wait for first expose event
     XEvent e;

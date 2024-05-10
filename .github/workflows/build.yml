@@ -1,4 +1,4 @@
-name: Build and Release
+name: Build for linux
 
 on: [push, pull_request]
 
