@@ -1,5 +1,5 @@
-set CC0= clang++ -Ofast -c
-set CC1= clang++ -Ofast -shared bin\o\types.obj
+set CC0= clang++ -Wno-everything -Ofast -c
+set CC1= clang++ -Wno-everything -Ofast -shared bin\o\types.obj
 
 mkdir bin
 mkdir bin\o bin\assets bin\scripts
