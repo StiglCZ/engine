@@ -15,9 +15,9 @@ build: setup objects scripts
 	strip bin/scripts/*
 	rm -rf bin/o
 setup:
-	utilities/linecount.sh
-	mkdir -p bin
-	mkdir -p bin/o bin/assets bin/scripts
+	#utilities/linecount.sh
+	mkdir  bin
+	mkdir  bin/o bin/assets bin/scripts
 objects:
 	$(ARGS1) net.cc         $(D1)/net.o
 	$(ARGS1) file.cc        $(D1)/file.o
@@ -38,6 +38,7 @@ utils:
 	$(ARGS3) utilities/scenemkr.cpp  $(D3)/scenemkr
 	$(ARGS3) utilities/modelopt2.cpp $(D3)/modelopt2
 	$(ARGS3) utilities/sceneview.cpp $(D3)/sceneview
+
 run: build
 	cd bin && ./a.out
 all: build utils
