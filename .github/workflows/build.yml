@@ -68,7 +68,9 @@ jobs:
            dir lib
 
       - name: Compile the binaries
-        run: .\build.cmd
+        run: |
+          .\build.cmd
+          clang++ -Wno-everything -Ofast -shared bin\o\types.obj game/audio.cc -o bin/scripts/audio.dll -I../include/ -L../lib/
 
       - uses: actions/upload-artifact@v4
         with:
