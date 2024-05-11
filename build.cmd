@@ -4,6 +4,10 @@ set CC1= clang++ -Wno-everything -Ofast -shared bin\o\types.obj
 mkdir bin
 mkdir bin\o bin\assets bin\scripts
 
+%CC0% renderer.cc -o bin\o\renderer.obj
+%CC0% native.cc -o bin\o\native.obj
+%CC0% scripting.cc -o bin\o\scripting.obj
+
 %CC0% net.cc -o bin\o\net.obj
 %CC0% file.cc -o bin\o\file.obj
 %CC0% types.cc -o bin\o\types.obj
