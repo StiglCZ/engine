@@ -37,6 +37,7 @@ utils:
 	$(ARGS3) utilities/ppm2png.cpp   $(D3)/ppm2png -lpng
 	$(ARGS3) utilities/scenemkr.cpp  $(D3)/scenemkr
 	$(ARGS3) utilities/modelopt2.cpp $(D3)/modelopt2
+	$(ARGS3) utilities/netserver.cpp $(D3)/netserver
 	$(ARGS3) utilities/sceneview.cpp $(D3)/sceneview
 run: build
 	cd bin && ./a.out
