@@ -273,9 +273,14 @@ void WINAPI NativeInit(int w, int h, char* title) {
 
     ShowWindow(hwnd, nCmdShow);
     UpdateWindow(hwnd);
-
-    std::thread(t2).detach();
+    
+    MSG msg;
+    GetMessage(&msg, NULL, 0, 0);
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+    
     win = (int)msg.wParam;
+    std::thread(t2).detach();
 }
 void freeModels() {
     Info("Freeing models...");
