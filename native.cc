@@ -3,6 +3,7 @@
    Currently: Linux
 */
 
+#ifdef __unix__
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -19,10 +20,6 @@
 #include <thread>
 #include <string.h>
 
-#ifndef __unix__
-    #error Unix only!
-#endif
-
 int W, H;
 
 Display *disp;
@@ -34,7 +31,6 @@ Pixmap backBuffer;
 // 256 keys
 u8 button[16];
 u8  keys[256];
-u8 keyTranslations[256];
 Point   mouse;
 bool isRunning = 1;
 std::vector<void *> exitFuncs;
@@ -191,3 +187,125 @@ void Exiter() {
     Info("Exiting");
     exit(0);
 }
+#elif defined _WIN32
+#include "types.hh"
+
+#include <windows.h>
+#include <thread>
+#include <vector>
+std::vector<Line> lines;
+struct Line{
+    Point start, end;
+};
+int win;
+u8 button[16];
+u8 keys[256];
+
+void Exiter();
+// t2 on windows
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg) {
+        case WM_DESTROY:
+            Exiter();
+            PostQuitMessage(0);
+            break;
+        case WM_PAINT:
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
+            HPEN hPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
+            SelectObject(hdc, hPen);
+            // Clear the screen
+            HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            for(int i =0; i < lines.size(); i++){
+                MoveToEx(hdc, lines[i].start.X, lines[i].start.Y, NULL);
+                LineTo(hdc, lines[i].end.X, lines[i].end.Y);
+            }
+            EndPaint(hwnd, &ps);
+            break;
+        default:
+            return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
+    return 0;
+}
+
+void t2(){
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
+
+u16 GetKeyFromString(char* str){
+    return *str;
+}
+
+void WINAPI NativeInit(int w, int h, char* title) {
+    W = w;
+    H = h;
+    HINSTANCE hInstance = GetModuleHandle(NULL);
+    
+    WNDCLASSEX wc;
+    wc.cbSize        = sizeof(WNDCLASSEX);
+    wc.style         = CS_HREDRAW | CS_VREDRAW;
+    wc.lpfnWndProc    = WindowProc;
+    wc.cbClsExtra     = 0;
+    wc.cbWndExtra     = 0;
+    wc.hInstance      = hInstance;
+    wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+    wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = (HBRUSH)(COLOR_BLACK + 1);
+    wc.lpszMenuName   = NULL;
+    wc.lpszClassName  = "MyWindowClass";
+    ATOM result = RegisterClassEx(&wc);
+    HWND hwnd = CreateWindowEx(0, "MyWindowClass", "Idk how",  WS_OVERLAPPEDWINDOW, 10, 10, w, h, NULL, NULL, hInstance, NULL);
+    
+    if (!hwnd || !result) {
+        Err(1, "Window creation failed!");
+        Exiter();
+        exit(0);
+    }
+
+    ShowWindow(hwnd, nCmdShow);
+    UpdateWindow(hwnd);
+
+    std::thread(t2).detach();
+    win = (int)msg.wParam;
+}
+void freeModels() {
+    Info("Freeing models...");
+    for(u32 i =0; i < (*modelBufferPtr).size(); i++){
+        Debg("Freeing model " + std::to_string(i));
+        if((*modelBufferPtr)[i].freed)continue;
+        std::vector<Face>* cfs = &(*modelBufferPtr)[i].faces;
+        for(u32 j =0; j < cfs->size(); j++)
+            delete[] (*cfs)[j].m;
+        cfs->clear();
+        (*modelBufferPtr)[i].freed = 1;
+    }
+}
+
+void Exiter(){
+    closeAllScripts();
+    freeModels();
+    Info("Exiting");
+}
+// Not implemented
+void ChangeColor(Color col) {}
+void Screenshot(const char* filename){}
+
+void ClearScreen(){
+
+}
+void DrawLine(Point src, Point dst){
+    lines.push_back({src, dst});
+}
+void DrawText(Point pos, const char* str){
+
+}
+void FrameFinished(){
+
+}
+
+#endif
