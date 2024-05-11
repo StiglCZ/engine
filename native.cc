@@ -209,6 +209,9 @@ void Exiter();
 // t2 on windows
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch (uMsg) {
+        default:
+            return DefWindowProc(hwnd, uMsg, wParam, lParam);
+            break;
         case WM_DESTROY:
             Exiter();
             PostQuitMessage(0);
@@ -227,8 +230,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             }
             EndPaint(hwnd, &ps);
             break;
-        default:
-            return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
     return 0;
 }
@@ -259,7 +260,7 @@ void WINAPI NativeInit(int w, int h, char* title) {
     wc.hInstance      = hInstance;
     wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)(COLOR_BLACK + 1);
+    wc.hbrBackground = (HBRUSH)(1);
     wc.lpszMenuName   = NULL;
     wc.lpszClassName  = "MyWindowClass";
     ATOM result = RegisterClassEx(&wc);
@@ -271,7 +272,7 @@ void WINAPI NativeInit(int w, int h, char* title) {
         exit(0);
     }
 
-    ShowWindow(hwnd, nCmdShow);
+    ShowWindow(hwnd, SW_SHOWDEFAULT);
     UpdateWindow(hwnd);
     
     MSG msg;
