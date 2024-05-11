@@ -29,8 +29,8 @@ std::vector<Client> clients;
 sockaddr_in local_addr{
     AF_INET,
     htons(port),
-    INADDR_ANY,
-    sizeof(sockaddr_in)
+    {INADDR_ANY},
+    {sizeof(sockaddr_in)}
 };
 typedef void (*funcinit)(std::vector<Client> *, void (*)(Message, Client));
 typedef void (*functick)();
@@ -54,6 +54,7 @@ void t2(funcrecv fr) {
     }
 }
 void exiter(int _code = 2) {
+    (void)_code;
     running = false;
 }
 int main(int argc, char** argv) {
@@ -75,7 +76,7 @@ int main(int argc, char** argv) {
     funcrecv fr = reinterpret_cast<funcrecv>(dlsym(handle, "recv"));
 
     fi(&clients, send);
-    std::thread(t2).detach();
+    std::thread(t2, fr).detach();
     signal(SIGINT, exiter);
     while(running){
         // Sends data to clients 60times a second
