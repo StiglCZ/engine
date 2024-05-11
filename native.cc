@@ -190,6 +190,7 @@ void Exiter() {
 #elif defined _WIN32
 #include "types.hh"
 #include "logging.hh"
+#include "scripting.hh"
 
 #include <windows.h>
 #include <thread>
@@ -265,7 +266,7 @@ void WINAPI NativeInit(int w, int h, char* title) {
     HWND hwnd = CreateWindowEx(0, "MyWindowClass", "Idk how",  WS_OVERLAPPEDWINDOW, 10, 10, w, h, NULL, NULL, hInstance, NULL);
     
     if (!hwnd || !result) {
-        Err(1, "Window creation failed!");
+        Err("Window creation failed!", 1);
         Exiter();
         exit(0);
     }
