@@ -189,14 +189,17 @@ void Exiter() {
 }
 #elif defined _WIN32
 #include "types.hh"
+#include "logging.hh"
 
 #include <windows.h>
 #include <thread>
 #include <vector>
-std::vector<Line> lines;
 struct Line{
     Point start, end;
 };
+std::vector<Model>* modelBufferPtr;
+std::vector<Line> lines;
+int H, W;
 int win;
 u8 button[16];
 u8 keys[256];
