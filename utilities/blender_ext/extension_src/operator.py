@@ -5,22 +5,16 @@ from bpy.props import BoolProperty, EnumProperty, StringProperty
 
 def exportSST(context, filePath):
     scene = bpy.context.scene
-    campos = None
-    camrot = None
     with open(filePath, "wb") as file:
         for obj in scene.objects:
-            if(obj.type == 'LIGHT'):
-                continue # Skip lights, as they are uselless
-            elif(obj.type == 'CAMERA'):
-                # Save camera properties for later
-                campos = obj.location
-                camrot = obj.rotation_euler
+            if(obj.type == 'LIGHT' or obj.type == 'CAMERA'):
+                continue # Skip lights(and camera), as they are uselless
             else:
                 pos = obj.location
                 rot = obj.rotation_euler
                 sca = obj.scale
                 # Z+ in blender is Up, but in SST Y- is Up
-                data = "\n{:.5f} {:.5f} {:.5f} {:.5f} {:.5f} {:.5f} {:.5f} {:.5f} {:.5f}\n".format(pos.x, pos.z, pos.y, rot.x, rot.z, rot.y, sca.x, sca.z, sca.y)
+                data = "\n{:.5f} {:.5f} {:.5f}\n{:.5f} {:.5f} {:.5f}\n{:.5f} {:.5f} {:.5f}\n".format(pos.x, -pos.z, pos.y, rot.x, rot.z, rot.y, sca.x, sca.z, sca.y)
                 filename = ''
                 try:
                     filename = obj['filename']
@@ -29,9 +23,6 @@ def exportSST(context, filePath):
                     continue
                 if(filename != 'Missing'):
                     file.write((filename + data).encode())
-
-        if(campos != None):
-            file.write("camera\n{:.5f} {:.5f} {:.5f} {:.5f} {:.5f} {:.5f} 1.0 1.0 1.0\n".format(campos.x, campos.z, campos.y, camrot.x, camrot.z, camrot.y).encode())
                             
 class SSTExporter(bpy.types.Operator):
     bl_idname = "export.sst"
@@ -54,11 +45,12 @@ class SSTExporter(bpy.types.Operator):
 class SSTImporter(bpy.types.Operator):
     bl_idname = "import.obj"
     bl_label = "Import OBJ"
+    filename_ext = ".obj"
+    
     filepath: StringProperty(
             name="input file",
             subtype='FILE_PATH'
     )
-    filename_ext = ".obj"
     filter_glob: StringProperty(
         default="*.obj",
         options={'HIDDEN'},

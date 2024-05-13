@@ -7,7 +7,7 @@ bl_info = {
     "author": "Stigl",
     "version": (1, 0, 0),
     "blender": (4, 1, 0),
-    "location": "File > Export > Stigl engine scene(.sst)",
+    "location": "File > Export/Import > Stigl engine scene(.sst)",
     "description": "Adds an export option for stiglengine scenes",
     "category": "Import-Export",
 }

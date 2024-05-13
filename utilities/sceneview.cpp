@@ -45,9 +45,7 @@ int main(int argc, char **argv) {
     if(!ifs.is_open())error(1, 0, "Provide scene file!");
     char size8;
     ushort size16;
-    ifs.read(&size8, 1);
     ifs.read((char*)&size16, 2);
-    std::cout << "Subscene: " << ((size8)?"Yes":"No") << "\n";
     
     std::cout << "Found " << (int)size16 << " models\n";
     std::cout << "Models:\n";

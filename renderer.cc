@@ -71,7 +71,7 @@ void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
         
         // Clipping
         if(
-           fabs(vec[0]) > FOV / 4 + 1 ||
+           fabs(vec[0]) > FOV        / 4 + 1 ||
            fabs(vec[1]) > (FOV * AR) / 4 + 1 ||
            // Ensures no objects behind the camera are being rendered
            vec[2] > CUTOFF_N

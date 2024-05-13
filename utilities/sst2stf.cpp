@@ -1,26 +1,30 @@
+#include <vector>
+#include <string>
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <string>
 #include <cstring>
 #include <error.h>
 #include <sys/types.h>
-#include <vector>
 
 void help() {
     std::cout
-        << "-h(--help) - Print this dialog\n"
-        << "<file>     - Converts the SST to normal scene file\n";
+        << "-h(--help)   - Print this dialog\n"
+        << "<file> <dir> - Converts the SST to normal scene file\n<dir> will be removed from each filename if its there";
     exit(0);
 }
-int findormake(std::vector<std::string>& models, std::string file) {
+int findormake(std::vector<std::string>& models, std::string line, std::string dir) {
     unsigned i =0;
+    while(dir[i] == line[i]) i++;
+    line = line.substr(i);
+    
+    i = 0;
     while(i < models.size()){
-        if(models[i] == file)
+        if(models[i] == line)
             return i;
         i++;
     }
-    models.push_back(file);
+    models.push_back(line);
     return models.size()-1;
 }
 struct v3 {
@@ -38,29 +42,27 @@ struct obj {
     ofs.write((char *)&(vec.y), sizeof(float)); \
     ofs.write((char *)&(vec.z), sizeof(float));
 
-void convert(std::ifstream& ifs) {
+#define get(par)                                \
+    std::getline(ifs, line);                    \
+    ss = std::stringstream(line);               \
+    ss >> o.par.x >> o.par.y >> o.par.z;
+void convert(std::ifstream& ifs, std::string dir) {
     std::vector<std::string> models;
     std::vector<obj> objs;
-    //models.push_back("camera");
     std::string line;
     while(std::getline(ifs, line)){
-        int model = findormake(models, line);
-        std::getline(ifs, line);
-        std::cout << line << "\n";
-        std::stringstream ss(line);
         obj o;
-        o.model = model;
-        ss >> o.pos.x >> o.pos.y >> o.pos.z
-           >> o.rot.x >> o.rot.y >> o.rot.z
-           >> o.sca.x >> o.sca.y >> o.sca.z;
+        o.model = findormake(models, line, dir);
+        std::stringstream ss;
+        get(pos);
+        get(rot);
+        get(sca);
         objs.push_back(o);
     }
     ifs.close();
     
     ushort size;
     std::ofstream ofs("scene.bin", std::ios::binary);
-    char unload = 1;
-    ofs.write(&unload, 1);
     // Models
     sized(models.size());
     for(unsigned i =0; i < models.size(); i++){
@@ -73,12 +75,12 @@ void convert(std::ifstream& ifs) {
     sized(objs.size());
 
     unsigned long long flags = 0;
-    v3 col = {255, 255, 255};
+    v3 col = {0xFF, 0xFF, 0xFF};
     for(unsigned i =0; i < objs.size(); i++){
         writeV3(ofs, objs[i].pos);
         writeV3(ofs, objs[i].rot);
         writeV3(ofs, objs[i].sca);
-        writeV3(ofs, objs[i].sca);
+        writeV3(ofs, objs[i].sca); // Collision box
         writeV3(ofs, col);
         ofs.write((char*)&objs[i].model, sizeof(long long));
         ofs.write((char*)&flags, sizeof(long long));
@@ -91,7 +93,7 @@ int main(int argc, char **argv) {
     std::ifstream ifs(argv[1]);
     if(!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))
         help();
-    else if(ifs.is_open()) convert(ifs);
+    else if(ifs.is_open()) convert(ifs, argv[2]);
     else error(1, 0, "Invalid arguments! (Use -h for help)\n");
     return 0;
 }

@@ -130,7 +130,7 @@ The engine currently uses AABB collision. Every gameobject has its own collsion 
 
 As for the compatibility with the C++ itself, the program is compatible with preety much everything. For audio and video C functions are used(openal and x11) and as for the C++ libs, only iostream, fstream, vector and string (and maybe something else I included after) should be used. So, if you use C++11+ then it will definetly be compatible!
 
-#### Objects (Models)
+#### Models
 
 This engine originally used OBJ's for encoding models, but it was replaced by an optimized binary version. If you want to optimize your models with it, just try to load the OBJ file via the engine, and it will automatically get converted to the optimized version, or use the object optimizer(v2) inside utilities, where you can also partially decompile it back to OBJ.
 

@@ -21,7 +21,7 @@ void d_other(uint index) {
 std::vector<Model> modelBuffer;
 std::vector<Script> scriptBuffer;
 
-uint loadObject(const char *name) {
+uint loadModel(const char *name) {
     Debg("Loading model  " + std::string(name));
     Model m = loadModel(std::string(assetsDir + name));
     for(u32 i =0; i < modelBuffer.size(); i++)
@@ -95,11 +95,13 @@ void* getResource(u8 type, u64 uID) {
             return &modelBuffer[uID];
         case RESOURCE_Keycode:
             return (void*)(u64)GetKeyFromString((char*)uID);
+        case RESOURCE_Model_Count:
+            return (void*)(u64)modelBuffer.size();
     }
     return 0;
 }
 
-void RenderObject(GameObject& go, CamProps& cp) {
+void RenderGameObject(GameObject& go, CamProps& cp) {
     if(go.model == 0 || modelBuffer[go.model].freed ||
        magnitude(go.position - cp.pos) > FAR
       )return;
@@ -172,7 +174,7 @@ int main() {
         .btns = button,
         .stream = stream,
 
-        .loadObject = loadObject,
+        .loadModel  = loadModel,
         .loadScript = loadScript,
         .drawText = DrawText,
         .screenShot = Screenshot,
@@ -221,7 +223,7 @@ int main() {
 
         // Render all the objects
         for(u32 i =0; i < gameObjects.size() && isRunning;i++)
-            RenderObject(gameObjects[i], camProps);
+            RenderGameObject(gameObjects[i], camProps);
         
         deltaTime = time() - intialTime;                            // Calculate the frametime
         FrameFinished();                                            // Switch the framebuffers

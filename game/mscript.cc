@@ -10,10 +10,10 @@ extern "C" {
     void Init(GameData* gd, u32 scriptIndex){
         gd->loadScript("movement.so", gd);
         gd->loadScript("physics.so", gd);
-        //gd->loadScript("audio.so", gd);
-        //gd->loadScript("scenemgr.so", gd);
+        // gd->loadScript("audio.so", gd);
+        gd->loadScript("scenemgr.so", gd);
         
-        u32 index = gd->loadObject("car.obj");
+        u32 index = gd->loadModel("car.obj");
         GameObject go = emptyGameObj;
         go.color = {0xAA, 0x22, 0xCC};
         go.model = index;
@@ -33,15 +33,16 @@ extern "C" {
         if((*d->gameObjects)[index].flags == 10){
             PhysicsProps* pp = (PhysicsProps*)((void**)d->stream)[4];
             pp->physicsObjects->push_back(index);
-
             /*AudioControl* control = ((AudioControl**)gd2->stream)[3];
             uint b = control->LoadTrack("./assets/hello1.mp3");
             AudioSource as = control->Play(b, 0.9);*/
         }
         //AudioControl* ac = ((AudioControl**)gd2->stream)[3];
         //ac->Play3D({0, 0, 0}, {-1, 0, 0}, {0,0,0},ac->LoadTrack("./assets/stal2.mp3"), 1.0);
+        Scene s = {"/home/stigl/Projects/Cpp/G/bin/assets/scene.bin"};
+        ((void(*)(Scene))*(void**)d->stream)(s);
     }
-    void Update(uint index){
+    void Update(uint index){        
         (void)index; // Unused
         if((*d->gameObjects)[index].flags == 10){
             d->drawText({1, 10}, ("dT: " +std::to_string(1000000.0 / (u32)*d->deltaTime)).c_str());

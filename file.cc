@@ -1,5 +1,4 @@
 #include <cstdlib>
-#include <dirent.h>
 #include <iostream>
 #include <string>
 #include <sys/stat.h>
@@ -47,6 +46,7 @@ std::vector<std::string> read_filelines(std::string filename) {
     return lines;
 }
 
+#include <dirent.h>
 // 0 = Nothing/Not found
 // 1 = File
 // 2 = Directory
@@ -79,7 +79,7 @@ std::vector<std::string> getFiles(std::string dir) {
 
   Auto-scaling to size (1,1,1) not implemented
  */
-Model loadObj(std::vector<std::string> file) {
+Model loadOBJ(std::vector<std::string> file) {
     Model m;
     for(u32 i =0; i < file.size();i++){
         if(file[i][0] == 'v' && file[i][1] == ' '){
@@ -114,7 +114,7 @@ fx biggest(Vector3 v) {
     return big;
 }
 
-void optimize2Obj(std::string fileName) {
+void optimizeModel(std::string fileName) {
     std::vector<Vector3> vecs;
     std::vector<std::vector<u16>> faces;
     std::ifstream ifs(fileName);
@@ -179,13 +179,13 @@ void optimize2Obj(std::string fileName) {
     ofs.close();
 }
 
-Model read2OptimizedObj(std::string fileName) {
+Model readOptimizedModel(std::string fileName) {
     retry:
     std::ifstream ifs(fileName, std::ios_base::binary);
     u32 signature;
     ifs.read((i8*)&signature, sizeof(u32));
     if(signature != SIGNATURE){
-        optimize2Obj(fileName);
+        optimizeModel(fileName);
         // Proper use of goto!
         // Do or while cycle would make this in this case extreemly unreadable
         goto retry;
@@ -222,7 +222,7 @@ Model read2OptimizedObj(std::string fileName) {
 
 Model loadModel(std::string filename) {
     // Wrapper cuz the objload is also possible to add
-    return read2OptimizedObj(filename);
+    return readOptimizedModel(filename);
 }
 
 // Called from native.hh

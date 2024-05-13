@@ -176,7 +176,7 @@ struct GameData {
     CamProps *const cp;
     Point *const mouse;
     u8 *const keys, *const btns, *const stream;
-    u32 (*const loadObject) (const char* name);
+    u32 (*const loadModel ) (const char* name);
     u32 (*const loadScript) (const char* name, void* gd);
     void  (*const drawText) (Point pos, const char* str);
     void  (*const screenShot) (const char* filename);
@@ -189,6 +189,7 @@ enum ResourceType {
     RESOURCE_Model_by_permanent_id = 2,
     RESOURCE_Model_by_temporary_id= 3,
     RESOURCE_Keycode = 4,
+    RESOURCE_Model_Count = 5,
 };
 
 #define memcpy(a, b, c)              \

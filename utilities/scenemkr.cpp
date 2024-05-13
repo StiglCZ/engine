@@ -20,19 +20,11 @@ std::vector<std::string> split(std::string str, char c) {
 void print_help() {
     std::cout
         << "-h        - Prints out this message\n"
-        << "-u <1/0>  - Makes subfile for if unload \t(unload.bin)\n"
         << "-m <file> - Makes subfile for model \t\t(models.bin)\n"
         << "-s <file> - Makes subfile for scripts \t\t(scripts.bin)\n"
         << "-o <file> - Makes subfile for gameobject \t(objects.bin)\n"
         << "-c ...    - Makes scene file from subfiles \t(scene.bin)\n"
         << "... = unload, model, script and object files\nseparated by spaces\n";
-}
-void save_unload(char** argv) {
-    std::ofstream ofs("unload.bin", std::ios_base::binary);
-    if(!ofs.is_open())error(1, 1, "I/O error");
-    u_char num = atoi(argv[2]);
-    ofs.write((char*)&num,1);
-    ofs.close();
 }
 int main(int argc, char **argv) {
     if(argc < 2)error(1, 0, "Too few arguments(-h for help)");
@@ -44,10 +36,6 @@ int main(int argc, char **argv) {
         case 'h':
             print_help();
             return 0;
-        case 'u':
-            if(argc < 3)
-                error(1, 0, "Too few args for unload");
-            save_unload(argv);
             break;
         case 's':
             var = 1;
@@ -96,33 +84,38 @@ int main(int argc, char **argv) {
             std::ifstream ifs1(argv[2]);
             std::ifstream ifs2(argv[3]);
             std::ifstream ifs3(argv[4]);
-            std::ifstream ifs4(argv[5]);
             std::ofstream ofs("scene.bin");
             if(!ifs1.is_open() || !ifs2.is_open() ||
-               !ifs3.is_open() || !ifs4.is_open() ||
-               !ofs.is_open())
+               !ifs3.is_open() || !ofs.is_open())
                 error(1, 1, "I/O error");
             
-            // Unload
-            u_char u8;
-            ifs1.read((char*)&u8, 1);
-            ofs.write((char*)&u8, 1);
-            ifs1.close();
-
             // Models
             ushort size;
+            ifs1.seekg(2, std::ios_base::end);
+            ifs1.read((char*)&size, 2);
+            ofs.write((char*)&size, 2);
+
+            int fSize = (int)ifs1.tellg() -2;
+            ifs1.seekg(0, std::ios_base::beg);
+            char buff[fSize];
+            ifs1.read(buff, fSize);
+            ofs.write(buff, fSize);
+            ifs1.close();
+
+            // Scripts
+            size = 0;
             ifs2.seekg(2, std::ios_base::end);
             ifs2.read((char*)&size, 2);
             ofs.write((char*)&size, 2);
 
-            int fSize = (int)ifs1.tellg() -2;
+            fSize = (int)ifs2.tellg() -2;
             ifs2.seekg(0, std::ios_base::beg);
-            char buff[fSize];
-            ifs2.read(buff, fSize);
-            ofs.write(buff, fSize);
+            char buff2[fSize];
+            ifs2.read(buff2, fSize);
+            ofs.write(buff2, fSize);
             ifs2.close();
 
-            // Scripts
+            // GameObjects
             size = 0;
             ifs3.seekg(2, std::ios_base::end);
             ifs3.read((char*)&size, 2);
@@ -130,23 +123,10 @@ int main(int argc, char **argv) {
 
             fSize = (int)ifs3.tellg() -2;
             ifs3.seekg(0, std::ios_base::beg);
-            char buff2[fSize];
-            ifs3.read(buff2, fSize);
-            ofs.write(buff2, fSize);
-            ifs3.close();
-
-            // GameObjects
-            size = 0;
-            ifs4.seekg(2, std::ios_base::end);
-            ifs4.read((char*)&size, 2);
-            ofs.write((char*)&size, 2);
-
-            fSize = (int)ifs4.tellg() -2;
-            ifs4.seekg(0, std::ios_base::beg);
             char buff3[fSize];
-            ifs4.read(buff3, fSize);
+            ifs3.read(buff3, fSize);
             ofs.write(buff3, fSize);
-            ifs4.close();
+            ifs3.close();
             
             ofs.close();
             break;

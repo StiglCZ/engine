@@ -1,10 +1,10 @@
 CC= clang++
 ARGS0= $(CC) -Wall -Wextra -g -Ofast -march=native -lX11 -ftree-vectorize -funroll-loops
 ARGS1= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -c
-ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -shared bin/o/types.o
+ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -shared bin/o/types.o
 ARGS3= $(CC) -Wall -Wextra -s -Ofast
 
-# Object, scripts and utils output arguments
+# Object, script and util file output arguments
 D1= -o bin/o
 D2= -o bin/scripts
 D3= -o bin/utils
@@ -27,7 +27,7 @@ objects:
 scripts:
 	$(ARGS2) game/mscript.cc   bin/o/logging.o    $(D2)/main.so
 	$(ARGS2) game/audio.cc     -lopenal -lsndfile $(D2)/audio.so bin/o/logging.o
-	$(ARGS2) game/physics.cc   	                  $(D2)/physics.so
+	$(ARGS2) game/physics.cc                      $(D2)/physics.so
 	$(ARGS2) game/scene.cc     bin/o/logging.o    $(D2)/scenemgr.so
 	$(ARGS2) game/movement.cc                     $(D2)/movement.so
 	$(ARGS2) game/collision.cc                    $(D2)/collision.so
@@ -39,6 +39,7 @@ utils:
 	$(ARGS3) utilities/modelopt2.cpp $(D3)/modelopt2
 	$(ARGS3) utilities/netserver.cpp $(D3)/netserver
 	$(ARGS3) utilities/sceneview.cpp $(D3)/sceneview
+	make -C utilities/blender_ext/
 run: build
 	cd bin && ./a.out
 all: build utils
