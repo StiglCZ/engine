@@ -51,8 +51,8 @@ which will extend the data capacity of the stream.
 The engine currently uses x11 to display graphics and the resolution is not currently hot-changable!
 The aspect ratio should be working however!
 
-To change the framerate, you can eighter supply shorter usleep function trough your clib, or you can sleep in a script to make it lower.
-Currently capped at 120FPS!
+To change the framerate, you can just change the sleep value in program.hh
+Currently capped at ~960FPS!
 
 ### Porting
 
@@ -72,20 +72,22 @@ So these are the files you will propably need to edit.                     <br>
 `game/scene.cc`  - Includes fileloading                                    <br>
 `game/audio.cc`  - Includes native audio(right now using openal)           <br>
 
+<br>
+
 WARNING: You now need the vector class, or else you will have to replace every vector with list, which was replaced because it contained bunch of memory leaks
 
 ### Optimilization
 
 Basically, renderer.cc is optimized very well, and its really hard to read it. If you're wondering why I didn't use loops in it,
 and instead written #pragma unrool in front of everyone of them, its because loops are slow. And renderer is something that needs to be really really fast,
-so its best if no if or similiar are even required. Everything else is not very very optimized, but I would say its still optimized quite a bit.
+so its best if no if or similiar are even required. Everything else is not very very optimized, but I would say its still optimized quite a bit. <br>
 
 So if you don't know what you're doing, do not enter renderer.cc. It doesn't require to be edited if ported, so no need there etc. 
 Thanks!
 
 #### Uses for the data stream
 0 - Scene management  <br>
-1 - Scene management  <br>
+1 - Currently unused  <br>
 2 - Collision manager <br>
 3 - Audio manager     <br>
 4 - Physics manager   <br>
@@ -185,3 +187,7 @@ I.. don't want to. As cool as it would look to have everyday commits on github c
 #### Contributing
 
 If you choose to contribute.. you have to go according to the (mainly)syntax standards. Keep those spaces aligned! Also, don't add 5 dependencies because you feel like it. The engine is lightweight, and personally I wouldn't use openal if there was anything else supporting good 3d audio(because it takes over 5Megs of ram), but I had to. Use the cppstdlib if you need to :)
+
+#### Why does this project use partly python?
+
+Sadly, blender only supports extensions made in python. If they ever release better variant, I will make sure to update this repo, if I will still be maintaining it that time. If you see this in a tar archive and the repo is long gone, I am propably not maintaining it anymore

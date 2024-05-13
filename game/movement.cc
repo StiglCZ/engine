@@ -1,9 +1,10 @@
 // TODO: Fix
 #include "../types.hh"
+#include <unistd.h>
 #define SPEED 0.005
 extern "C"{
     GameData* d;
-    u8 W, S, A, D, space;
+    u8 W, S, A, D, space, esc;
     u8 T, F, G, H;
     void Init(GameData* gd, u32 scriptIndex){
         GameObject go = emptyGameObj;
@@ -23,6 +24,7 @@ extern "C"{
         F = getKey(d, "F");
         G = getKey(d, "G");
         H = getKey(d, "H");
+        esc = getKey(d, "Escape");
     }
     fx f = 0, wp = 0, ap = 0;
     void Update(u32 index){
@@ -50,6 +52,9 @@ extern "C"{
             ((*d->gameObjects)[3]).position.X -= 0.003;
         if(d->keys[H])
             ((*d->gameObjects)[3]).position.X += 0.003;
+        
+        if(d->keys[esc])
+            sleep(1);
         d->cp->pos = {ap, 0, wp};
     }
 }
