@@ -2,7 +2,6 @@
 #include "physics.hh"
 #include <string>
 #include "scene.hh"
-
 //EXAMPLE MAIN SCRIPT
 extern "C" {
     GameData* d;
@@ -39,8 +38,7 @@ extern "C" {
         }
         //AudioControl* ac = ((AudioControl**)gd2->stream)[3];
         //ac->Play3D({0, 0, 0}, {-1, 0, 0}, {0,0,0},ac->LoadTrack("./assets/stal2.mp3"), 1.0);
-        Scene s = {"/home/stigl/Projects/Cpp/G/bin/assets/scene.bin"};
-        ((void(*)(Scene))*(void**)d->stream)(s);
+        LOAD_SCENE("assets/scene.bin");
     }
     void Update(uint index){        
         (void)index; // Unused
