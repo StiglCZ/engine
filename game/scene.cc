@@ -19,6 +19,9 @@ extern "C" {
         ((void**)gd->stream)[0] = (void*)&LoadSceneFile;
         d = gd;
     }
+    struct Vector3i{
+        int X, Y, Z;
+    };
     
     void LoadSceneFile(Scene scene){
         // Section 1 - Load models
@@ -43,13 +46,15 @@ extern "C" {
         // Section 3 - Load gameObjects
         ifs.read((i8*)&size0, 2);
         for(u32 i =0; i < size0; i++){
-            Vector3 v;
+            Vector3 v; Vector3i u;
+            
             GameObject go = emptyGameObj;
             readVector3(ifs, v); go.position = v;
             readVector3(ifs, v); go.rotation = v;
             readVector3(ifs, v); go.scale = v;
             readVector3(ifs, v); go.coll = v;
-            readVector3(ifs, v); go.color = {50, 50, 50};//go.color = {(u16)v.X, (u16)v.Y, (u16)v.Z};
+            readVector3(ifs, u); go.color =
+                {(u16)u.X, (u16)u.Y, (u16)u.Z};
             u64 mID, flags;
             ifs.read((i8*)&mID, sizeof(u64));
             ifs.read((i8*)&flags, sizeof(u64));

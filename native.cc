@@ -148,7 +148,7 @@ void CenterMouse() {
 }
 void freeModels() {
     Info("Freeing models...");
-    for(u32 i =0; i < (*modelBufferPtr).size(); i++){
+    for(u32 i =0; i < modelBufferPtr->size(); i++){
         Debg("Freeing model " + std::to_string(i));
         if((*modelBufferPtr)[i].freed)continue;
         std::vector<Face>* cfs = &(*modelBufferPtr)[i].faces;
@@ -157,6 +157,7 @@ void freeModels() {
         cfs->clear();
         (*modelBufferPtr)[i].freed = 1;
     }
+    modelBufferPtr->clear();
 }
 
 // Somehow, this works, no idea how
