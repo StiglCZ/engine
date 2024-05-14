@@ -27,7 +27,6 @@ def register():
     bpy.types.TOPBAR_MT_file_export.append(menu_func1)
     bpy.types.TOPBAR_MT_file_import.append(menu_func2)
 
-
 def unregister():
     from bpy.utils import unregister_class
     for cls in reversed(classes):

@@ -32,12 +32,7 @@ extern "C" {
         if((*d->gameObjects)[index].flags == 10){
             PhysicsProps* pp = (PhysicsProps*)((void**)d->stream)[4];
             pp->physicsObjects->push_back(index);
-            /*AudioControl* control = ((AudioControl**)gd2->stream)[3];
-            uint b = control->LoadTrack("./assets/hello1.mp3");
-            AudioSource as = control->Play(b, 0.9);*/
         }
-        //AudioControl* ac = ((AudioControl**)gd2->stream)[3];
-        //ac->Play3D({0, 0, 0}, {-1, 0, 0}, {0,0,0},ac->LoadTrack("./assets/stal2.mp3"), 1.0);
         LOAD_SCENE("assets/scene.bin");
     }
     void Update(uint index){        

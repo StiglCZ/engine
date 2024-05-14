@@ -1,7 +1,6 @@
-// TODO: Fix
 #include "../types.hh"
 #include <unistd.h>
-#define SPEED 0.005
+#define SPEED 0.3
 extern "C"{
     GameData* d;
     u8 W, S, A, D, space, esc;
@@ -29,29 +28,29 @@ extern "C"{
     fx f = 0, wp = 0, ap = 0;
     void Update(u32 index){
         (void)index; // Unused
+        float trueDeltaTime = *d->deltaTime / 16700.0;
         if(d->keys[space]){
             f += 0.01;
             d->cp->rot = {0, f, 0};
             d->cp->sync(d->cp, false);
         }
-        if(d->keys[W]){
-            wp -= SPEED;
-        }
+        if(d->keys[W])
+            wp -= SPEED * trueDeltaTime;
         if(d->keys[S])
-            wp += SPEED;
+            wp += SPEED * trueDeltaTime;
         if(d->keys[A])
-            ap += SPEED;
+            ap += SPEED * trueDeltaTime;
         if(d->keys[D])
-            ap -= SPEED;
+            ap -= SPEED * trueDeltaTime;
         
         if(d->keys[T])
-            ((*d->gameObjects)[3]).position.Z += 0.003;
+            ((*d->gameObjects)[3]).position.Z += 0.3 * trueDeltaTime;
         if(d->keys[G])
-            ((*d->gameObjects)[3]).position.Z -= 0.003;
+            ((*d->gameObjects)[3]).position.Z -= 0.3 * trueDeltaTime;
         if(d->keys[F])
-            ((*d->gameObjects)[3]).position.X -= 0.003;
+            ((*d->gameObjects)[3]).position.X -= 0.3 * trueDeltaTime;
         if(d->keys[H])
-            ((*d->gameObjects)[3]).position.X += 0.003;
+            ((*d->gameObjects)[3]).position.X += 0.3 * trueDeltaTime;
         
         if(d->keys[esc])
             sleep(1);

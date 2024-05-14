@@ -11,8 +11,12 @@
 struct v3 {
     float x, y ,z;
 };
+struct i3 {
+    int x, y, z;
+};
 struct obj {
-    v3 pos, rot, sca, coll, col;
+    v3 pos, rot, sca, coll;
+    i3 col;
     unsigned long long model, flags;
 };
 #define readVector3(ifs, v)  \

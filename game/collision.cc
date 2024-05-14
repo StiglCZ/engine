@@ -10,7 +10,6 @@ extern "C" {
         ((void**)d->stream)[2] =
             (void*)&collidingObjects;
     }
-    // TODO: Add rotation support somehow
     void Start(u32 index){
         (void)index;
     }

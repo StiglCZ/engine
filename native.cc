@@ -29,7 +29,6 @@ Display *disp;
 Window win;
 GC gc;
 Pixmap backBuffer;
-// TODO: Add steering wheel support
 // 16 mouse buttons
 // 256 keys
 u8 button[16];

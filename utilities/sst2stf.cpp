@@ -30,9 +30,13 @@ int findormake(std::vector<std::string>& models, std::string line, std::string d
 struct v3 {
     float x, y, z;
 };
+struct i3 {
+    int x, y, z;
+};
 struct obj {
     unsigned long long model;
     v3 pos, rot, sca;
+    i3 col;
 };
 #define sized(equalto)                   \
     size = equalto;                      \
@@ -57,6 +61,7 @@ void convert(std::ifstream& ifs, std::string dir) {
         get(pos);
         get(rot);
         get(sca);
+        get(col);
         objs.push_back(o);
     }
     ifs.close();
@@ -75,13 +80,12 @@ void convert(std::ifstream& ifs, std::string dir) {
     sized(objs.size());
 
     unsigned long long flags = 0;
-    v3 col = {0xFF, 0xFF, 0xFF};
     for(unsigned i =0; i < objs.size(); i++){
         writeV3(ofs, objs[i].pos);
         writeV3(ofs, objs[i].rot);
         writeV3(ofs, objs[i].sca);
         writeV3(ofs, objs[i].sca); // Collision box
-        writeV3(ofs, col);
+        writeV3(ofs, objs[i].col);
         ofs.write((char*)&objs[i].model, sizeof(long long));
         ofs.write((char*)&flags, sizeof(long long));
     }

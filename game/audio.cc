@@ -26,7 +26,8 @@ u32 LoadTrack(const char *fileName) {
         Warn(std::string("Track ") + fileName + std::string(" not found!"));
     ALsizei
         num_samples = sfinfo.frames * sfinfo.channels,
-        sample_rate = sfinfo.samplerate * 2, // TODO: Figure out why and fix
+        // Has to be multiplied to work(mono/stereo channel maybe be why?)
+        sample_rate = sfinfo.samplerate * 2,
         buffer_size = num_samples * sizeof(u16);
     short *buffer = (short *)malloc(buffer_size);
     sf_read_short(sndfile, buffer, num_samples);

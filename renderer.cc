@@ -55,10 +55,10 @@ inline void MVm(fx* mat, Vector3 vec, Rvector vec2) {
     for(u8 i =0; i < 4; i++){
         u8 i4 = i * 4;
         vec2[i] =
-            vec.X * mat[i4] +
-            vec.Y * mat[i4 + 1] +
-            vec.Z * mat[i4 + 2] +
-            mat[i4 + 3];
+            vec.X * mat[i4]     +   // X
+            vec.Y * mat[i4 + 1] +   // Y
+            vec.Z * mat[i4 + 2] +   // Z
+            mat[i4 + 3];            // W(dst)
     }
 }
 
@@ -74,7 +74,7 @@ void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
            fabs(vec[0]) > FOV        / 4 + 1 ||
            fabs(vec[1]) > (FOV * AR) / 4 + 1 ||
            // Ensures no objects behind the camera are being rendered
-           vec[2] > CUTOFF_N
+           vec[3] < CUTOFF_W
         )return;
         
         // Converts 4D objs back into 2D objs

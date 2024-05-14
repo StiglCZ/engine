@@ -16,13 +16,16 @@ def exportSST(context, filePath):
                 # Z+ in blender is Up, but in SST Y- is Up
                 data = "\n{:.5f} {:.5f} {:.5f}\n{:.5f} {:.5f} {:.5f}\n{:.5f} {:.5f} {:.5f}\n".format(pos.x, -pos.z, pos.y, rot.x, rot.z, rot.y, sca.x, sca.z, sca.y)
                 filename = ''
+                color = None
                 try:
                     filename = obj['filename']
+                    color = obj['color']
                 except:
                     filename = "Missing"
+                    color = [0, 0, 0]
                     continue
                 if(filename != 'Missing'):
-                    file.write((filename + data).encode())
+                    file.write((filename + data + ("{} {} {}\n".format(color[0], color[1], color[2]))).encode())
                             
 class SSTExporter(bpy.types.Operator):
     bl_idname = "export.sst"
@@ -58,6 +61,7 @@ class SSTImporter(bpy.types.Operator):
     
     def execute(self, context):
         bpy.ops.wm.obj_import(filepath=self.filepath)
+        bpy.context.active_object['color'] = [0, 0, 0]
         bpy.context.active_object['filename'] = self.filepath
         return {'FINISHED'}
 
