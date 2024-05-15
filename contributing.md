@@ -37,9 +37,10 @@ ulong var0 = 100;
 int var1 = 10;
 short var2 = 5;
 long var3 = 100;
-
+```
 Shold instead be:
 
+```
 ulong var0 = 100;
 short var1 =   5;
 long  var3 = 100;
