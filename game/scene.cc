@@ -3,7 +3,7 @@
 #include <fstream>
 #include "scene.hh"
 using std::string;
-#define readStrWithSize(ifs) u8 size1;          \
+#define readStr(ifs) u8 size1;                  \
     ifs.read((i8*)&size1, 1);                   \
     u8 str[size1];                              \
     ifs.read((i8*)str, size1);
@@ -30,23 +30,27 @@ extern "C" {
         Debg("Loading scene...");
         std::ifstream ifs(scene.scenePath);
         u16 size0;
+        u64 modelCount = (u64)d->getResource(RESOURCE_Model_Count, 0);
+        
         // Section 1 - Load models
         ifs.read((i8*)&size0, 2);
         for(u32 i =0; i < size0; i++){
-            readStrWithSize(ifs);
+            readStr(ifs);
             d->loadModel((i8*)str);
-        } size0 = 0;
+        }
         
         // Section 2 - Load scripts
         ifs.read((i8*)&size0, 2);
         for(u32 i =0; i < size0; i++){
-            readStrWithSize(ifs);
+            readStr(ifs);
             d->loadScript((i8*)str, d);
         }
+        
         // Section 3 - Load gameObjects
         ifs.read((i8*)&size0, 2);
         for(u32 i =0; i < size0; i++){
-            Vector3 v; Vector3i u;
+            Vector3 v;
+            Vector3i u;
             
             GameObject go = emptyGameObj;
             readVector3(ifs, v); go.position = v;
@@ -58,7 +62,7 @@ extern "C" {
             u64 mID, flags;
             ifs.read((i8*)&mID, sizeof(u64));
             ifs.read((i8*)&flags, sizeof(u64));
-            go.model = mID + (u64)d->getResource(RESOURCE_Model_Count, 0);
+            go.model = mID + modelCount;
             go.flags = flags;
             d->gameObjects->push_back(go);
         }

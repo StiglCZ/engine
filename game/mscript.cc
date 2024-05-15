@@ -3,13 +3,14 @@
 #include <string>
 #include "scene.hh"
 // EXAMPLE MAIN SCRIPT
-GameData* d;
 extern "C" {
+    GameData* d;
     void Init(GameData* gd, u32 scriptIndex){
+        //gd->loadScript("audio.so", gd);
         gd->loadScript("movement.so", gd);
         gd->loadScript("physics.so", gd);
-        //gd->loadScript("audio.so", gd);
         gd->loadScript("scenemgr.so", gd);
+        d = gd;
         
         u32 index = gd->loadModel("car.obj");
         GameObject go = emptyGameObj;
@@ -22,7 +23,6 @@ extern "C" {
         go.position.Y += 20;
         go.flags = 10;
         gd->gameObjects->push_back(go);
-        d = gd;
     }
     void Start(u32 index){
         // Add collision
@@ -35,8 +35,7 @@ extern "C" {
         }
         LOAD_SCENE("assets/scene.bin");
     }
-    void Update(uint index){        
-        (void)index; // Unused
+    void Update(uint index){
         if((*d->gameObjects)[index].flags == 10){
             d->drawText({1, 10}, ("dT: " +std::to_string(1000000.0 / (u32)*d->deltaTime)).c_str());
             d->drawText({1, 25}, ("x: " + std::to_string(d->cp->pos.X) + " y:" + std::to_string(d->cp->pos.Y) + " z:" + std::to_string(d->cp->pos.Z)).c_str());
