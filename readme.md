@@ -56,7 +56,7 @@ Currently capped at ~960FPS!
 
 ### Porting
 
-Porting the wireframe engine should be really, really easy. Thats because majority of the engine does not relly on clib or c++lib.
+Porting the wireframe engine should be really, really easy compared to other engines. Thats because majority of the engine does not relly on clib or c++lib.
 You only need to port few files, depending on the platform.
 
 So these are the files you will propably need to edit.                     <br>
@@ -74,7 +74,14 @@ So these are the files you will propably need to edit.                     <br>
 
 <br>
 
-WARNING: You now need the vector class, or else you will have to replace every vector with list, which was replaced because it contained bunch of memory leaks
+What libraries do you need to change exactly(commonly)?<br>
+- `dirent.h` - In file.hh     <br>
+- `dlfnc.h`  - In scripting.hh<br>
+- `libx11`   - In native.cc   <br>
+- `signal.h` - In native.cc   <br>
+- `socket.h` - In net.cc      <br>
+- `typeof`   - Preety much everywhere :D <br>
+<br>
 
 ### Optimilization
 

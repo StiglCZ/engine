@@ -8,7 +8,6 @@
     #error Unix only!
 #endif
 
-#include <dlfcn.h>
 #include <string>
 #include <vector>
 void scriptErr(int source) {
