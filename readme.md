@@ -92,25 +92,25 @@ so its best if no if or similiar are even required. Everything else is not very 
 So if you don't know what you're doing, do not enter renderer.cc. It doesn't require to be edited if ported, so no need there etc. 
 Thanks!
 
-#### Uses for the data stream
+### Uses for the data stream
 0 - Scene management  <br>
 1 - Currently unused  <br>
 2 - Collision manager <br>
 3 - Audio manager     <br>
 4 - Physics manager   <br>
 
-#### Audio
+### Audio
 
 Including audio.hh in your script allows you to allow audio in your game. 
 You just need to get the AudioControl struct from the pointer located at the above mentioned stream, which allows you to access all the important functions.
 Functions themselves are self explanatory!
 Newly, audiosource has been added for easier manupulation! Feel free to now edit the audio while running!
 
-#### Saving
+### Saving
 
 For easier porting, the saving system has created in saving.cc. You can simply add a saveinforequest which will trigger the referenced function when its time to save, and your function will simply return all the data it needs to save, as well as the location(node number) where to store them in, and the the system will automatically order and save all the packets.
 
-#### Scene managing
+### Scene managing
 
 You can quickly load scenes using the scene manager, instead of manually placing objects. 
 You can design a simple scene template file like this:
@@ -131,35 +131,35 @@ In the .U seciton, you should define all the models that should be disposed afte
 
 ##### Alert: This is still usable and stuff, but theres new scene designer using blender. More info in utilities/utilities.md
 
-#### Collision
+### Collision
 
 The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. The collison system will then automatically send you back the data with the collision status.
 
-#### C++ compatibility
+### C++ compatibility
 
 As for the compatibility with the C++ itself, the program is compatible with preety much everything. For audio and video C functions are used(openal and x11) and as for the C++ libs, only iostream, fstream, vector and string (and maybe something else I included after) should be used. So, if you use C++11+ then it will definetly be compatible!
 Nvm, it isnt. Tried to migrate it into windows, no idea what its doing. 
 Can someone explain why `typeof` doesn't exist on windows?
 
-#### Models
+### Models
 
 This engine originally used OBJ's for encoding models, but it was replaced by an optimized binary version. If you want to optimize your models with it, just try to load the OBJ file via the engine, and it will automatically get converted to the optimized version, or use the object optimizer(v2) inside utilities, where you can also partially decompile it back to OBJ.
 
-#### Security
+### Security
 
 Please, do not download 3rd party mods if you can't see the source without first checking with something like virustotal. 
 The mods are just plain binaries, and the engine has no control over them and neighter do I, so its on your own risk to download 3rd party mods.
 
-#### Index 0 thingies
+### Index 0 thingies
 
 The index 0 script = empty script <br>
 The index 0 model = empty model (invisible)<br>
 
-#### Networking
+### Networking
 
 The engine provides a simple UDP interface in the net.o object, as well as its header, net.hh. It provides with such instructions as send, recieve, host, or start the server. If your server is using TCP, UDP is preety much always compatible except it may look weird from the server side, because no message recieved signals are being sent.
 
-#### Contents of the files
+### Contents of the files
  - .hh files are contained in this as the .cc files                                        <br>
 `program.cpp` - Contains primarily main loop and some init code                            <br>
 `scripting.cc`- Contains scripting utils(loading script, getting its subfunctions, etc.)   <br>
@@ -172,14 +172,14 @@ The engine provides a simple UDP interface in the net.o object, as well as its h
 `mscript.cc`  - Startup script for the engine, it should load and set up all the other ones<br>
 `Makefile`    - Simple script for building the engine                                      <br>
 
-#### Files storing memory(bigger in memsize)
+### Files storing memory(bigger in memsize)
 
 `native.cc`    - About 1KiB, mainly windowing stuff<br>
 `audio.cc`     - OpenAL eats about 5.7MiB of memory<br>
 `scripting.cc` - Handlers list                     <br>
 `renderer.cc`  - Matrix data and linecounter       <br>
 
-#### Method of storing
+### Method of storing
 
 This engine has its own proprietary filetypes, each for different use, but the thing stays the same,
 the file consists of:
@@ -188,15 +188,16 @@ the file consists of:
     `size of element(if needed)` - Commonly 1 byte(X) <br>
         `element`                - X bytes long       <br>
 
-#### Why dont I use git for this?
+### Why dont I use git for this?
 
 I.. don't want to. As cool as it would look to have everyday commits on github chart, I just dont feel its required. Eventually I will have to release to upload it on github, and therefore use git tho, so.. I hope that will go well.
 
 
-#### Contributing
+### Contributing
 
 If you choose to contribute.. you have to go according to the (mainly)syntax standards. Keep those spaces aligned! Also, don't add 5 dependencies because you feel like it. The engine is lightweight, and personally I wouldn't use openal if there was anything else supporting good 3d audio(because it takes over 5Megs of ram), but I had to. Use the cppstdlib if you need to :)
 
-#### Why does this project use partly python?
+### Why does this project use partly python?
 
 Sadly, blender only supports extensions made in python. If they ever release better variant, I will make sure to update this repo, if I will still be maintaining it that time. If you see this in a tar archive and the repo is long gone, I am propably not maintaining it anymore
+    
