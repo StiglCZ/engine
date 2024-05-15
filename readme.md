@@ -167,19 +167,19 @@ The engine provides a simple UDP interface in the net.o object, as well as its h
 
 #### Files storing memory(bigger in memsize)
 
-`native.cc`    - About 1kB, mainly windowing stuff<br>
-`audio.cc`     - OpenAL eats about 5.7MB of memory<br>
-`scripting.cc` - Handlers list                    <br>
-`renderer.cc`  - Matrix data and linecounter      <br>
+`native.cc`    - About 1KiB, mainly windowing stuff<br>
+`audio.cc`     - OpenAL eats about 5.7MiB of memory<br>
+`scripting.cc` - Handlers list                     <br>
+`renderer.cc`  - Matrix data and linecounter       <br>
 
 #### Method of storing
 
 This engine has its own proprietary filetypes, each for different use, but the thing stays the same,
 the file consists of:
 
-`size of elements`               - Commonly a short <br>
-    `size of element(if needed)` - Commonly 1 byte <br>
-        `element`                - X bytes long <br>
+`size of elements`               - Commonly an ushort <br>
+    `size of element(if needed)` - Commonly 1 byte(X) <br>
+        `element`                - X bytes long       <br>
 
 #### Why dont I use git for this?
 

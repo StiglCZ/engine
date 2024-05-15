@@ -6,52 +6,51 @@ typedef float fx;
 
 struct Vector3 {
     fx X, Y, Z;
-    friend Vector3 operator+(const Vector3& lhs, const Vector3& rhs);
-    friend Vector3 operator-(const Vector3& lhs, const Vector3& rhs);
-    friend Vector3 operator*(const Vector3& lhs, const Vector3& rhs);
-    friend Vector3 operator/(const Vector3& lhs, const Vector3& rhs);
-    friend Vector3 operator/(const Vector3& lhs, const fx& rhs);
-    friend Vector3 operator*(const Vector3& lhs, const fx& rhs);
-    friend void operator-=(Vector3& lhs, const Vector3& rhs);
-    friend void operator+=(Vector3& lhs, const Vector3& rhs);
-    friend void operator*=(Vector3& lhs, const Vector3& rhs);
-    friend void operator/=(Vector3& lhs, const Vector3& rhs);
-    friend void operator/=(Vector3& lhs, const fx& rhs);
-    friend void operator*=(Vector3& lhs, const fx& rhs);
-    friend bool operator==(const Vector3& lhs, const Vector3& rhs);
-    friend bool operator!=(const Vector3& lhs, const Vector3& rhs);
-    friend bool operator>(const Vector3 &lhs, const Vector3 &rhs);
-    friend bool operator<(const Vector3 &lhs, const Vector3 &rhs);
+    friend Vector3 operator+(const Vector3&, const Vector3&);
+    friend Vector3 operator-(const Vector3&, const Vector3&);
+    friend Vector3 operator*(const Vector3&, const Vector3&);
+    friend Vector3 operator/(const Vector3&, const Vector3&);
+    friend Vector3 operator/(const Vector3&, const fx&);
+    friend Vector3 operator*(const Vector3&, const fx&);
+    friend void operator-=(Vector3&, const Vector3&);
+    friend void operator+=(Vector3&, const Vector3&);
+    friend void operator*=(Vector3&, const Vector3&);
+    friend void operator/=(Vector3&, const Vector3&);
+    friend void operator/=(Vector3&, const fx&);
+    friend void operator*=(Vector3&, const fx&);
+    friend bool operator==(const Vector3&, const Vector3&);
+    friend bool operator!=(const Vector3&, const Vector3&);
+    friend bool operator>(const Vector3 &, const Vector3&);
+    friend bool operator<(const Vector3 &, const Vector3&);
 };
 
 struct Vector2 {
     fx X, Y;
-    friend Vector2 operator+(const Vector2& lhs, const Vector2& rhs);
-    friend Vector2 operator-(const Vector2& lhs, const Vector2& rhs);
-    friend Vector2 operator*(const Vector2& lhs, const Vector2& rhs);
-    friend Vector2 operator/(const Vector2& lhs, const Vector2& rhs);
-    friend Vector2 operator/(const Vector2& lhs, const fx& rhs);
-    friend Vector2 operator*(const Vector2& lhs, const fx& rhs);
-    friend bool operator==(const Vector2& lhs, const Vector2& rhs);
-    friend bool operator!=(const Vector2& lhs, const Vector2& rhs);
+    friend Vector2 operator+(const Vector2&, const Vector2&);
+    friend Vector2 operator-(const Vector2&, const Vector2&);
+    friend Vector2 operator*(const Vector2&, const Vector2&);
+    friend Vector2 operator/(const Vector2&, const Vector2&);
+    friend Vector2 operator/(const Vector2&, const fx&);
+    friend Vector2 operator*(const Vector2&, const fx&);
+    friend bool operator==(const Vector2&, const Vector2&);
+    friend bool operator!=(const Vector2&, const Vector2&);
 };
-
 
 struct Point {
     int X, Y;
-    friend Point operator*(const Point& lhs, const Point& rhs);
-    friend Point operator/(const Point& lhs, const Point& rhs);
-    friend Point operator/(const Point& lhs, const int& rhs);
-    friend Point operator*(const Point& lhs, const int& rhs);
+    friend Point operator*(const Point&, const Point&);
+    friend Point operator/(const Point&, const Point&);
+    friend Point operator/(const Point&, const int&);
+    friend Point operator*(const Point&, const int&);
 };
 
 struct Color {
     unsigned short R, G, B;
-    friend Color operator+(const Color& lhs, const Color& rhs);
+    friend Color operator+(const Color&, const Color&);
 };
 
 struct Face {
-    unsigned short* m;
+    unsigned short* verts;
     unsigned int count;
 };
 
@@ -142,7 +141,6 @@ struct Script {
 struct Model{
     std::vector<Vector3> verticies;
     std::vector<Face> faces;
-    Vector3 bias;
     u64 uId;
     i1 freed;
 };

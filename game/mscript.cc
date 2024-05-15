@@ -8,7 +8,7 @@ extern "C" {
     void Init(GameData* gd, u32 scriptIndex){
         gd->loadScript("movement.so", gd);
         gd->loadScript("physics.so", gd);
-        // gd->loadScript("audio.so", gd);
+        //gd->loadScript("audio.so", gd);
         gd->loadScript("scenemgr.so", gd);
         
         u32 index = gd->loadModel("car.obj");
@@ -26,8 +26,8 @@ extern "C" {
     }
     void Start(u32 index){
         // Add collision
-        std::vector<u32>* a = (std::vector<u32>*)((void**)d->stream)[2];
-        a->push_back(index);
+        std::vector<u32>* cols = (std::vector<u32>*)((void**)d->stream)[2];
+        cols->push_back(index);
         if((*d->gameObjects)[index].flags == 10){
             // Make physics object
             PhysicsProps* pp = (PhysicsProps*)((void**)d->stream)[4];

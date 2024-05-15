@@ -99,7 +99,7 @@ Model loadOBJ(std::vector<std::string> file) {
             }
             m.faces.push_back(
                 (Face){
-                    .m = n,
+                    .verts = n,
                     .count = (u32)(parts0.size() - 1),
                 });
         }
@@ -209,7 +209,7 @@ Model readOptimizedModel(std::string fileName) {
         for(int j =0; j < str_size; j++)
             ifs.read((i8*)&data[j], sizeof(u16));
         Face f = {
-            .m = data,
+            .verts = data,
             .count = str_size,
         };
         m.faces.push_back(f);

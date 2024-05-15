@@ -97,7 +97,7 @@ void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale) {
         Face* f = &model->faces[i];
         Vector3 verts[f->count];
         for(u32 i =0; i < f->count; i++)
-            verts[i] = model->verticies[f->m[i]] * *scale;
+            verts[i] = model->verticies[f->verts[i]] * *scale;
         DrawPoly(verts, f->count, matrix);
     }
 }
