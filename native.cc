@@ -156,26 +156,26 @@ void freeModels() {
         for(u32 j =0; j < cfs->size(); j++)
             delete[] (*cfs)[j].verts;
         cfs->clear();
-        (*modelBufferPtr)[i].freed = 1;
     }
+    // Since there are no models, we can safely remove all of them
     modelBufferPtr->clear();
 }
 
-// Somehow, this works, no idea how
 void Screenshot(const char* filename){
     Info("Saving screenshot " + std::string(filename) + "...");
     XImage *xi = XGetImage(disp, win, 0, 0, SIZE_X, SIZE_Y, AllPlanes, ZPixmap);
     u8 pixels[SIZE_X * SIZE_Y * 3];
     int* d = (int*)xi->data;
     for(int i =0; i < SIZE_Y * SIZE_X; i++){
-        int a = *d++; // Why does this work?(Possibly alpha channel skip)
+        int a = *d++; // Possibly alpha channel skip?
         pixels[i * 3+2] = a       & 0xFF;
         pixels[i * 3+1] = a >>  8 & 0xFF;
         pixels[i * 3+0] = a >> 16 & 0xFF;
     }
-    SaveScreenshot((u8*)pixels, (Point){SIZE_X, SIZE_Y}, filename);
+    SaveScreenshot((u8*)pixels, {SIZE_X, SIZE_Y}, filename);
 }
 void Exiter() {
+    // The main thread is hopefully stopped by this
     isRunning = 0;
     for(u32 i =0; i < exitFuncs.size(); i++){
         Debg("Exiting function is being ran: " + std::to_string(i));

@@ -62,7 +62,6 @@ inline void MVm(fx* mat, Vector3 vec, Rvector vec2) {
     }
 }
 
-u32 linesCounter = 0;
 void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
     Point result[count];
     for(u32 i =0; i < count;i++){
@@ -84,7 +83,6 @@ void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
     DrawLine(result[0], result[count-1]);
     for(u32 i = 0; i < count - 1; i++)
         DrawLine(result[i], result[i+1]);
-    linesCounter += count;
 }
 
 void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale) {
@@ -100,29 +98,4 @@ void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale) {
             verts[i] = model->verticies[f->verts[i]] * *scale;
         DrawPoly(verts, f->count, matrix);
     }
-}
-
-bool CheckClipping(matrix4x4 m, Vector3 point) {
-    matrix4x4 temp1;
-    matrixCombine(viewMatrix, m, temp1);
-    matrixCombine(projMatrix, temp1, m);
-    Rvector vec;
-    MVm((fx*)m, point, vec);
-
-    fx fovd4 = FOV / 4;
-    return
-        fabs(vec[0]) < fovd4      + 1 &&
-        fabs(vec[1]) < fovd4 * AR + 1 &&
-        vec[2] <= 0;
-}
-
-void MatrixFromPortal(Vector3 camera_pos, Vector3 camera_rot,
-                      Vector3 portal_pos, Vector3 portal_rot,
-                      Vector3 portac_pos, Vector3 portac_rot,
-                      matrix4x4 target) {
-    // Solve the position & rotation
-    portac_pos -= portal_pos + camera_pos;
-    portac_rot -= portal_rot + camera_rot;
-    // Write everything into the matrix
-    fillMat(target, portac_pos, portac_rot);
 }
