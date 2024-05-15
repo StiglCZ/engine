@@ -28,6 +28,7 @@ extern "C"{
     fx f = 0, wp = 0, ap = 0;
     void Update(u32 index){
         (void)index; // Unused
+        // This would work if there was no sleep inside main. How to fix it tho?
         float trueDeltaTime = *d->deltaTime / 16700.0;
         if(d->keys[space]){
             f += 0.01;

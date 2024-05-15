@@ -105,8 +105,6 @@ For easier porting, the saving system has created in saving.cc. You can simply a
 
 #### Scene managing
 
-##### Currently being replaced by a new scene system! - not entirely true
-###### So, whats going on here? Well, this old scene manager is still used as template language for the new one, using the scenemkr utility in utilities/
 You can quickly load scenes using the scene manager, instead of manually placing objects. 
 You can design a simple scene template file like this:
 ```
@@ -124,6 +122,8 @@ In the .M section, you can define all the models, and they will automatically be
 In the .O section, you can define all the gameobjects that should be spawned, and they will.                                       <br>
 In the .U seciton, you should define all the models that should be disposed after the scene is unloaded or replaced by another one.<br>
 
+##### Alert: This is still usable and stuff, but theres new scene designer using blender. More info in utilities/utilities.md
+
 #### Collision
 
 The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. The collison system will then automatically send you back the data with the collision status.
@@ -131,6 +131,8 @@ The engine currently uses AABB collision. Every gameobject has its own collsion 
 #### C++ compatibility
 
 As for the compatibility with the C++ itself, the program is compatible with preety much everything. For audio and video C functions are used(openal and x11) and as for the C++ libs, only iostream, fstream, vector and string (and maybe something else I included after) should be used. So, if you use C++11+ then it will definetly be compatible!
+Nvm, it isnt. Tried to migrate it into windows, no idea what its doing. 
+Can someone explain why `typeof` doesn't exist on windows?
 
 #### Models
 
