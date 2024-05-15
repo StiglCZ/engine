@@ -52,8 +52,15 @@ extern "C"{
         if(d->keys[H])
             ((*d->gameObjects)[3]).position.X += 0.3 * trueDeltaTime;
         
-        if(d->keys[esc])
-            sleep(1);
+        if(d->keys[esc]){
+            d->drawText({(int)d->W / 2, (int)d->H / 2}, "PAUSED");
+            while(d->keys[esc])
+                usleep(1);
+            while(!d->keys[esc])
+                usleep(1);
+            while(d->keys[esc])
+                usleep(1);
+        }
         d->cp->pos = {ap, 0, wp};
     }
 }

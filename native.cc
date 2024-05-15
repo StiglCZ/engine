@@ -133,6 +133,7 @@ void DrawLine(Point src, Point dst) {
     XDrawLine(disp, backBuffer, gc, src.X, src.Y, dst.X, dst.Y);
 }
 void DrawText(Point pos, const char* str) {
+    XDrawString(disp, win, gc, pos.X, pos.Y, str, strlen(str));
     XDrawString(disp, backBuffer, gc, pos.X, pos.Y, str, strlen(str));
 }
 void FrameFinished(){
@@ -169,7 +170,7 @@ void Screenshot(const char* filename){
     for(int i =0; i < SIZE_Y * SIZE_X; i++){
         int a = *d++; // Why does this work?(Possibly alpha channel skip)
         pixels[i * 3+2] = a       & 0xFF;
-        pixels[i * 3+1] = a >> 8  & 0xFF;
+        pixels[i * 3+1] = a >>  8 & 0xFF;
         pixels[i * 3+0] = a >> 16 & 0xFF;
     }
     SaveScreenshot((u8*)pixels, (Point){SIZE_X, SIZE_Y}, filename);

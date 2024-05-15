@@ -2,10 +2,9 @@
 #include "physics.hh"
 #include <string>
 #include "scene.hh"
-//EXAMPLE MAIN SCRIPT
+// EXAMPLE MAIN SCRIPT
+GameData* d;
 extern "C" {
-    GameData* d;
-    double angleX = 0;
     void Init(GameData* gd, u32 scriptIndex){
         gd->loadScript("movement.so", gd);
         gd->loadScript("physics.so", gd);
@@ -26,10 +25,11 @@ extern "C" {
         d = gd;
     }
     void Start(u32 index){
-        // Make physics object
+        // Add collision
         std::vector<u32>* a = (std::vector<u32>*)((void**)d->stream)[2];
         a->push_back(index);
         if((*d->gameObjects)[index].flags == 10){
+            // Make physics object
             PhysicsProps* pp = (PhysicsProps*)((void**)d->stream)[4];
             pp->physicsObjects->push_back(index);
         }

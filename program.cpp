@@ -1,11 +1,12 @@
 #include "scripting.hh"
+#include "renderer.hh"
+#include "program.hpp"
+#include "logging.hh"
+#include "native.hh"
+#include "types.hh"
 #include "file.hh"
 #include "math.hh"
-#include "program.hpp"
-#include "native.hh"
-#include "renderer.hh"
-#include "logging.hh"
-#include "types.hh"
+
 #include <vector>
 #include <chrono>
 
