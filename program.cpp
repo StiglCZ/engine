@@ -25,6 +25,7 @@ std::vector<Script> scriptBuffer;
 uint loadModel(const char *name) {
     Debg("Loading model  " + std::string(name));
     Model m = loadModel(std::string(assetsDir + name));
+    // Defragments the modelbuffer
     for(u32 i =0; i < modelBuffer.size(); i++)
         if(modelBuffer[i].freed){
             modelBuffer[i] = m;
@@ -189,10 +190,8 @@ int main() {
     Info("Loading scripts...");
     std::vector<std::string> scripts = getFiles(scriptsDir);
     
-    if(!scripts.size()){
-        Err("ERR: Script/s not found!", -1);
-        exit(1);
-    }
+    if(!scripts.size())
+        Err("ERR: No scripts have been found!(Wrong directory?)", -1);
     
     // Main script at index 1
     // Loads all scripts and orders them

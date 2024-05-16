@@ -33,9 +33,8 @@ Pixmap backBuffer;
 // 256 keys
 u8 button[16];
 u8  keys[256];
-u8 keyTranslations[256];
-Point   mouse;
-bool isRunning = 1;
+Point mouse;
+bool  isRunning = 1;
 std::vector<void *> exitFuncs;
 std::vector<Model>* modelBufferPtr;
 void t2() {
@@ -67,6 +66,7 @@ void t2() {
 }
 void Exiter();
 
+// Exit functions for both X11 and C-c
 int customXIOErrorHandler(Display *display) {
     (void)display;
     Info("XWindow Exit!");
@@ -181,6 +181,9 @@ void Exiter() {
         Debg("Exiting function is being ran: " + std::to_string(i));
         ((void(*)())exitFuncs[i])();
     }
+    // Try to make sure the main thread exits
+    usleep(100);
+    
     closeAllScripts();
     freeModels();
     
