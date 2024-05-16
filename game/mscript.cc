@@ -33,7 +33,7 @@ extern "C" {
             PhysicsProps* pp = (PhysicsProps*)((void**)d->stream)[4];
             pp->physicsObjects->push_back(index);
         }
-        LOAD_SCENE("assets/scene.bin");
+        //LOAD_SCENE("assets/scene.bin");
     }
     void Update(uint index){
         if((*d->gameObjects)[index].flags == 10){

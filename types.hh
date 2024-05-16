@@ -40,8 +40,8 @@ struct Point {
     int X, Y;
     friend Point operator*(const Point&, const Point&);
     friend Point operator/(const Point&, const Point&);
-    friend Point operator/(const Point&, const int&);
     friend Point operator*(const Point&, const int&);
+    friend Point operator/(const Point&, const int&);
 };
 
 struct Color {
@@ -81,7 +81,6 @@ typedef long  i64;
 typedef int   i32;
 typedef short i16;
 typedef char  i8;
-typedef bool  i1;
 
 typedef double f64;
 typedef float  f32;
@@ -128,6 +127,9 @@ extern const Color BLACK;
 extern const Color RED;
 extern const Color GREEN;
 extern const Color BLUE;
+extern const Color YELLOW;
+extern const Color PURPLE;
+extern const Color CYAN;
 
 extern const GameObject emptyGameObj;
 
@@ -142,7 +144,7 @@ struct Model{
     std::vector<Vector3> verticies;
     std::vector<Face> faces;
     u64 uId;
-    i1 freed;
+    bool freed;
 };
 
 struct GameObject {

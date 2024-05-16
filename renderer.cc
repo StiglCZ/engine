@@ -70,6 +70,8 @@ void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
         
         // Clipping
         if(
+           // Known bug: Does not work if you're about 240degrees
+           // rotated and make the object at the corner of the screen
            fabs(vec[0]) > FOV        / 4 + 1 ||
            fabs(vec[1]) > (FOV * AR) / 4 + 1 ||
            // Ensures no objects behind the camera are being rendered
@@ -81,8 +83,8 @@ void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
         result[i].Y = (int)(-vec[1] / (vec[3] * OVERHALFSIZE_Y)) + HALFSIZE_Y;
     }
     DrawLine(result[0], result[count-1]);
-    for(u32 i = 0; i < count - 1; i++)
-        DrawLine(result[i], result[i+1]);
+    for(u32 i = 1; i < count; i++)
+        DrawLine(result[i-1], result[i]);
 }
 
 void DrawModel(Model* model, matrix4x4 matrix, Vector3* scale) {

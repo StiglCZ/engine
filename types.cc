@@ -50,8 +50,6 @@ void operator*=(Vector3& lhs, const fx& rhs) {
   lhs.Y *= rhs;
   lhs.Z *= rhs;
 }
-
-
 bool operator==(const Vector3 &lhs, const Vector3 &rhs) {
     return (lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z);
 }
@@ -104,6 +102,10 @@ Point operator*(const Point &lhs, const int &rhs) {
 }
 Point operator/(const Point &lhs, const int &rhs) {
     return {lhs.X / rhs, lhs.Y / rhs};
+}
+
+Color operator+(const Color &lhs, const Color &rhs) {
+    return (Color){(u16)(lhs.R + rhs.R), (u16)(lhs.G + rhs.G), (u16)(lhs.B + rhs.B)};
 }
 
 fx distance(const Vector3 a, const Vector3 b) {
@@ -310,3 +312,7 @@ const Color BLACK = {000, 000, 000};
 const Color RED   = {255, 000, 000};
 const Color GREEN = {000, 255, 000};
 const Color BLUE  = {000, 000, 255};
+
+const Color YELLOW = {255, 255, 000};
+const Color PURPLE = {255, 000, 255};
+const Color CYAN   = {000, 255, 255};
