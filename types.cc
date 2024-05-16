@@ -280,9 +280,11 @@ void rotateW(matrix4x4 out, const Vector3 w) {
     matrixCopy(out, result2);
     matrixCopy(out, out);
 }
+
 fx magnitude(const Vector3 a) {
     return fabs(a.X) + fabs(a.Y) + fabs(a.Z);
 }
+
 fx distance(const Vector3 a, const Vector3 b) {
     return
         std::fabs(a.X - b.X) +

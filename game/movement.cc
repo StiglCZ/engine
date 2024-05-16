@@ -19,10 +19,10 @@ extern "C"{
         S = getKey(d, "s");
         D = getKey(d, "d");
         space = getKey(d, "space");
-        T = getKey(d, "T");
-        F = getKey(d, "F");
-        G = getKey(d, "G");
-        H = getKey(d, "H");
+        T = getKey(d, "t");
+        F = getKey(d, "f");
+        G = getKey(d, "g");
+        H = getKey(d, "h");
         esc = getKey(d, "Escape");
     }
     fx f = 0, wp = 0, ap = 0;

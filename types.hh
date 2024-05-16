@@ -211,13 +211,12 @@ enum ResourceType {
 #define infovec3(v3)                                                    \
     Info('[' + std::to_string(v3.X) + ", " + std::to_string(v3.Y) + ", " + std::to_string(v3.Z) + "]");
 
-#define getKey(gd, key) \
-    (u64)gd->getResource(4, (u64)key)
+#define getKey(gd, key) (u64)gd->getResource(4, (u64)key)
 
-#define fillMat(mat, pos, rot)                                          \
-    rotateW(mat, rot);                                                  \
-    mat[0][3] = pos.X;                                                  \
-    mat[1][3] = pos.Y;                                                  \
+#define fillMat(mat, pos, rot) \
+    rotateW(mat, rot);         \
+    mat[0][3] = pos.X;         \
+    mat[1][3] = pos.Y;         \
     mat[2][3] = pos.Z;
 
 #endif

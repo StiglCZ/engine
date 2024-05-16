@@ -12,21 +12,24 @@ const char
     *spec = blue,
     *debg = gray;
 void Debg(const char *str) {
-    (void)str;
     #if LOGLEVEL < 1
     std::cout << debg << str << reset << std::endl;
+    #else
+    (void)str;
     #endif
 }
 void Info(const char *str) {
-    (void)str;
     #if LOGLEVEL < 2
     std::cout << info << str << reset << std::endl;
+    #else
+    (void)str;
     #endif
 }
 void Warn(const char *str) {
-    (void)str;
     #if LOGLEVEL < 3
     std::cout << warn << str << reset << std::endl;
+    #else
+    (void)str;
     #endif
 }
 void Err (const char *str, int code)  {
@@ -38,21 +41,24 @@ void Spec(const char *str) {
 }
 
 void Debg(const std::string str) {
-    (void)str;
     #if LOGLEVEL < 1
     std::cout << debg << str << reset << std::endl;
+    #else
+    (void)str;
     #endif
 }
 void Info(const std::string str) {
-    (void)str;
     #if LOGLEVEL < 2
     std::cout << info << str << reset << std::endl;
+    #else
+    (void)str;
     #endif
 }
 void Warn(const std::string str) {
-    (void)str;
     #if LOGLEVEL < 3
     std::cout << warn << str << reset << std::endl;
+    #else
+    (void)str;
     #endif
 }
 void Err (const std::string str, int code)  {

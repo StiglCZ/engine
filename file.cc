@@ -35,7 +35,7 @@ std::vector<std::string> split(std::string str, char c) {
     return result;
 }
 
-std::vector<std::string> read_filelines(std::string filename) {
+std::vector<std::string> readFileLines(std::string filename) {
     std::ifstream file(filename);
     std::vector<std::string> lines;
     std::string line;
