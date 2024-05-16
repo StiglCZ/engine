@@ -134,7 +134,7 @@ extern const Color CYAN;
 extern const GameObject emptyGameObj;
 
 struct Script {
-    void (*init)(void* arg, u32 scriptIndex);
+    void (*init)(void* arg, u32 index);
     void (*start)(u32 index);
     void (*update)(u32 index);
     void* handle;
@@ -201,10 +201,15 @@ enum ResourceType {
     while (a[i])        \
         b[i] = a[i++];
 
+#define printcol(col)                                                   \
+    std::cout << "[" << col.R << ", " << col.G << ", " << col.B << "]\n";
+#define infocol(col)                                                    \
+    Info('[' + std::to_string(col.R) + ", " + std::to_string(col.G) + ", " + std::to_string(v3.B) + "]");
+
 #define printvec3(v3)                                                   \
     std::cout << '[' << v3.X << ", " << v3.Y << ", " << v3.Z << "]\n";
 #define infovec3(v3)                                                    \
-    Info('[' + std::to_string(v3.X) + ", " + std::to_string(v3.Y) + ", " + std::to_string(v3.Z) + "]\n");
+    Info('[' + std::to_string(v3.X) + ", " + std::to_string(v3.Y) + ", " + std::to_string(v3.Z) + "]");
 
 #define getKey(gd, key) \
     (u64)gd->getResource(4, (u64)key)

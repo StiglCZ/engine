@@ -1,7 +1,7 @@
 #include "../types.hh"
 #include "physics.hh"
 #include <string>
-#include "scene.hh"
+//#include "scene.hh"
 // EXAMPLE MAIN SCRIPT
 extern "C" {
     GameData* d;
@@ -14,7 +14,7 @@ extern "C" {
         
         u32 index = gd->loadModel("car.obj");
         GameObject go = emptyGameObj;
-        go.color = {0xAA, 0x22, 0xCC};
+        go.color = YELLOW;
         go.model = index;
         go.coll = {1, 3, 1};
         go.script = scriptIndex;

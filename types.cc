@@ -108,13 +108,6 @@ Color operator+(const Color &lhs, const Color &rhs) {
     return (Color){(u16)(lhs.R + rhs.R), (u16)(lhs.G + rhs.G), (u16)(lhs.B + rhs.B)};
 }
 
-fx distance(const Vector3 a, const Vector3 b) {
-    return
-        std::fabs(a.X - b.X) +
-        std::fabs(a.Y - b.Y) +
-        std::fabs(a.Z - b.Z);
-}
-
 void matrixCombine(const matrix3x3 a, const matrix3x3 b, matrix3x3 c) {
     #pragma unroll
     for(int i =0; i < 3;i++)
@@ -289,6 +282,12 @@ void rotateW(matrix4x4 out, const Vector3 w) {
 }
 fx magnitude(const Vector3 a) {
     return fabs(a.X) + fabs(a.Y) + fabs(a.Z);
+}
+fx distance(const Vector3 a, const Vector3 b) {
+    return
+        std::fabs(a.X - b.X) +
+        std::fabs(a.Y - b.Y) +
+        std::fabs(a.Z - b.Z);
 }
 
 const GameObject emptyGameObj = {
