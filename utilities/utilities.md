@@ -1,5 +1,5 @@
 # Utilities
-Utilities cannot rely on other gameengine files, but sometimes do rely on external libraries!(e. g. libpng)
+Utilities don't rely on other engine files, but sometimes do rely on external libraries!(e. g. libpng)
 
 ### model2opt
 Optimizes/(deoptimizes) obj files, with the second gen of stiglengine model optimizer.
@@ -11,12 +11,14 @@ Converts raw-text scene file into its binary form
 Allows you to view contents of a scene file(stf format)
 
 ### ppm2png
-Converts PPM3/PPM6(also known as the format the engine saves screenshots as) to normal, png format.
+Converts PPM3/PPM6(the format the engine saves screenshots as) to normal(lossless), png format.
 
 ### sst2stf
 Converts the blender scene format to normal scene format
 
-### blender extension
+### Blender extension
+
+Extension on top of blender to help with designing scenes in 3D space.
 
 #### How to install?
 

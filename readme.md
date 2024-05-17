@@ -1,7 +1,14 @@
 # WireFrame engine
 
 This game engine is completely wireframe and runs only on CPU!
-Good to note that the engine may be modified by the specific game!
+
+### Why did I decide to make this engine?
+
+I wanted to attempt to do a project using 2 technigues:
+
+1) Rasterization: I always found it interesting how can you translate 3D polygons to 2D space, and I wanted to try it for myself. I already tried ray tracing and ray marching before, so why not rasterization now!
+
+2) Dynamic linking: I wanted to find an actual good use to load shared dynamic objects(libraries) to the program while not previously knowing what they do or are and work independently, and turns out its actually quite nice to do it this way! It also makes moding quite alot easier.
 
 ### Scripting and modding
 
@@ -33,6 +40,8 @@ Compiling the script:
 `clang++ -shared -fPIC <SCRIPT>.cc types.cc -o .../bin/scripts/<SCRIPT>.so`<br>
 Note: You dont have to include the types.cc if you are not planning to use
 functions included in it (Vector3 operations, matrix rotations, etc.)
+
+Note: The engine itself may be modified by the specific game needing some specific features due to the scripts!
 
 ### Data stream
 
