@@ -56,7 +56,7 @@ Currently capped at ~960FPS!
 
 ### Porting
 
-Porting the wireframe engine should be really, really easy compared to other engines. Thats because majority of the engine does not relly on clib or c++lib.
+Porting the wireframe engine should be really, really easy compared to other engines. Thats because majority of the engine does not relly on anything but clib or c++lib.
 You only need to port few files, depending on the platform.
 
 So these are the files you will propably need to edit.                     <br>
@@ -81,16 +81,16 @@ What libraries do you need to change exactly(commonly)?<br>
 - `signal.h` - In native.cc   <br>
 - `socket.h` - In net.cc      <br>
 - `typeof`   - Preety much everywhere :D <br>
+- `sizeof`   - And so is this <br>
 <br>
 
 ### Optimilization
 
-Basically, renderer.cc is optimized very well, and its really hard to read it. If you're wondering why I didn't use loops in it,
-and instead written #pragma unrool in front of everyone of them, its because loops are slow. And renderer is something that needs to be really really fast,
-so its best if no if or similiar are even required. Everything else is not very very optimized, but I would say its still optimized quite a bit. <br>
 
-So if you don't know what you're doing, do not enter renderer.cc. It doesn't require to be edited if ported, so no need there etc. 
-Thanks!
+`renderer.cc` - Basically, renderer.cc is optimized very well, and its really hard to read it. If you're wondering why I didn't use loops in it, and instead written `#pragma unrool` in front of every loop, its because loops are slow(they take about 4 clock cycles per one iteration). And renderer is something that needs to be really really fast, so its best if no loops exist. Everything else is not too optimized, but I would say its still optimized quite a bit. <br>
+So if you don't know what you're doing, do not enter renderer.cc. It doesn't require to be edited if ported, so no need there etc. Thanks! <br>
+
+As for the other files, they can for sure be optimized, and if you manage to do so, submit a PR!<br>
 
 ### Uses for the data stream
 0 - Scene management  <br>
@@ -129,17 +129,17 @@ In the .M section, you can define all the models, and they will automatically be
 In the .O section, you can define all the gameobjects that should be spawned, and they will.                                       <br>
 In the .U seciton, you should define all the models that should be disposed after the scene is unloaded or replaced by another one.<br>
 
-##### Alert: This is still usable and stuff, but theres new scene designer using blender. More info in utilities/utilities.md
+New scene designer using blender! More info in utilities/utilities.md
 
 ### Collision
 
-The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. The collison system will then automatically send you back the data with the collision status.
+The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. The collison system will then automatically send you back the data with the collision status in form of the `gameobject.colliding` unsigned integer
 
 ### C++ compatibility
 
 As for the compatibility with the C++ itself, the program is compatible with preety much everything. For audio and video C functions are used(openal and x11) and as for the C++ libs, only iostream, fstream, vector and string (and maybe something else I included after) should be used. So, if you use C++11+ then it will definetly be compatible!
 Nvm, it isnt. Tried to migrate it into windows, no idea what its doing. 
-Can someone explain why `typeof` doesn't exist on windows?
+Can someone explain why `typeof` doesn't exist on windows? To help migrating to windows, you can contribute to the windows-port branch.
 
 ### Models
 
@@ -179,7 +179,7 @@ The engine provides a simple UDP interface in the net.o object, as well as its h
 `scripting.cc` - Handlers list                     <br>
 `renderer.cc`  - Matrix data and linecounter       <br>
 
-### Method of storing
+### Method of storing most of the data
 
 This engine has its own proprietary filetypes, each for different use, but the thing stays the same,
 the file consists of:
@@ -187,11 +187,6 @@ the file consists of:
 `size of elements`               - Commonly an ushort <br>
     `size of element(if needed)` - Commonly 1 byte(X) <br>
         `element`                - X bytes long       <br>
-
-### Why dont I use git for this?
-
-I.. don't want to. As cool as it would look to have everyday commits on github chart, I just dont feel its required. Eventually I will have to release to upload it on github, and therefore use git tho, so.. I hope that will go well.
-
 
 ### Contributing
 
