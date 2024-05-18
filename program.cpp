@@ -229,7 +229,7 @@ int main() {
     while(1);
 }
 
-u64 time() {
+inline u64 time() {
     using namespace std::chrono;
     return duration_cast<microseconds>
         (system_clock::now().time_since_epoch())

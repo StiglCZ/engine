@@ -1,6 +1,7 @@
 #include "types.hh"
 #include <cmath>
 
+// Vector3 utils
 Vector3 operator+(const Vector3 &lhs, const Vector3 &rhs) {
     return (Vector3){lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z};
 }
@@ -63,6 +64,7 @@ bool operator<(const Vector3 &lhs, const Vector3 &rhs) {
     return (lhs.X < rhs.X && lhs.Y < rhs.Y && lhs.Z < rhs.Z);
 }
 
+// Vector2 utils
 Vector2 operator+(const Vector2 &lhs, const Vector2 &rhs) {
     return (Vector2){lhs.X + rhs.X, lhs.Y + rhs.Y};
 }
@@ -90,6 +92,7 @@ bool operator!=(const Vector2 &lhs, const Vector2 &rhs) {
     return !(lhs == rhs);
 }
 
+// Point utils
 Point operator*(const Point &lhs, const Point &rhs) {
     return (Point){lhs.X * rhs.X, lhs.Y * rhs.Y};
 }
@@ -104,6 +107,7 @@ Point operator/(const Point &lhs, const int &rhs) {
     return {lhs.X / rhs, lhs.Y / rhs};
 }
 
+// Color utils
 Color operator+(const Color &lhs, const Color &rhs) {
     return (Color){(u16)(lhs.R + rhs.R), (u16)(lhs.G + rhs.G), (u16)(lhs.B + rhs.B)};
 }
@@ -131,6 +135,12 @@ void matrixCombine(const matrix4x4 a, const matrix4x4 b, matrix4x4 c) {
                 a[i][3] * b[3][n];
         }
 }
+
+void matrixCopy(fx* a, const fx* b, Point src, int dstX) {
+    for(int i =0; i < src.Y; i++)
+        for(int j =0; j < src.X; j++)
+            a[i * dstX + j] = b[i * src.X + j];
+}
 void matrixCopy(matrix4x4 a, const matrix4x4 b) {
     for(int i =0; i < 4; i++)
         for(int j = 0; j < 4;j++)
@@ -150,11 +160,30 @@ void matrixCopy(matrix4x4 a, const matrix3x3 b) {
         for(int j = 0; j < 3;j++)
             a[i][j] = b[i][j];
 }
-void matrixCopy(fx* a, const fx* b, Point src, int dstX) {
-    for(int i =0; i < src.Y; i++)
-        for(int j =0; j < src.X; j++)
-            a[i * dstX + j] = b[i * src.X + j];
+
+void flipMatrix(fx* mat, u16 size) {
+    u16 sSq = size * size;
+    fx old[sSq];
+    memcpy(old, mat, sSq);
+    for(int i =0; i < size; i++)
+        for(int j =0; j < size; j++)
+            mat[j * size + i] = old[i * size + j];
 }
+void flipMatrix3x3(matrix3x3 mat) {
+    matrix3x3 old;
+    matrixCopy(old, mat);
+    for(int i =0; i < 3; i++)
+        for(int j =0; j < 3; j++)
+            mat[j][i] = old[i][j];
+}
+void flipMatrix4x4(matrix4x4 mat) {
+    matrix4x4 old;
+    matrixCopy(old, mat);
+    for(int i =0; i < 4; i++)
+        for(int j =0; j < 4; j++)
+            mat[j][i] = old[i][j];
+}
+
 void rotateX(matrix3x3 out, fx w) {
     fx* oout = (fx*)out;
     fx a = 1;
@@ -214,30 +243,6 @@ void rotateZ(matrix3x3 out, fx w) {
     oout[7] = 0;
     oout[8] = e;
 }
-
-void flipMatrix(fx* mat, u16 size) {
-    u16 sSq = size * size;
-    fx old[sSq];
-    memcpy(old, mat, sSq);
-    for(int i =0; i < size; i++)
-        for(int j =0; j < size; j++)
-            mat[j * size + i] = old[i * size + j];
-}
-void flipMatrix3x3(matrix3x3 mat) {
-    matrix3x3 old;
-    matrixCopy(old, mat);
-    for(int i =0; i < 3; i++)
-        for(int j =0; j < 3; j++)
-            mat[j][i] = old[i][j];
-}
-void flipMatrix4x4(matrix4x4 mat) {
-    matrix4x4 old;
-    matrixCopy(old, mat);
-    for(int i =0; i < 4; i++)
-        for(int j =0; j < 4; j++)
-            mat[j][i] = old[i][j];
-}
-
 void rotateW(matrix3x3 out, const Vector3 w) {
     matrix3x3 result1 = {}, result2 = {}, result3 = {};
     
@@ -281,16 +286,27 @@ void rotateW(matrix4x4 out, const Vector3 w) {
     matrixCopy(out, out);
 }
 
-fx magnitude(const Vector3 a) {
-    return fabs(a.X) + fabs(a.Y) + fabs(a.Z);
-}
-
 fx distance(const Vector3 a, const Vector3 b) {
     return
         std::fabs(a.X - b.X) +
         std::fabs(a.Y - b.Y) +
         std::fabs(a.Z - b.Z);
 }
+
+fx magnitude(const Vector3 a) {
+    return fabs(a.X) + fabs(a.Y) + fabs(a.Z);
+}
+
+const Color WHITE = {255, 255, 255};
+const Color GRAY  = {127, 127, 127};
+const Color BLACK = {000, 000, 000};
+const Color RED   = {255, 000, 000};
+const Color GREEN = {000, 255, 000};
+const Color BLUE  = {000, 000, 255};
+
+const Color YELLOW = {255, 255, 000};
+const Color PURPLE = {255, 000, 255};
+const Color CYAN   = {000, 255, 255};
 
 const GameObject emptyGameObj = {
     .model     = 0,
@@ -306,14 +322,3 @@ const GameObject emptyGameObj = {
     .coll     = {0, 0, 0},
     .velocity = {0, 0, 0},
 };
-
-const Color WHITE = {255, 255, 255};
-const Color GRAY  = {127, 127, 127};
-const Color BLACK = {000, 000, 000};
-const Color RED   = {255, 000, 000};
-const Color GREEN = {000, 255, 000};
-const Color BLUE  = {000, 000, 255};
-
-const Color YELLOW = {255, 255, 000};
-const Color PURPLE = {255, 000, 255};
-const Color CYAN   = {000, 255, 255};

@@ -20,6 +20,6 @@ const i8 Title[] = "Game",
 int main();
 void d_init(void*, u32);
 void d_other(u32);
-u64 time();
+inline u64 time();
 #endif
 

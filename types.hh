@@ -82,9 +82,9 @@ typedef int   i32;
 typedef short i16;
 typedef char  i8;
 
+typedef float  single;
 typedef double f64;
 typedef float  f32;
-typedef float  single;
 
 const matrix4x4 matIdentify = {
     {1, 0, 0, 0},
