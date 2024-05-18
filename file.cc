@@ -50,9 +50,9 @@ std::vector<std::string> readFileLines(std::string filename) {
 // 0 = Nothing/Not found
 // 1 = File
 // 2 = Directory
-u8 eDirectory(char* dir) {
+u8 eDirectory(const char* dir) {
     struct stat info;
-    if(!stat(dir, &info))return 0;
+    if(stat(dir, &info))return 0;
     return S_ISDIR(info.st_mode) + 1;
 }
 

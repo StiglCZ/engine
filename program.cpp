@@ -184,22 +184,18 @@ int main() {
     };
     modelBufferPtr = &modelBuffer;
     
-    modelBuffer.push_back((Model){});                      // Fallback model
-    scriptBuffer.push_back({d_init, d_other, d_other, 0}); // Fallback script
-    
+    modelBuffer.push_back((Model){});                              // Fallback model
+    scriptBuffer.push_back((Script){d_init, d_other, d_other, 0}); // Fallback script
+
     Info("Loading scripts...");
-    std::vector<std::string> scripts = getFiles(scriptsDir);
-    
-    if(!scripts.size())
-        Err("ERR: No scripts have been found!(Wrong directory?)", -1);
+    if(eDirectory((scriptsDir + mainScript).c_str()) != 1)
+        Err("ERR: Main script(main.so) hasn't been found!(Wrong directory?)", -1);
     
     // Main script at index 1
-    // Loads all scripts and orders them
-    for(auto str : scripts)
-        if(str == "main.so")
-            loadScript((char*)str.c_str(), &gd);
-    if(scriptBuffer.size() <= 1)
-        Err("Main script not found!", 1);
+    loadScript((char*)mainScript.c_str(), &gd);
+
+    if(scriptBuffer.size() <= 1 || !scriptBuffer[1].handle)
+        Err("Main script could not be loaded!", 1);
 
     NativeInit(SIZE_X, SIZE_Y, (char*)Title);
     while(isRunning){

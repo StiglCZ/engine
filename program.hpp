@@ -9,7 +9,8 @@
 #define SLEEP_TIME 1000
 const std::string
     scriptsDir = "scripts/",
-    assetsDir  = "assets/";
+    assetsDir  = "assets/",
+    mainScript = "main.so";
 
 const i8 Title[] = "Game",
          initFName[] = "Init",
