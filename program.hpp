@@ -17,9 +17,9 @@ const i8 Title[] = "Game",
          startFname[] = "Start",
          updateFname[] = "Update";
 
-int main();
-void d_init(void*, u32);
-void d_other(u32);
-inline u64 time();
+extern int main();
+extern void d_init(void*, u32);
+extern void d_other(u32);
+extern inline u64 time();
 #endif
 

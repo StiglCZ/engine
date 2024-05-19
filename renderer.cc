@@ -70,10 +70,8 @@ void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
         
         // Clipping
         if(
-           // Known bug: Does not work if you're about 240degrees
-           // rotated and make the object at the corner of the screen
-           fabs(vec[0]) > FOV        / 4 + 1 ||
-           fabs(vec[1]) > (FOV * AR) / 4 + 1 ||
+           fabs(vec[0]) > FOV        / 4 + 1 + vec[3] ||
+           fabs(vec[1]) > (FOV * AR) / 4 + 1 + vec[3] ||
            // Ensures no objects behind the camera are being rendered
            vec[3] < CUTOFF_W
         )return;

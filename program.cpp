@@ -3,7 +3,6 @@
 #include "program.hpp"
 #include "logging.hh"
 #include "native.hh"
-#include "types.hh"
 #include "file.hh"
 #include "math.hh"
 
@@ -50,9 +49,10 @@ uint loadScript(const char *name, void* gd) {
     if(!s.update)s.update = d_other;
 
     scriptBuffer.push_back(s);
-    s.init(gd, scriptBuffer.size()-1);
+    u32 count = scriptBuffer.size() -1;
+    s.init(gd, count);
     
-    return scriptBuffer.size() -1;
+    return count;
 }
 
 // Utils
