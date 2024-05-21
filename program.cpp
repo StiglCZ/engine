@@ -48,8 +48,8 @@ uint loadScript(const char *name, void* gd) {
     if(!s.start )s.start  = d_other;
     if(!s.update)s.update = d_other;
 
+    u32 count = scriptBuffer.size();
     scriptBuffer.push_back(s);
-    u32 count = scriptBuffer.size() -1;
     s.init(gd, count);
     
     return count;
@@ -66,13 +66,13 @@ void CamSync(CamProps* cp, bool updateProjection) {
             yp = xp / AR,
             np = (-NEAR - FAR) / AR,
             fp = 2.0 * FAR * NEAR / AR;
-        matrix4x4 projMatrix2 = {
+        matrix4x4 newProjMatrix = {
             {xp, 00, 00, 00},
             {00, yp, 00, 00},
             {00, 00, np, fp},
             {00, 00, 01, 01},
         };
-        matrixCopy(projMatrix, projMatrix2);
+        matrixCopy(projMatrix, newProjMatrix);
     }
 }
 
@@ -114,19 +114,15 @@ void RenderGameObject(GameObject& go, CamProps& cp) {
     fillMat(modelMatrix, pos, go.rotation);
     
     Vector3 scale = go.scale;
+    // After I've seen minecrafts scaling on rotation, I would consider this acceptable implementation
     // Fixes the scaling when X and Z rotation are non zero
-    // Y rotation doesn't seem to be nearly as broken
-    // Isn't perfect!
-    scale.Y /=
+    fx scaleFactor =
         (fabs(sin(go.rotation.X)) + 1) *
         (fabs(sin(go.rotation.Z)) + 1) *
         (fabs(sin(cp.rot.X)) + 1) *
         (fabs(sin(cp.rot.Z)) + 1);
-    scale.Z *=
-        (fabs(sin(go.rotation.X)) + 1) *
-        (fabs(sin(go.rotation.Z)) + 1) *
-        (fabs(sin(cp.rot.X)) + 1) *
-        (fabs(sin(cp.rot.Z)) + 1);
+    scale.Y /= scaleFactor;
+    scale.Z *= scaleFactor;
                 
     DrawModel(&modelBuffer[go.model], modelMatrix, &scale);
 }
