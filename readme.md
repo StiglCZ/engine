@@ -202,10 +202,11 @@ the file consists of:
         `element`                - X bytes long       <br>
 
 ### Contributing
+I will be glad for every contribution, in form of pull request, as long as you folow these details:
+[Contributing rules](CONTRIBUTING.md)
 
-If you choose to contribute.. you have to go according to the (mainly)syntax standards. Keep those spaces aligned! Also, don't add 5 dependencies because you feel like it. The engine is lightweight, and personally I wouldn't use openal if there was anything else supporting good 3d audio(because it takes over 5Megs of ram), but I had to. Use the cppstdlib if you need to :)
+### Why does this project use partialy python?
 
-### Why does this project use partly python?
-
-Sadly, blender only supports extensions made in python. If they ever release better variant, I will make sure to update this repo, if I will still be maintaining it that time. If you see this in a tar archive and the repo is long gone, I am propably not maintaining it anymore
+Sadly, blender only supports extensions made in python. If they ever release better variant, I will make sure to update this repo, if I will still be maintaining it that time.<br>
+Tho if you see this in a tar archive and the repo is long gone, I am propably not maintaining it anymore
     
