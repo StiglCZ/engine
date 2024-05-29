@@ -22,9 +22,9 @@ struct Vector3 {
     friend bool operator!=(const Vector3&, const Vector3&);
     friend bool operator>(const Vector3 &, const Vector3&);
     friend bool operator<(const Vector3 &, const Vector3&);
-    Vector3 Up();
-    Vector3 Right();
     Vector3 Forward();
+    Vector3 Right();
+    Vector3 Up();
 };
 
 struct Vector2 {
@@ -37,8 +37,8 @@ struct Vector2 {
     friend Vector2 operator*(const Vector2&, const fx&);
     friend bool operator==(const Vector2&, const Vector2&);
     friend bool operator!=(const Vector2&, const Vector2&);
-    Vector2 Up();
     Vector2 Right();
+    Vector2 Up();
 };
 
 struct Point {
@@ -126,6 +126,8 @@ extern void rotateW(matrix4x4 out, Vector3 w);
 extern fx distance(Vector3 a, Vector3 b);
 extern fx magnitude(Vector3 a);
 
+extern const GameObject emptyGameObj;
+
 extern const Color WHITE;
 extern const Color GRAY;
 extern const Color BLACK;
@@ -135,8 +137,6 @@ extern const Color BLUE;
 extern const Color YELLOW;
 extern const Color PURPLE;
 extern const Color CYAN;
-
-extern const GameObject emptyGameObj;
 
 struct Script {
     void (*init)(void* arg, u32 index);
@@ -177,6 +177,7 @@ struct GameData {
     matrix4x4 *const viewMatrix, *const projMatrix;
     const u32 streamSize, sleepTime;
     u32 *const deltaTime, *const gameObjUID;
+    u64 *const backColor;
     CamProps *const cp;
     Point *const mouse;
     u8 *const keys, *const btns, *const stream;

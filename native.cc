@@ -24,6 +24,7 @@
 #endif
 
 int W, H;
+u64 backColor = 0x0000000000000000;
 
 Display *disp;
 Window win;
@@ -32,11 +33,11 @@ Pixmap backBuffer;
 // 16 mouse buttons
 // 256 keys
 u8 button[16];
-u8  keys[256];
+u8 keys[256];
 Point mouse;
 bool  isRunning = 1;
 std::vector<void *> exitFuncs;
-std::vector<Model>* modelBufferPtr;
+std::vector<Model> *modelBufferPtr;
 void t2() {
     XEvent e;
     while(1){
@@ -138,7 +139,7 @@ void DrawText(Point pos, const char* str) {
 }
 void FrameFinished(){
     XCopyArea(disp, backBuffer, win, gc, 0, 0, W, H, 0, 0);
-    XSetForeground(disp, gc, 0x0000000000000000);
+    XSetForeground(disp, gc, backColor);
     XFillRectangle(disp, backBuffer, gc, 0, 0, W, H);
     XSetForeground(disp, gc, 0xFFFFFFFFFFFFFFFF);
     XFlush(disp);

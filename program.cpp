@@ -147,7 +147,7 @@ int main() {
         .near = NEAR,
         .ar   = AR,
         .w    = SIZE_X,
-        .h    = SIZE_Y
+        .h    = SIZE_Y,
     };
     
     GameData gd = {
@@ -165,6 +165,7 @@ int main() {
 
         .deltaTime  = &deltaTime,
         .gameObjUID = &gameObjectUID,
+        .backColor  = &backColor,
         .cp = &camProps,
 
         .mouse  = &mouse,

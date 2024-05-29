@@ -14,6 +14,7 @@ extern "C" {
         
         u32 index = gd->loadModel("car.obj");
         GameObject go = emptyGameObj;
+        go.position.Y = -2;
         go.color = YELLOW;
         go.model = index;
         go.coll = {1, 3, 1};

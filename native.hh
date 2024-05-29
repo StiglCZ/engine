@@ -4,6 +4,7 @@
 #include "types.hh"
 extern u8 button[16];
 extern u8 keys[256];
+extern u64  backColor;
 extern bool isRunning;
 extern std::vector<Model>* modelBufferPtr;
 extern Point mouse;
