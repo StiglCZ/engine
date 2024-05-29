@@ -10,13 +10,14 @@ jobs:
       - name: Checkout code 
         uses: actions/checkout@v4
       
-      - name: Install deps
+      - name: Cache openal
         uses: awalsh128/cache-apt-pkgs-action@v1.4.2
         with:
           packages: libopenal-dev
           version: 0.0.1
           execute_install_scripts: true
-        run: sudo apt install libsndfile-dev
+      - name: Install sndfile
+          run: sudo apt install libsndfile-dev
           
       # Compile the code itself
       - name: Compile the binaries
