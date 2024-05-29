@@ -139,12 +139,15 @@ int main() {
     std::vector<GameObject> gameObjects;
     
     CamProps camProps = {
-        .pos = {0, 0, 0},
-        .rot = {0, 0, 0}, // Forward
+        .pos  = {0, 0, 0},
+        .rot  = {0, 0, 0},
         .sync = CamSync,
-        .fov = FOV,
-        .far = FAR,
-        .near = NEAR
+        .fov  = FOV,
+        .far  = FAR,
+        .near = NEAR,
+        .ar   = AR,
+        .w    = SIZE_X,
+        .h    = SIZE_Y
     };
     
     GameData gd = {
@@ -158,24 +161,21 @@ int main() {
         .projMatrix = &projMatrix,
         
         .streamSize = STREAM_SIZE,
+        .sleepTime  = SLEEP_TIME,
 
-        .W = SIZE_X,
-        .H = SIZE_Y,
-        .AR = AR,
-
-        .deltaTime = &deltaTime,
+        .deltaTime  = &deltaTime,
         .gameObjUID = &gameObjectUID,
         .cp = &camProps,
 
-        .mouse = &mouse,
-        .keys = keys,
-        .btns = button,
+        .mouse  = &mouse,
+        .keys   = keys,
+        .btns   = button,
         .stream = stream,
 
-        .loadModel  = loadModel,
-        .loadScript = loadScript,
-        .drawText = DrawText,
-        .screenShot = Screenshot,
+        .loadModel   = loadModel,
+        .loadScript  = loadScript,
+        .drawText    = DrawText,
+        .screenShot  = Screenshot,
         .getResource = getResource,
     };
     modelBufferPtr = &modelBuffer;
@@ -219,7 +219,7 @@ int main() {
         
         deltaTime = time() - intialTime;                            // Calculate the frametime
         FrameFinished();                                            // Switch the framebuffers
-        usleep(min<u32>(SLEEP_TIME - deltaTime, SLEEP_TIME));       // Prevent GPU overload from too many frames(max in case of overflow)
+        usleep(min<u32>(SLEEP_TIME - deltaTime, SLEEP_TIME));       // Prevent GPU overload from too many frames
     }
     // Wait for exit
     while(1);

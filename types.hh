@@ -165,7 +165,7 @@ struct GameObject {
 struct CamProps {
     Vector3 pos, rot;
     void (*const sync)(CamProps*, bool);
-    const fx fov, far, near;
+    const fx fov, far, near, ar, w, h;
 };
 
 struct GameData {
@@ -173,8 +173,7 @@ struct GameData {
     std::vector<void*>       *const exitFuncs;
     bool *const mouseCentered, *const isGameRunning;
     matrix4x4 *const viewMatrix, *const projMatrix;
-    const u32 streamSize, W, H;
-    const fx AR;
+    const u32 streamSize, sleepTime;
     u32 *const deltaTime, *const gameObjUID;
     CamProps *const cp;
     Point *const mouse;

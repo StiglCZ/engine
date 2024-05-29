@@ -28,8 +28,6 @@ extern "C"{
     }
     void Update(u32 index){
         (void)index; // Unused
-        // This would work if there was no sleep inside main. How to fix it tho?
-        float trueDeltaTime = *d->deltaTime / 16700.0;
         if(d->keys[space]){
             f += 0.01;
             d->cp->rot = {0, f, 0};
@@ -49,13 +47,13 @@ extern "C"{
         }
         // Moving the physics Object
         if(d->keys[T])
-            ((*d->gameObjects)[3]).position.Z += 0.3 * trueDeltaTime;
+            ((*d->gameObjects)[3]).position.Z += 0.003;
         if(d->keys[G])
-            ((*d->gameObjects)[3]).position.Z -= 0.3 * trueDeltaTime;
+            ((*d->gameObjects)[3]).position.Z -= 0.003;
         if(d->keys[F])
-            ((*d->gameObjects)[3]).position.X -= 0.3 * trueDeltaTime;
+            ((*d->gameObjects)[3]).position.X -= 0.003;
         if(d->keys[H])
-            ((*d->gameObjects)[3]).position.X += 0.3 * trueDeltaTime;
+            ((*d->gameObjects)[3]).position.X += 0.003;
 
         // Pause
         if(d->keys[esc]){
