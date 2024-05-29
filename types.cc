@@ -76,6 +76,20 @@ Vector3 Vector3::Up() {
     };
 }
 
+Vector2 Vector2::Right() {
+    return {
+        (fx)cos(Y),
+        (fx)sin(Y),
+    };
+}
+
+Vector2 Vector2::Up() {
+    return{
+        (fx)sin(Y),
+        (fx)cos(Y),
+    };
+}
+
 bool operator==(const Vector3 &lhs, const Vector3 &rhs) {
     return (lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z);
 }

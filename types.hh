@@ -37,6 +37,8 @@ struct Vector2 {
     friend Vector2 operator*(const Vector2&, const fx&);
     friend bool operator==(const Vector2&, const Vector2&);
     friend bool operator!=(const Vector2&, const Vector2&);
+    Vector2 Up();
+    Vector2 Right();
 };
 
 struct Point {
