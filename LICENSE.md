@@ -1,7 +1,7 @@
 LICENSE
 =======
 
-###  1) Use this anywhere you want
+####  1) Use this anywhere you want
 
 #### 2) The statement 1 doesn't apply if:
 a) The original author was not credited propertly                                <br>
