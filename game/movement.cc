@@ -57,7 +57,7 @@ extern "C"{
 
         // Pause
         if(d->keys[esc]){
-            d->drawText({(int)d->W / 2, (int)d->H / 2}, "PAUSED");
+            d->drawText({(int)d->cp->w / 2, (int)d->cp->h / 2}, "PAUSED");
             while(d->keys[esc])
                 usleep(1);
             while(!d->keys[esc])
