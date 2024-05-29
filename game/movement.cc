@@ -1,6 +1,6 @@
 #include "../types.hh"
 #include <unistd.h>
-#define SPEED 0.3
+#define SPEED 0.006
 extern "C"{
     GameData* d;
     u8 W, S, A, D, space, esc;
@@ -36,17 +36,18 @@ extern "C"{
             d->cp->sync(d->cp, false);
         }
         if(d->keys[W]){
-            d->cp->pos += d->cp->rot.Forward() * 0.01;
+            d->cp->pos += d->cp->rot.Forward() * SPEED;
         }
-        /*if(d->keys[W])
-            wp -= SPEED * trueDeltaTime;
-        if(d->keys[S])
-            wp += SPEED * trueDeltaTime;
-        if(d->keys[A])
-            ap += SPEED * trueDeltaTime;
-        if(d->keys[D])
-            ap -= SPEED * trueDeltaTime;
-        
+        if(d->keys[S]){
+            d->cp->pos -= d->cp->rot.Forward() * SPEED;
+        }
+        if(d->keys[A]){
+            d->cp->pos += d->cp->rot.Right() * SPEED;
+        }
+        if(d->keys[D]){
+            d->cp->pos -= d->cp->rot.Right() * SPEED;
+        }
+        // Moving the physics Object
         if(d->keys[T])
             ((*d->gameObjects)[3]).position.Z += 0.3 * trueDeltaTime;
         if(d->keys[G])
@@ -55,7 +56,8 @@ extern "C"{
             ((*d->gameObjects)[3]).position.X -= 0.3 * trueDeltaTime;
         if(d->keys[H])
             ((*d->gameObjects)[3]).position.X += 0.3 * trueDeltaTime;
-        
+
+        // Pause
         if(d->keys[esc]){
             d->drawText({(int)d->W / 2, (int)d->H / 2}, "PAUSED");
             while(d->keys[esc])
@@ -65,6 +67,5 @@ extern "C"{
             while(d->keys[esc])
                 usleep(1);
         }
-        d->cp->pos = {ap, 0, wp};*/
     }
 }

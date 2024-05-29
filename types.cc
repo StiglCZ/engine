@@ -62,9 +62,9 @@ Vector3 Vector3::Forward() {
 
 Vector3 Vector3::Right() {
     return {
-        (float)+cos(Y),
+        (float)cos(Y),
         (float)0,
-        (float)-sin(Y),
+        (float)sin(Y),
     };
 }
 
