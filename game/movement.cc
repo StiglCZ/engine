@@ -5,6 +5,7 @@ extern "C"{
     GameData* d;
     u8 W, S, A, D, space, esc;
     u8 T, F, G, H;
+    fx f = 0, wp = 10, ap = 0;
     void Init(GameData* gd, u32 scriptIndex){
         GameObject go = emptyGameObj;
         go.script = scriptIndex;
@@ -25,7 +26,6 @@ extern "C"{
         H = getKey(d, "h");
         esc = getKey(d, "Escape");
     }
-    fx f = 0, wp = 0, ap = 0;
     void Update(u32 index){
         (void)index; // Unused
         // This would work if there was no sleep inside main. How to fix it tho?
@@ -35,7 +35,10 @@ extern "C"{
             d->cp->rot = {0, f, 0};
             d->cp->sync(d->cp, false);
         }
-        if(d->keys[W])
+        if(d->keys[W]){
+            d->cp->pos += d->cp->rot.Forward() * 0.01;
+        }
+        /*if(d->keys[W])
             wp -= SPEED * trueDeltaTime;
         if(d->keys[S])
             wp += SPEED * trueDeltaTime;
@@ -62,6 +65,6 @@ extern "C"{
             while(d->keys[esc])
                 usleep(1);
         }
-        d->cp->pos = {ap, 0, wp};
+        d->cp->pos = {ap, 0, wp};*/
     }
 }

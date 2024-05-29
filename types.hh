@@ -22,6 +22,9 @@ struct Vector3 {
     friend bool operator!=(const Vector3&, const Vector3&);
     friend bool operator>(const Vector3 &, const Vector3&);
     friend bool operator<(const Vector3 &, const Vector3&);
+    Vector3 Up();
+    Vector3 Right();
+    Vector3 Forward();
 };
 
 struct Vector2 {

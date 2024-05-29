@@ -19,7 +19,7 @@ extern "C" {
             GameObject* go2 = &(*d->gameObjects)[physicsObjects[i]];
             if(go2->colliding)
                 if((*d->gameObjects)[go2->colliding].position.Y <= go2->position.Y){
-                    go2->velocity.Y = 0;
+                    go2->velocity.Y *= -0.6;
                     continue;
                 }
             if((magnitude(go2->velocity) + gravity) >= tvelocity)

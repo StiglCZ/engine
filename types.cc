@@ -51,6 +51,31 @@ void operator*=(Vector3& lhs, const fx& rhs) {
   lhs.Y *= rhs;
   lhs.Z *= rhs;
 }
+
+Vector3 Vector3::Forward() {
+    return {
+        (float)(+cos(X) * sin(Y)),
+        (float)(-sin(X)),
+        (float)(+cos(X) * -cos(Y)),
+    };
+}
+
+Vector3 Vector3::Right() {
+    return {
+        (float)+cos(Y),
+        (float)0,
+        (float)-sin(Y),
+    };
+}
+
+Vector3 Vector3::Up() {
+    return{
+        (float)(sin(X) * sin(Y)),
+        (float)(cos(X)),
+        (float)(sin(X) * cos(Y)),
+    };
+}
+
 bool operator==(const Vector3 &lhs, const Vector3 &rhs) {
     return (lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z);
 }
@@ -274,7 +299,7 @@ void rotateW(matrix3x3 out, const Vector3 w) {
     */
 }
 void rotateW(matrix4x4 out, const Vector3 w) {
-    matrix3x3 result1 = {}, result2 = {}, result3 = {};
+    matrix3x3 result1, result2, result3 = {};
     
     rotateZ(result1, w.Z);
     rotateY(result2, w.Y);
