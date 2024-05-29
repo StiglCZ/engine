@@ -17,7 +17,7 @@ jobs:
           version: 0.0.1
           execute_install_scripts: true
       - name: Install sndfile
-          run: sudo apt install libsndfile-dev
+        run: sudo apt install libsndfile-dev
           
       # Compile the code itself
       - name: Compile the binaries
