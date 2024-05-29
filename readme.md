@@ -1,6 +1,7 @@
 # WireFrame engine
 
 This game engine is completely wireframe and runs only on CPU!
+[LICENSE](LICENSE.md) - [CONTRIBUTING](CONTRIBUTING.md) <br>
 
 ### Why did I decide to make this engine?
 
@@ -110,22 +111,24 @@ As for the other files, they can for sure be optimized, and if you manage to do 
 3 - Audio manager     <br>
 4 - Physics manager   <br>
 
-### Audio
+### Internal components
+These are some scripts, that have been integrated by default for easier development [components readme](game/game.md)
+#### Audio
 
 Including audio.hh in your script allows you to allow audio in your game. <br>
 You just need to get the AudioControl struct from the pointer located at the above mentioned stream, which allows you to access all the important functions,
 which are are self explanatory by themselves!<br>
 You can also edit tracks while they are already playing using the AudioSource struct.
 
-### Saving
+#### Saving
 
-For easier porting, the saving system has created in saving.cc. You can simply add a saveinforequest which will trigger the referenced function when its time to save, and your function will simply return all the data it needs to save, as well as the location(node number) where to store them in, and the the system will automatically order and save all the packets.
+For easier managing of saves, the saving system has created in saving.cc. You can simply add a `saveinforequest` which will trigger the referenced function when its time to save, and your function will simply return all the data it needs to save, as well as the location(node number) where to store them in, and the the system will automatically order and save all the packets.
 
-### Scene managing
+#### Scene managing
 
 There are 2 options on how to manage your scenes in the engine, which both end the same way.. by being converted to binary, the text form and the graphical form<br>
 
-#### Text scene manager:
+##### Text scene manager:
 
 You can still use the text scene designer, which consists of 4 sections(.S = scripts, .M = models, .O = objects, .U = unload when the scene ends)<br>
 I wouldn't recomend it, but you can simply do it using 4 secitions placed like:
@@ -138,39 +141,45 @@ I wouldn't recomend it, but you can simply do it using 4 secitions placed like:
 
 You can simply place the paths for models and scripts and models to be unloaded, then add the object properties using normal decimal numbers in the default order, and the scene can be then converted to the binary form using the scene convertor utility
 
-#### Blender scene manager
+##### Blender scene manager
 
 You can now simply design scenes using the new blender extension to design the scenes inside familiar blender UI! <br>
-For more info, go in utilities/utilities.md
+For more info, go in [the utilities readme](utilities/utilities.md)
 
-### Collision
+#### Collision
 
-The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. 
+The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. <br>
 The collison system will then automatically send you back the data with the collision status in form of the `go.colliding` unsigned integer, which also declares where it collided it with
 
 ### C++ compatibility
 
-As for the compatibility with the C++ itself, the program is compatible with preety much everything. For audio and video C functions are used(openal and x11) and as for the C++ libs, only iostream, fstream, vector and string (and maybe something else I included after) should be used. So, if you use C++11+ then it will definetly be compatible! <Br>
+As for the compatibility with the C++ itself, the program is compatible with preety much everything. For audio and video C functions are used(openal and x11) and as for the C++ libs, only iostream, fstream, vector and string (and maybe something else I included after) should be used. So, if you use C++11+ then it will definetly be compatible! <br>
 Nvm, it isnt. Tried to migrate it into windows, no idea what its doing. <br>
 Can someone explain why `typeof` doesn't exist on windows? To help migrating to windows, you can contribute to the windows-port branch.
 
 ### Models
 
-This engine originally used OBJ's for encoding models, but it was replaced by an optimized binary version. If you want to optimize your models with it, just try to load the OBJ file via the engine, and it will automatically get converted to the optimized version, or use the object optimizer(v2) inside utilities, where you can also partially decompile it back to OBJ.
+This engine originally used OBJ's for encoding models, but it was replaced by an optimized binary version. If you want to optimize your models with it, just try to load the OBJ file via the engine, and it will automatically get converted to the optimized version, or use the object optimizer inside the utilities, where you can also partially decompile/fully it back to OBJ, depending on if your object had any texture or lighting data.
 
 ### Security
 
 Please, do not download 3rd party mods if you can't see the source without first checking with something like virustotal. 
-The mods are just plain binaries, and the engine has no control over them and neighter do I, so its on your own risk to download 3rd party mods.
+The mods are just plain binaries, and the engine has no control over them and neither do I, so its on your own risk to download 3rd party mods.
 
 ### Index 0 thingies
 
-The index 0 script = empty script <br>
-The index 0 model = empty model (invisible)<br>
+##### Script
+Empty script, which can be used when your game object doesn't need a script
+
+##### Model
+Empty model, thats invisible and can be used for scripts when putting empty objects to recieve update signals
 
 ### Networking
 
-The engine provides a simple UDP interface in the net.o object, as well as its header, net.hh. It provides with such instructions as send, recieve, host, or start the server. If your server is using TCP, UDP is preety much always compatible except it may look weird from the server side, because no message recieved signals are being sent.
+The engine provides a simple UDP interface in the net.o object, as well as its header, net.hh. <br>
+That provides your game with such instructions as send, recieve packets and also host and start an server. <br>
+Warning: If your external server is using TCP(or anything else than SOCK_DGRAM), the integrated networking
+is preety much always incompatible with that.
 
 ### Contents of the files
  - .hh files are contained in this as the .cc files                                        <br>
@@ -185,12 +194,15 @@ The engine provides a simple UDP interface in the net.o object, as well as its h
 `mscript.cc`  - Startup script for the engine, it should load and set up all the other ones<br>
 `Makefile`    - Simple script for building the engine                                      <br>
 
-### Files storing memory(bigger in memsize)
+Didn't find the file you were searching for? <br>
+You might want to check the [utilities readme](utilities/utilities.md) or 
+the [components readme](game/game.md)
+
+### Source files storing big amounts memory
 
 `native.cc`    - About 1KiB, mainly windowing stuff<br>
 `audio.cc`     - OpenAL eats about 5.7MiB of memory<br>
 `scripting.cc` - Handlers list                     <br>
-`renderer.cc`  - Matrix data and linecounter       <br>
 
 ### Method of storing most of the data
 
@@ -207,6 +219,7 @@ I will be glad for every contribution, in form of pull request, as long as you f
 
 ### Why does this project use partialy python?
 
-Sadly, blender only supports extensions made in python. If they ever release better variant, I will make sure to update this repo, if I will still be maintaining it that time.<br>
-Tho if you see this in a tar archive and the repo is long gone, I am propably not maintaining it anymore
+Sadly, blender only supports extensions made in python.
+If they ever release better variant, I will make sure to update this repo, if I will still be maintaining it that time.<br>
+Tho if you see this in a tar archive and the repo is long gone, I am propably not maintaining it anymore<br>
     
