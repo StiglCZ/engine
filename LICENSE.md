@@ -5,9 +5,10 @@ LICENSE
 
 #### 2) The statement 1 doesn't apply if:
 a) The original author was not credited propertly                                <br>
-b) You may not make money from this project unless you explicitly ask the author for permission to do so first, if possible <br>
+b) You may not make money from this project unless you explicitly ask the author for permission to do so first <br>
 c) You are using the project for any kind of criminal activity                   <br>
-d) You may not edit the license unless explicitly allowed for your own advantage <br>
+d) You may not add or remove parts the license unless its eighter explicitly allowed by the author 
+or doesn't guarantee you any major advantage <br>
 e) You may not remove the license from the project                               <br>
     
 #### 3) The statement 2 doesn't apply if:
