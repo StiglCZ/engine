@@ -20,7 +20,7 @@ Under no circuimstances should you add a pull request if the syntax isn't right.
 
 All functons, struct etc. needs to have inline curly braces like this:
 ```
-void function(){
+void function() {
     // Code
 }
 
@@ -47,6 +47,8 @@ long  var3 = 100;
 int   var1 =  10;
 ```
 This keeps to code readable for quick edits! 
+Note that the spacing shouldn't be too extreme, so if you're having 20spaces between two variables to do this propertly,
+you should think about rather changing your naming scheme
 
 ### Newlines
 

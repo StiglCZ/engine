@@ -2,7 +2,7 @@
 #include "renderer.hh"
 #include "types.hh"
 #include "native.hh"
-typedef fx Rvector[4];
+typedef fx rvec[4];
 
 const fx
     a = 1.0 / tan(rad(FOV) / 2.0),
@@ -50,7 +50,7 @@ matrix4x4 viewMatrix = {
    unless you somehow make it faster(still on the CPU tho)
 */
 
-inline void MVm(fx* mat, Vector3 vec, Rvector vec2) {
+inline void MVm(fx* mat, Vector3 vec, rvec vec2) {
     #pragma unroll
     for(u8 i =0; i < 4; i++){
         u8 i4 = i * 4;
@@ -65,7 +65,7 @@ inline void MVm(fx* mat, Vector3 vec, Rvector vec2) {
 void DrawPoly(Vector3* verts, u32 count, matrix4x4 matrix) {
     Point result[count];
     for(u32 i =0; i < count;i++){
-        Rvector vec;
+        rvec vec;
         MVm((fx*)matrix, verts[i], vec);
         
         // Clipping
