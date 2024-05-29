@@ -13,7 +13,12 @@ jobs:
       - name: Install deps
         uses: awalsh128/cache-apt-pkgs-action@v1.4.2
         with:
-          packages: libsndfile-dev libopenal-dev
+          packages: libopenal-dev
+          version: 0.0.1
+          execute_install_scripts: true
+      - uses: awalsh128/cache-apt-pkgs-action@v1.4.2
+        with:
+          packages: libsndfile-dev
           version: 0.0.1
           execute_install_scripts: true
           
