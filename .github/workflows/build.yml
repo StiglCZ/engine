@@ -6,15 +6,15 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repo code
       - uses: actions/checkout@v4
-
-      - name: Install/Cache deps
       - uses: awalsh128/cache-apt-pkgs-action@v1.4.2
         with:
           packages: libopenal-dev libsndfile-dev
           version: 0.0.1
           execute_install_scripts: true
-        
+          
+      # Compile the code itself
       - name: Compile the binaries
         run: make all
 
