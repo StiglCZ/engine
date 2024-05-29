@@ -40,6 +40,7 @@ utils:
 	$(ARGS3) utilities/netserver.cpp $(D3)/netserver
 	$(ARGS3) utilities/sceneview.cpp $(D3)/sceneview
 	make -C utilities/blender_ext/
+	mv utilities/blender_ext/scene_extension.zip bin/
 run: build
 	cd bin && ./a.out
 all: build utils

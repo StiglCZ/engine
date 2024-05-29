@@ -182,6 +182,7 @@ void optimizeModel(std::string fileName) {
 Model readOptimizedModel(std::string fileName) {
     retry:
     std::ifstream ifs(fileName, std::ios_base::binary);
+    if(!ifs.good()) return {};
     u32 signature;
     ifs.read((i8*)&signature, sizeof(u32));
     if(signature != SIGNATURE){

@@ -1,6 +1,6 @@
 # WireFrame engine
 
-This game engine is completely wireframe and runs only on CPU!
+This game engine is completely wireframe and runs only on CPU! <br>
 [LICENSE](LICENSE.md) - [CONTRIBUTING](CONTRIBUTING.md) <br>
 
 ### Why did I decide to make this engine?
