@@ -224,4 +224,6 @@ enum ResourceType {
     mat[1][3] = pos.Y;         \
     mat[2][3] = pos.Z;
 
+#define getDelta(gd) (gd->sleepTime > *gd->deltaTime) ? 1.0 : (float)gd->sleepTime / *gd->deltaTime
+
 #endif
