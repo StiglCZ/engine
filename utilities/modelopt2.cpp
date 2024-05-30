@@ -169,7 +169,7 @@ int main(int argc, char** argv) {
     std::string fileName;
     for(int i =1; i < argc; i++){
         std::ifstream ifs2(argv[i]);
-        if(ifs2.is_open()){
+        if(ifs2.good()){
             fileName = std::string(argv[i]);
             if(!strcmp(argv[i], "-u")){
                 uIDc = atol(argv[i+1]);

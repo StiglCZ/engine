@@ -97,7 +97,9 @@ int main(int argc, char **argv) {
     std::ifstream ifs(argv[1]);
     if(!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help"))
         help();
-    else if(ifs.is_open()) convert(ifs, argv[2]);
+    std::string dir;
+    if(argc < 3) dir = ""; else dir = argv[2];
+    if(ifs.is_open()) convert(ifs, dir);
     else error(1, 0, "Invalid arguments! (Use -h for help)\n");
     return 0;
 }

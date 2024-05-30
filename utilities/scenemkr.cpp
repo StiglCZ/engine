@@ -24,7 +24,7 @@ void print_help() {
         << "-s <file> - Makes subfile for scripts \t\t(scripts.bin)\n"
         << "-o <file> - Makes subfile for gameobject \t(objects.bin)\n"
         << "-c ...    - Makes scene file from subfiles \t(scene.bin)\n"
-        << "... = unload, model, script and object files\nseparated by spaces\n";
+        << "... = model, script and object files\nseparated by spaces\n";
 }
 int main(int argc, char **argv) {
     if(argc < 2)error(1, 0, "Too few arguments(-h for help)");
