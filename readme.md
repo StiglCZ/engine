@@ -112,7 +112,7 @@ As for the other files, they can for sure be optimized, and if you manage to do 
 4 - Physics manager   <br>
 
 ### Internal components
-These are some scripts, that have been integrated by default for easier development [components readme](game/game.md)
+These are some scripts, that have been integrated by default for easier development [components readme](game/game.md#internal-components)
 #### Audio
 
 Including audio.hh in your script allows you to allow audio in your game. <br>
@@ -139,17 +139,22 @@ I wouldn't recomend it, but you can simply do it using 4 secitions placed like:
 ...
 ```
 
-You can simply place the paths for models and scripts and models to be unloaded, then add the object properties using normal decimal numbers in the default order, and the scene can be then converted to the binary form using the scene convertor utility
+You can simply place the paths for models and scripts and models to be unloaded, then add the object properties using normal decimal numbers in the default order, and the scene can be then converted to the binary form using the scene convertor utility<br>
+More info at [the text scene convertor readme](utilities/utilities.md#scenemkr)
 
 ##### Blender scene manager
 
 You can now simply design scenes using the new blender extension to design the scenes inside familiar blender UI! <br>
-For more info, go in [the utilities readme](utilities/utilities.md)
+For more info, go in [the utilities readme](utilities/utilities.md#blender-extension)
 
 #### Collision
 
 The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. <br>
 The collison system will then automatically send you back the data with the collision status in form of the `go.colliding` unsigned integer, which also declares where it collided it with
+
+#### Game specific components
+
+More info about them [here](game/game.md#game-specific-scripts)
 
 ### C++ compatibility
 

@@ -1,9 +1,3 @@
-/*
-  StiglEngine utility!
-  
-  License:
-  Feel free to use this anywhere
-*/
 #include <cstring>
 #include <fstream>
 #include <iostream>

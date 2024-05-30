@@ -24,7 +24,7 @@ Arguments:<br>
 `-c` : Specify 3 arguments as filepaths, model, script and finally object, in this exact order. That will result in the final scene file <br>
 
 ### sceneview
-Allows you to view contents of a scene file(stf format)<br><br>
+Allows you to view contents of a scene file(stf format)<br>
 
 Simply provide it with the scene file(in the binary form) and it will display you all the data it contains.
 
@@ -40,8 +40,8 @@ Arguments:<br>
 `-h`: Display help <br>
 `<sst file> <directory>` - Converts the obj file<br><br>
 
-sst file: File that you exported from blender<br>
-directory: Directory that **all** your obj files are in, and you imported them like that from blender. If you will provide nothing as the directory argument, it will only run on your machine, and nobody elses.
+`<sst file>`: File that you exported from blender<br>
+`<directory>`: Directory that **all** your obj files are in, and you imported them like that from blender. If you will provide nothing as the directory argument, it will only run on your machine, and nobody elses.
 
 ### Blender extension
 
