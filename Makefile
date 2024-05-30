@@ -9,6 +9,10 @@ D1= -o bin/o
 D2= -o bin/scripts
 D3= -o bin/utils
 
+# Some shortcuts
+S0 = utilities
+S1 = utilities/blender_ext
+
 build: setup objects scripts
 	$(ARGS0) program.cpp native.cc renderer.cc scripting.cc bin/o/logging.o bin/o/types.o bin/o/file.o -o bin/a.out
 	strip bin/a.out
@@ -33,14 +37,14 @@ scripts:
 	$(ARGS2) game/collision.cc                    $(D2)/collision.so
 utils:
 	mkdir -p bin/utils
-	$(ARGS3) utilities/sst2stf.cpp   $(D3)/sst2stf
-	$(ARGS3) utilities/ppm2png.cpp   $(D3)/ppm2png -lpng
-	$(ARGS3) utilities/scenemkr.cpp  $(D3)/scenemkr
-	$(ARGS3) utilities/modelopt2.cpp $(D3)/modelopt2
-	$(ARGS3) utilities/netserver.cpp $(D3)/netserver
-	$(ARGS3) utilities/sceneview.cpp $(D3)/sceneview
-	make -C utilities/blender_ext/
-	mv utilities/blender_ext/scene_extension.zip bin/
+	$(ARGS3) $(S0)/sst2stf.cpp   $(D3)/sst2stf
+	$(ARGS3) $(S0)/ppm2png.cpp   $(D3)/ppm2png -lpng
+	$(ARGS3) $(S0)/scenemkr.cpp  $(D3)/scenemkr
+	$(ARGS3) $(S0)/modelopt2.cpp $(D3)/modelopt2
+	$(ARGS3) $(S0)/netserver.cpp $(D3)/netserver
+	$(ARGS3) $(S0)/sceneview.cpp $(D3)/sceneview
+	make -C $(S1)
+	mv $(S1)/scene_extension.zip bin/
 run: build
 	cd bin && ./a.out
 all: build utils

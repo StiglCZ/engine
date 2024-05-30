@@ -1,4 +1,3 @@
-#include "types.hh"
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -25,6 +24,10 @@ void Host(Client& cl, u16 port) {
     cl.addr = addr;
     cl.success =
         bind(cl.socket, (struct sockaddr*)&cl.addr, sizeof(cl.addrSize));
+}
+
+u32 CreateIP(char* addr) {
+    return inet_addr(addr);
 }
 void Send(Client& cl, char* msg, u32 msglen) {
     send(cl.socket, msg, msglen, 0);

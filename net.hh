@@ -1,3 +1,5 @@
+#ifndef NET
+#define NET
 #include "types.hh"
 #define NET_BUFFERSIZE 1024
 
@@ -23,7 +25,9 @@ struct NetMessage {
     u8 message[NET_BUFFERSIZE];
     sockaddr_in addr;
 };
+extern u32 CreateIP(char* addr);
 extern NetClient Begin();
 extern void Host(NetClient &cl, u16 port);
 extern void Send(NetClient& cl, char* msg, u32 msglen);
 extern NetMessage Recieve(NetClient& cl);
+#endif
