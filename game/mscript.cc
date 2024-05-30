@@ -19,6 +19,7 @@ extern "C" {
         go.model = index;
         go.coll = {1, 3, 1};
         go.script = scriptIndex;
+        go.bounce = 100;
         gd->gameObjects->push_back(go);
         
         go.position.Y += 20;

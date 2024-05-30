@@ -360,4 +360,5 @@ const GameObject emptyGameObj = {
     .scale    = {1, 1, 1},
     .coll     = {0, 0, 0},
     .velocity = {0, 0, 0},
+    .bounce   = 0x0000000,
 };

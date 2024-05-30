@@ -1,6 +1,7 @@
 #include "physics.hh"
 #include "../types.hh"
 extern "C" {
+    const fx bounce1Lvl = 1.0 / 255;
     fx gravity = -0.0001, tvelocity = 1;
     std::vector<u32> physicsObjects;
     GameData* d;
@@ -19,7 +20,7 @@ extern "C" {
             GameObject* go2 = &(*d->gameObjects)[physicsObjects[i]];
             if(go2->colliding)
                 if((*d->gameObjects)[go2->colliding].position.Y <= go2->position.Y){
-                    go2->velocity.Y *= -0.6;
+                    go2->velocity.Y *= -1 * ((*d->gameObjects)[go2->colliding].bounce + go2->bounce) * bounce1Lvl;
                     continue;
                 }
             if((magnitude(go2->velocity) + gravity) >= tvelocity)

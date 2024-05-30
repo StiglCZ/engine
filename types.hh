@@ -162,6 +162,7 @@ struct GameObject {
         scale = {},
         coll = {},
         velocity = {};
+    u8 bounce;
 };
 
 struct CamProps {
