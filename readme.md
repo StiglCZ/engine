@@ -13,56 +13,46 @@ I wanted to attempt to do a project using 2 technigues:
 
 ### Scripting and modding
 
-All communication in the scripts is handled by the GameData variable.
-Script Example:
-```c++
-#include "../types.hh"
-extern "C"{
-    void Init(GameData* gd, uint scriptIndex){
-        // This function works across all gameobjects 
-        // and is primarily used to copy the gameData
-        // pointer to different location for later 
-        // use
-        
-        // ScriptIndex is the index of the script in the scriptBuffer
-    }
-    void Start(uint index){
-        // This function runs for each gameObject when its created
-        // Also good to note the index is index of the gameObject
-        // invoking the function
-    }
-    void Update(uint index){
-        // This runs for every object everyframe
-    }
-}
-```
+All communication in the scripts is handled by the GameData variable, 
+commonly called gd in the argument, and d in the global space. <br>
+[Script Example](game/script.cc)
 
 Compiling the script:
 `clang++ -shared -fPIC <SCRIPT>.cc types.cc -o .../bin/scripts/<SCRIPT>.so`<br>
-Note: You dont have to include the types.cc if you are not planning to use
-functions included in it (Vector3 operations, matrix rotations, etc.)
+The `types.cc` is technically isn't requied by the script to work and for the functions to execute, but I would
+advise aginst not importing `types.cc`, because it makes the development process so much easier, and avoids the
+issues with missing functions, etc.<br>
 
-Note: The engine itself may be modified by the specific game needing some specific features due to the scripts!
+*Why doesn't the game work with my version of engine that I compiled myself?*
+The engine itself may be modified by the specific game needing some specific features due to the scripts, such as bigger data stream, or complete overhaul of the typer header. Simply, every copy of the engine isn't compatible with every single copy of any game made with the engine.
 
 ### Data stream
 
-The engine includes a data stream for communication between multiple scripts.
-Data Stream is actually just a array of nothing, shared accross all scripts, and 
-should be used to give pointers to custom objects, not directly share data on it.
+The engine includes a data stream for communication between multiple scripts, which can be accessed by going to `gamedata->stream`. Its mainly used to store pointers to structs inside the source script, instead of storing the entire struct inside it, even tho it is possible. Shortly said, its just an array of unsigned 8bits, however most of the time you will find it being casted into pointer array. Its size will range somewhere in the kilobytes, depending on the size of your game settings, but the default is 8192bytes. <br>
 
-Size of the stream will range in kilobytes, depending on the size of your game settings, but
- default is 8192bytes
-
-How to resize this data stream on runtime?<br>
+*How to resize this data stream on runtime?* <br>
 You can just point another data stream at the end of the first one, which will extend the data capacity of the stream.
+Sadly, theres no other easy way
+
+*How to quickly get the streams size?* <br>
+You can simply get the `streamSize` variable inside the `types.hh's` gamedata struct.<br>
+
+#### Uses for the data stream
+0 - Scene management  <br>
+1 - Nothing           <br>
+2 - Collision manager <br>
+3 - Audio manager     <br>
+4 - Physics manager   <br>
 
 ### Video settings
 
-The engine currently uses x11 to display graphics and the resolution is not currently hot-changable!<br>
-The aspect ratio is now working however, so if you manually change in the code, don't worry about it!
+The engine currently uses X11 to display graphics<br>
 
-The framerate is currently capped at ~1000FPS!<br>
-To change the framerate, you can just change the sleep time constant value in program.hh
+*Can I change the resolution at runtime?*<br>
+No, sadly I didn't yet figure out how to do so. You need to change it when compiling the code. As for the aspect ratio, its preety flexible at scaling the models propertly, so even playing it on a smartphone shouldnt be a problem! <br>
+
+*Is the framerate unlimited?* <br>
+Yes, the framerate is currently capped at ~1000FPS!(1000us). To change the framerate, you can just change the sleep time constant value in `program.hh` to wait different amount of microseconds, or remove it completely.
 
 ### Porting
 
@@ -103,13 +93,6 @@ So if you don't know what you're doing, do not enter renderer.cc. It doesn't req
 Also, if you manage to make it more readable please sumbit a PR :D. Thanks! <br>
 
 As for the other files, they can for sure be optimized, and if you manage to do so, submit a PR!<br>
-
-### Uses for the data stream
-0 - Scene management  <br>
-1 - Currently unused  <br>
-2 - Collision manager <br>
-3 - Audio manager     <br>
-4 - Physics manager   <br>
 
 ### Internal components
 These are some scripts, that have been integrated by default for easier development [components readme](game/game.md#internal-components)
