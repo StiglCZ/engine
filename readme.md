@@ -56,33 +56,30 @@ Yes, the framerate is currently capped at ~1000FPS!(1000us). To change the frame
 
 ### Porting
 
-Porting the wireframe engine should be really, really easy compared to other engines. 
-Thats because majority of the engine does not relly on anything but few components clib or c++lib.
-You only need to port few files, depending on the platform.
+Porting the wireframe engine should be really, really easy compared to other engines, because majority of the engine does not relly on anything but few components clib or c++lib. You only need to port few files, depending on the platform.
 
-So these are the files you will propably need to edit.                     <br>
+So these are the files you will propably need to edit                      <br>
 `scripting.cc`   - Includes the scriptloading etc.                         <br>
-`logging.cc`     - Includes cout and string                                <br>
-`native.cc`      - Includes the graphics                                   <br>
-`file.cc`        - Includes fileloading(should be universal for most cases)<br>
+`native.cc`      - Includes the graphics and everything about the window   <br>
+`file.cc`        - Includes fileloading(includes dirent)                   <br>
 `net.cc`         - Includes UDP/IP implementation                          <br>
-
 <br>
 
 `game/saving.cc` - Includes fileloading and filesaving                     <br>
 `game/scene.cc`  - Includes fileloading                                    <br>
 `game/audio.cc`  - Includes native audio(right now using openal)           <br>
-
 <br>
 
-What libraries do you need to change exactly(commonly)?<br>
+What libraries do you need to change exactly?<br>
 - `dirent.h` - In file.hh     <br>
 - `dlfnc.h`  - In scripting.hh<br>
-- `libx11`   - In native.cc   <br>
+- `x11lib.h` - In native.cc   <br>
 - `signal.h` - In native.cc   <br>
 - `socket.h` - In net.cc      <br>
-- `typeof`   - Preety much everywhere :D <br>
-- `sizeof`   - And so is this <br>
+- `typeof`   - Preety much everywhere,
+but its possible to only implement its macro in types.hh and it should work
+- `sizeof`   - Also Preety much everywhere :D,
+but its possible to only implement its macro in types.hh and it should work<br>
 <br>
 
 ### Optimilization
@@ -95,7 +92,10 @@ Also, if you manage to make it more readable please sumbit a PR :D. Thanks! <br>
 As for the other files, they can for sure be optimized, and if you manage to do so, submit a PR!<br>
 
 ### Internal components
+
 These are some scripts, that have been integrated by default for easier development [components readme](game/game.md#internal-components)
+<br>
+
 #### Audio
 
 Including audio.hh in your script allows you to allow audio in your game. <br>
@@ -114,13 +114,18 @@ There are 2 options on how to manage your scenes in the engine, which both end t
 ##### Text scene manager:
 
 You can still use the text scene designer, which consists of 4 sections(.S = scripts, .M = models, .O = objects, .U = unload when the scene ends)<br>
-I wouldn't recomend it, but you can simply do it using 4 secitions placed like:
+I wouldn't recomend it, but you can simply do it using 4 secitions placed like:<br>
+`objectfile.txt`: <br>
 ```
-.S
-...
-.O
-...
+/path/to/object1.obj
+/path/to/object2.obj
 ```
+`scriptfile.txt`: <br>
+```
+/path/to/script1.so
+/path/to/script2.so
+```
+...
 
 You can simply place the paths for models and scripts and models to be unloaded, then add the object properties using normal decimal numbers in the default order, and the scene can be then converted to the binary form using the scene convertor utility<br>
 More info at [the text scene convertor readme](utilities/utilities.md#scenemkr)
@@ -128,22 +133,16 @@ More info at [the text scene convertor readme](utilities/utilities.md#scenemkr)
 ##### Blender scene manager
 
 You can now simply design scenes using the new blender extension to design the scenes inside familiar blender UI! <br>
-For more info, go in [the utilities readme](utilities/utilities.md#blender-extension)
+For more info, you can go in [the utilities readme](utilities/utilities.md#blender-extension) and find out more.
 
 #### Collision
 
 The engine currently uses AABB collision. Every gameobject has its own collsion box(defined by position + AABB), and you can enable collision for specific object by pushing its id to the list of them in stream positon 2. <br>
-The collison system will then automatically send you back the data with the collision status in form of the `go.colliding` unsigned integer, which also declares where it collided it with
+The collison system will then automatically send you back the data with the collision status in form of the `go.colliding` unsigned integer, which also declares where it collided it with.
 
 #### Game specific components
 
-More info about them [here](game/game.md#game-specific-scripts)
-
-### C++ compatibility
-
-As for the compatibility with the C++ itself, the program is compatible with preety much everything. For audio and video C functions are used(openal and x11) and as for the C++ libs, only iostream, fstream, vector and string (and maybe something else I included after) should be used. So, if you use C++11+ then it will definetly be compatible! <br>
-Nvm, it isnt. Tried to migrate it into windows, no idea what its doing. <br>
-Can someone explain why `typeof` doesn't exist on windows? To help migrating to windows, you can contribute to the windows-port branch.
+More info about them [here](game/game.md#game-specific-scripts).
 
 ### Models
 
@@ -151,16 +150,18 @@ This engine originally used OBJ's for encoding models, but it was replaced by an
 
 ### Security
 
-Please, do not download 3rd party mods if you can't see the source without first checking with something like virustotal. 
-The mods are just plain binaries, and the engine has no control over them and neither do I, so its on your own risk to download 3rd party mods.
+Currently, there are none known security vulnearibilities. <br>
+
+Please, do not download 3rd party mods if you can't see the source without first checking with something like virustotal.
+The mods are effectively just plain binaries full of machine code, and the engine has no control over them and neither do I, so its on your own risk to download 3rd party mods, or even 3rd party games.
 
 ### Index 0 thingies
 
 ##### Script
-Empty script, which can be used when your game object doesn't need a script
+Empty script, which can be used when your game object doesn't need a script. Its also faster than loading empty script, so please use it.
 
 ##### Model
-Empty model, thats invisible and can be used for scripts when putting empty objects to recieve update signals
+Empty model, thats invisible and can be used for scripts when putting empty objects to recieve update and start signals.
 
 ### Networking
 
@@ -170,39 +171,33 @@ Warning: If your external server is using TCP(or anything else than SOCK_DGRAM),
 is preety much always incompatible with that.
 
 ### Contents of the files
- - .hh files are contained in this as the .cc files                                        <br>
-`program.cpp` - Contains primarily main loop and some init code                            <br>
-`scripting.cc`- Contains scripting utils(loading script, getting its subfunctions, etc.)   <br>
-`renderer.cc` - Contains the rendering, such as matrix-vector multiplication etc.          <br>
-`math.cc`     - Might contain custom functions if the clib shoudln't be required           <br>
-`native.cc`   - Contains native rendering bindings(and somewhat input)                     <br>
-`audio.cc`    - Script playing audio using OpenAL(tm)                                      <br>
-`file.cc`     - Mainly model loading, and also file utils                                  <br>
-`types.cc`    - Extension for `types.hh` and utilities for matrixes such as rotation       <br>
-`mscript.cc`  - Startup script for the engine, it should load and set up all the other ones<br>
-`Makefile`    - Simple script for building the engine                                      <br>
+By the way, this engine uses .hh instead of .hpp and .cc instead of .cpp for anything, but the main file(entrypoint) <br>
+`program.cpp` - Contains primarily main loop and some init code                             <br>
+`scripting.cc`- Contains scripting funcs like loading script, getting its subfunctions, etc.<br>
+`renderer.cc` - Contains the rendering funcs, such as matrix-vector multiplication etc.     <br>
+`math.cc`     - Might contain custom functions on some ports(and maxmin function rn)        <br>
+`native.cc`   - Handles IO operations currently using only x11                              <br>
+`audio.cc`    - Script playing audio using OpenAL(and sndfile)                              <br>
+`file.cc`     - Mainly model loading, and some other file utils                             <br>
+`types.cc`    - Extension for `types.hh` and utilities for matrixes such as rotation        <br>
+`mscript.cc`  - Startup script for the engine, it should load and set up all the other ones <br>
+`Makefile`    - Script for building the engine                                              <br>
 
 Didn't find the file you were searching for? <br>
 You might want to check the [utilities readme](utilities/utilities.md) or 
 the [components readme](game/game.md)
 
-### Source files storing big amounts memory
-
-`native.cc`    - About 1KiB, mainly windowing stuff<br>
-`audio.cc`     - OpenAL eats about 5.7MiB of memory<br>
-`scripting.cc` - Handlers list                     <br>
-
 ### Method of storing most of the data
 
-This engine has its own proprietary filetypes, each for different use, but the thing stays the same,
-the file consists of:
+This engine has its own proprietary filetypes, each for different use, but the storing way stays the same,
+and that is:
 
 `size of elements`               - Commonly an ushort <br>
     `size of element(if needed)` - Commonly 1 byte(X) <br>
         `element`                - X bytes long       <br>
 
 ### Contributing
-I will be glad for every contribution, in form of pull request, as long as you folow these details:
+I will be glad for every contribution, in form of pull request, as long as you folow these rules and details:
 [Contributing rules](CONTRIBUTING.md)
 
 ### Why does this project use partialy python?
