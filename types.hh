@@ -148,8 +148,8 @@ struct Script {
 struct Model{
     std::vector<Vector3> verticies;
     std::vector<Face> faces;
-    u64 uId;
     bool freed;
+    u64 uId;
 };
 
 struct GameObject {

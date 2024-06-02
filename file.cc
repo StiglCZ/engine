@@ -127,13 +127,10 @@ void optimizeModel(std::string fileName) {
             faces.push_back(face);
         }
     }
-    // Centers the object(o0, o0, o0 = 0, 0, 0) and
-    // scales them to idealy size (1, 1, 1)
+    // scales them to ideal size (max is 1, 1, 1)
     fx r2 = biggest(max - min);
-    for(u32 i = 0; i < vecs.size(); i++){
-        vecs[i] -= min;
+    for(u32 i = 0; i < vecs.size(); i++)
         vecs[i] /= r2;
-    }
     ifs.close();
     std::ofstream ofs(fileName, std::ios_base::binary | std::ios_base::out);
     if(!ofs.is_open())return;

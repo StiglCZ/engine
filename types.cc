@@ -291,26 +291,6 @@ void rotateW(matrix3x3 out, const Vector3 w) {
 
     rotateX(result1, w.X);
     matrixCombine(result3, result1, out);
-    /*Somewhat works, but make it 0width
-    fx a = w.Z;
-    fx b = w.Y;
-    fx c = w.X;
-    fx sa = sin(a), ca = cos(a);
-    fx sb = sin(b), cb = cos(b);
-    fx sc = sin(c), cc = cos(c);
-    fx* o = (fx*)out;
-    o[0] = ca * cb;
-    o[3] = sa * cb;
-    o[6] = - sb;
-
-    o[1] = ca * sb * sc - sa * cc;
-    o[4] = sa * sb * sc + ca * cc;
-    o[7] = cb * sc;
-
-    o[2] = ca * sb * cc + sa * sb;
-    o[5] = sa * sb * cc - ca * sb;
-    o[8] = cb * cc;
-    */
 }
 void rotateW(matrix4x4 out, const Vector3 w) {
     matrix3x3 result1, result2, result3 = {};
