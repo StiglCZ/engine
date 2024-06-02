@@ -19,14 +19,6 @@ std::vector<std::string> split(std::string str, char c) {
     }result.push_back(tmp);
     return result;
 }
-std::vector<std::string> read_filelines(std::string filename) {
-    std::ifstream file(filename);
-    std::vector<std::string> lines;
-    std::string line;
-    while (std::getline(file, line)) 
-        lines.push_back(line);
-    return lines;
-}
 struct Vector3 {
     float X, Y, Z;
 };
@@ -70,7 +62,7 @@ float biggest(Vector3 v) {
     if(v.Z > big) big = v.Z;
     return big;
 }
-void optimize2Obj(std::string fileName) {
+void optimizeObj(std::string fileName) {
     std::vector<Vector3> vecs;
     std::vector<std::vector<ushort>> faces;
     std::ifstream ifs(fileName);
@@ -182,6 +174,6 @@ int main(int argc, char** argv) {
     if(!ifs.is_open())error(1, 0, "Invalid file/args (-h for help)\n");
     uint signature;
     ifs.read((char*)&signature, sizeof(uint));
-    if(signature != 0xAABB)optimize2Obj(fileName);
+    if(signature != 0xAABB)optimizeObj(fileName);
     return 0;
 }
