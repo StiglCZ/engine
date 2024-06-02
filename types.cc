@@ -58,6 +58,38 @@ void operator*=(Vector3& lhs, const fx& rhs) {
   lhs.Y *= rhs;
   lhs.Z *= rhs;
 }
+bool operator==(const Vector3 &lhs, const Vector3 &rhs) {
+    return (lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z);
+}
+bool operator!=(const Vector3 &lhs, const Vector3 &rhs) {
+    return !(lhs == rhs);
+}
+bool operator>(const Vector3 &lhs, const Vector3 &rhs) {
+    return (lhs.X > rhs.X && lhs.Y > rhs.Y && lhs.Z > rhs.Z);
+}
+bool operator<(const Vector3 &lhs, const Vector3 &rhs) {
+    return (lhs.X < rhs.X && lhs.Y < rhs.Y && lhs.Z < rhs.Z);
+}
+
+fx Vector3::DistanceEuc(Vector3 other) {
+    return std::sqrt(
+        (X - other.X) * (X - other.X) +
+        (Y - other.Y) * (Y - other.Y) +
+        (Z - other.Z) * (Z - other.Z));
+}
+fx Vector3::DistanceMan(Vector3 other) {
+    return
+        std::fabs(X - other.X) +
+        std::fabs(Y - other.Y) +
+        std::fabs(Z - other.Z);
+}
+
+fx Vector3::Magnitude() { return std::abs(X) + std::abs(Y) + std::abs(Z); }
+Vector3 Vector3::Normalized() {
+    fx magnitude = Magnitude();
+    if(magnitude < 1.0) return Zero;
+    return *this / magnitude;
+}
 
 Vector3 Vector3::Forward() {
     return {
@@ -81,33 +113,6 @@ Vector3 Vector3::Up() {
         (float)(cos(X)),
         (float)(sin(X) * cos(Y)),
     };
-}
-
-Vector2 Vector2::Right() {
-    return {
-        (fx)cos(Y),
-        (fx)sin(Y),
-    };
-}
-
-Vector2 Vector2::Up() {
-    return{
-        (fx)sin(Y),
-        (fx)cos(Y),
-    };
-}
-
-bool operator==(const Vector3 &lhs, const Vector3 &rhs) {
-    return (lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z);
-}
-bool operator!=(const Vector3 &lhs, const Vector3 &rhs) {
-    return !(lhs == rhs);
-}
-bool operator>(const Vector3 &lhs, const Vector3 &rhs) {
-    return (lhs.X > rhs.X && lhs.Y > rhs.Y && lhs.Z > rhs.Z);
-}
-bool operator<(const Vector3 &lhs, const Vector3 &rhs) {
-    return (lhs.X < rhs.X && lhs.Y < rhs.Y && lhs.Z < rhs.Z);
 }
 
 const Vector3 Vector3::UnitX = {1, 0, 0};
@@ -143,6 +148,25 @@ bool operator==(const Vector2 &lhs, const Vector2 &rhs) {
 bool operator!=(const Vector2 &lhs, const Vector2 &rhs) {
     return !(lhs == rhs);
 }
+
+Vector2 Vector2::Right() {
+    return {
+        (fx)cos(Y),
+        (fx)sin(Y),
+    };
+}
+
+Vector2 Vector2::Up() {
+    return{
+        (fx)sin(Y),
+        (fx)cos(Y),
+    };
+}
+
+const Vector2 Vector2::UnitX = {1, 0};
+const Vector2 Vector2::UnitY = {0, 1};
+const Vector2 Vector2::Zero  = {0, 0};
+const Vector2 Vector2::One   = {1, 1};
 
 // Point utils
 Point operator*(const Point &lhs, const Point &rhs) {
@@ -316,17 +340,6 @@ void rotateW(matrix4x4 out, const Vector3 w) {
     matrixCombine(result3, result1, result2);
     matrixCopy(out, result2);
     matrixCopy(out, out);
-}
-
-fx distance(const Vector3 a, const Vector3 b) {
-    return
-        std::fabs(a.X - b.X) +
-        std::fabs(a.Y - b.Y) +
-        std::fabs(a.Z - b.Z);
-}
-
-fx magnitude(const Vector3 a) {
-    return fabs(a.X) + fabs(a.Y) + fabs(a.Z);
 }
 
 const Color WHITE = {255, 255, 255};

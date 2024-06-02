@@ -24,15 +24,19 @@ struct Vector3 {
     friend bool operator>(const Vector3 &, const Vector3&);
     friend bool operator<(const Vector3 &, const Vector3&);
     
-    Vector3 Forward();
-    Vector3 Right();
-    Vector3 Up();
-
     static const Vector3 UnitX;
     static const Vector3 UnitY;
     static const Vector3 UnitZ;
     static const Vector3 Zero;
     static const Vector3 One;
+
+    fx   DistanceEuc(Vector3 other);
+    fx   DistanceMan(Vector3 other);
+    Vector3 Normalized();
+    fx      Magnitude();
+    Vector3 Forward();
+    Vector3 Right();
+    Vector3 Up();
 };
 struct Vector2 {
     fx X, Y;
@@ -44,6 +48,12 @@ struct Vector2 {
     friend Vector2 operator*(const Vector2&, const fx&);
     friend bool operator==(const Vector2&, const Vector2&);
     friend bool operator!=(const Vector2&, const Vector2&);
+
+    static const Vector2 UnitX;
+    static const Vector2 UnitY;
+    static const Vector2 Zero;
+    static const Vector2 One;
+
     Vector2 Right();
     Vector2 Up();
 };
@@ -129,9 +139,6 @@ extern void rotateY(matrix3x3 out, fx w);
 extern void rotateZ(matrix3x3 out, fx w);
 extern void rotateW(matrix3x3 out, Vector3 w);
 extern void rotateW(matrix4x4 out, Vector3 w);
-
-extern fx distance(Vector3 a, Vector3 b);
-extern fx magnitude(Vector3 a);
 
 extern const GameObject emptyGameObj;
 
@@ -230,7 +237,7 @@ enum ResourceType {
 #define drawnum(gd, num, x, y)  gd->drawText({x, y}, std::to_string(text).c_str());
 #define pushgo(gd, go) gd->gameObjects->push_back(go);
 
-#define getDelta(gd) (gd->sleepTime > *gd->deltaTime) ? 1.0 : (float)gd->sleepTime / *gd->deltaTime
+#define getDelta(gd) (gd->sleepTime > *gd->deltaTime) ? 1.0 : (fx)gd->sleepTime / *gd->deltaTime
 #define getKey(gd, key) (u64)gd->getResource(4, (u64)key)
 #define keyDown(gd, key) (gd->keys[keycode])
 #define keyUp(gd, key)  !(gd->keys[keycode])
