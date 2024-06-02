@@ -23,7 +23,7 @@ extern "C" {
                     go2->velocity.Y *= -1 * ((*d->gameObjects)[go2->colliding].bounce + go2->bounce) * bounce1Lvl;
                     continue;
                 }
-            if((magnitude(go2->velocity) + gravity) >= tvelocity)
+            if((go2->velocity.Magnitude() + gravity) >= tvelocity)
                 continue;
             go2->velocity.Y += gravity;
         }

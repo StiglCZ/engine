@@ -24,7 +24,7 @@ std::vector<Script> scriptBuffer;
 uint loadModel(const char *name) {
     Debg("Loading model  " + std::string(name));
     Model m = loadModel(std::string(assetsDir + name));
-    if(m.verticies.size() == 0)return 0;
+    if(!m.verticies.size())return 0;
     // Defragments the modelbuffer
     for(u32 i =0; i < modelBuffer.size(); i++)
         if(modelBuffer[i].freed){
@@ -105,8 +105,8 @@ void* getResource(u8 type, u64 uID) {
 }
 
 void RenderGameObject(GameObject& go, CamProps& cp) {
-    if(go.model == 0 || modelBuffer[go.model].freed ||
-       magnitude(go.position - cp.pos) > FAR
+    if(!go.model || modelBuffer[go.model].freed ||
+       go.position.DistanceEuc(cp.pos) > FAR
       )return;
     ChangeColor(go.color);
     
