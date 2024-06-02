@@ -9,19 +9,10 @@
 #include "math.hh"
 #include "types.hh"
 
-u64 uIDc = random(); // ID counter
+u64 uIDc = random(); // ID counter for adding new objects
 
 const u32 SIGNATURE = 0xAABB;
 
-[[deprecated("Use std::find_first_of or substr")]]
-inline bool begins(std::string str, std::string bgn) {
-    if(bgn.size() > str.size())return false;
-    for(u32 i =0; i < bgn.size();i++)
-        if(str[i] != bgn[i])return false;
-    return true;
-}
-
-// Uselless, for now
 std::vector<std::string> split(std::string str, char c) {
     std::string tmp;
     std::vector<std::string> result;
@@ -33,17 +24,6 @@ std::vector<std::string> split(std::string str, char c) {
     }
     result.push_back(tmp);
     return result;
-}
-
-std::vector<std::string> readFileLines(std::string filename) {
-    std::ifstream file(filename);
-    std::vector<std::string> lines;
-    std::string line;
-    if(!file.is_open())return lines;
-    while (std::getline(file, line)) 
-        lines.push_back(line);
-    file.close();
-    return lines;
 }
 
 #include <dirent.h>
@@ -75,9 +55,8 @@ std::vector<std::string> getFiles(std::string dir) {
 
 /*
   Avoid comments in the obj file begining
-  with letter folowed by space
-
-  Auto-scaling to size (1,1,1) not implemented
+  with letter 'v' or 'f' folowed by space
+  Auto-scaling to size XYZ1 not implemented
  */
 Model loadOBJ(std::vector<std::string> file) {
     Model m;
@@ -220,13 +199,12 @@ Model readOptimizedModel(std::string fileName) {
     ifs.close();
     return m;
 }
-
+    
+// Wrapper cuz the objload is also possible to add
 Model loadModel(std::string filename) {
-    // Wrapper cuz the objload is also possible to add
     return readOptimizedModel(filename);
 }
 
-// Called from native.hh
 void SaveScreenshot(u8* data, Point size, const char* filename) {
     std::ofstream ofs(filename, std::ios::binary);
     std::string str = "P6\n"
