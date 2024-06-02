@@ -1,7 +1,6 @@
 #include "../types.hh"
 #include "../logging.hh"
 #include <fstream>
-#include "scene.hh"
 using std::string;
 #define readStr(ifs) u8 size1;                  \
     ifs.read((i8*)&size1, 1);                   \
@@ -13,7 +12,7 @@ using std::string;
     ifs.read((i8 *)&v.Z, sizeof(fx));
 extern "C" {
     GameData* d;
-    void LoadSceneFile(Scene scene);
+    void LoadSceneFile(const char* scene);
     void Init(GameData* gd, uint scriptIndex){
         (void)scriptIndex;
         ((void**)gd->stream)[0] = (void*)&LoadSceneFile;
@@ -23,12 +22,12 @@ extern "C" {
         int X, Y, Z;
     };
     
-    void LoadSceneFile(Scene scene){
+    void LoadSceneFile(const char* scene){
         // Section 1 - Load models
         // Section 2 - Load scripts
         // Section 3 - Load gameObjects
         Debg("Loading scene...");
-        std::ifstream ifs(scene.scenePath);
+        std::ifstream ifs(scene);
         u16 size0;
         u64 modelCount = (u64)d->getResource(RESOURCE_Model_Count, 0);
         

@@ -2,7 +2,7 @@
 #define SCENE
 #define LOAD_SCENE(file)                        \
     Scene scene = {file};                       \
-    ((void(*)(Scene))*(void**)d->stream)(scene);
+    ((void(*)(const char*))*(void**)d->stream)(scene);
 
 struct Scene {
     char scenePath[256];

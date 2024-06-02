@@ -21,6 +21,13 @@ Vector3 operator/(const Vector3 &lhs, const fx &rhs) {
 Vector3 operator*(const Vector3 &lhs, const fx &rhs) {
     return (Vector3){lhs.X * rhs, lhs.Y * rhs, lhs.Z * rhs};
 }
+Vector3 operator-(const Vector3 &lhs) {
+    return (Vector3){-lhs.X, -lhs.Y, -lhs.Z};
+}
+Vector3 operator+(const Vector3 &lhs) {
+    return lhs;
+}
+
 void operator-=(Vector3& lhs, const Vector3& rhs) {
   lhs.X -= rhs.X;
   lhs.Y -= rhs.Y;
@@ -102,6 +109,12 @@ bool operator>(const Vector3 &lhs, const Vector3 &rhs) {
 bool operator<(const Vector3 &lhs, const Vector3 &rhs) {
     return (lhs.X < rhs.X && lhs.Y < rhs.Y && lhs.Z < rhs.Z);
 }
+
+const Vector3 Vector3::UnitX = {1, 0, 0};
+const Vector3 Vector3::UnitY = {0, 1, 0};
+const Vector3 Vector3::UnitZ = {0, 0, 1};
+const Vector3 Vector3::Zero  = {0, 0, 0};
+const Vector3 Vector3::One   = {1, 1, 1};
 
 // Vector2 utils
 Vector2 operator+(const Vector2 &lhs, const Vector2 &rhs) {

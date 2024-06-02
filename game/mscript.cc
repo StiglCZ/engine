@@ -21,7 +21,7 @@ extern "C" {
         go.script = scriptIndex;
         go.bounce = 100;
         gd->gameObjects->push_back(go);
-        
+
         go.position.Y += 20;
         go.flags = 10;
         gd->gameObjects->push_back(go);

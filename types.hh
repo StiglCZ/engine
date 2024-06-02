@@ -12,6 +12,7 @@ struct Vector3 {
     friend Vector3 operator/(const Vector3&, const Vector3&);
     friend Vector3 operator/(const Vector3&, const fx&);
     friend Vector3 operator*(const Vector3&, const fx&);
+    friend Vector3 operator-(const Vector3&);
     friend void operator-=(Vector3&, const Vector3&);
     friend void operator+=(Vector3&, const Vector3&);
     friend void operator*=(Vector3&, const Vector3&);
@@ -22,11 +23,17 @@ struct Vector3 {
     friend bool operator!=(const Vector3&, const Vector3&);
     friend bool operator>(const Vector3 &, const Vector3&);
     friend bool operator<(const Vector3 &, const Vector3&);
+    
     Vector3 Forward();
     Vector3 Right();
     Vector3 Up();
-};
 
+    static const Vector3 UnitX;
+    static const Vector3 UnitY;
+    static const Vector3 UnitZ;
+    static const Vector3 Zero;
+    static const Vector3 One;
+};
 struct Vector2 {
     fx X, Y;
     friend Vector2 operator+(const Vector2&, const Vector2&);
@@ -207,24 +214,30 @@ enum ResourceType {
     while (a[i])        \
         b[i] = a[i++];
 
-#define printcol(col)                                                   \
-    std::cout << "[" << col.R << ", " << col.G << ", " << col.B << "]\n";
-#define infocol(col)                                                    \
-    Info('[' + std::to_string(col.R) + ", " + std::to_string(col.G) + ", " + std::to_string(v3.B) + "]");
-
-#define printvec3(v3)                                                   \
-    std::cout << '[' << v3.X << ", " << v3.Y << ", " << v3.Z << "]\n";
-#define infovec3(v3)                                                    \
-    Info('[' + std::to_string(v3.X) + ", " + std::to_string(v3.Y) + ", " + std::to_string(v3.Z) + "]");
-
-#define getKey(gd, key) (u64)gd->getResource(4, (u64)key)
-
 #define fillMat(mat, pos, rot) \
     rotateW(mat, rot);         \
     mat[0][3] = pos.X;         \
     mat[1][3] = pos.Y;         \
     mat[2][3] = pos.Z;
 
+#define printcol(col) std::cout << "[" << col.R << ", " << col.G << ", " << col.B << "]\n";
+#define printvec3(v3) std::cout << '[' << v3.X << ", " << v3.Y << ", " << v3.Z << "]\n";
+
+#define infocol(col)  Info('[' + std::to_string(col.R) + ", " + std::to_string(col.G) + ", " + std::to_string(v3.B) + "]");
+#define infovec3(v3) Info('[' + std::to_string(v3.X) + ", " + std::to_string(v3.Y) + ", " + std::to_string(v3.Z) + "]");
+
+#define drawtext(gd, text, x, y)gd->drawText({x, y}, text);
+#define drawnum(gd, num, x, y)  gd->drawText({x, y}, std::to_string(text).c_str());
+#define pushgo(gd, go) gd->gameObjects->push_back(go);
+
 #define getDelta(gd) (gd->sleepTime > *gd->deltaTime) ? 1.0 : (float)gd->sleepTime / *gd->deltaTime
+#define getKey(gd, key) (u64)gd->getResource(4, (u64)key)
+#define keyDown(gd, key) (gd->keys[keycode])
+#define keyUp(gd, key)  !(gd->keys[keycode])
+
+#define loadscene(gd, file) ((void(*)(const char*))*(void**)gd->stream)(file);
+#define collisions(gd)((std::vector<u32> *)((void **)gd->stream)[2])
+#define audioct(gd) (((AudioControl**)gd2->stream)[3])
+#define physics(gd) ((PhysicsProps*)((void**)gd->stream)[4])
 
 #endif
