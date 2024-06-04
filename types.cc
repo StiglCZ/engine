@@ -149,6 +149,24 @@ bool operator!=(const Vector2 &lhs, const Vector2 &rhs) {
     return !(lhs == rhs);
 }
 
+fx Vector2::DistanceEuc(Vector2 other) {
+    return std::sqrt(
+        (X - other.X) * (X - other.X) +
+        (Y - other.Y) * (Y - other.Y));
+}
+fx Vector2::DistanceMan(Vector2 other) {
+    return
+        std::fabs(X - other.X) +
+        std::fabs(Y - other.Y);
+}
+
+fx Vector2::Magnitude() { return std::abs(X) + std::abs(Y); }
+Vector2 Vector2::Normalized() {
+    fx magnitude = Magnitude();
+    if(magnitude < 1.0) return Zero;
+    return *this / magnitude;
+}
+
 Vector2 Vector2::Right() {
     return {
         (fx)cos(Y),

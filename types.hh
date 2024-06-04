@@ -53,6 +53,10 @@ struct Vector2 {
     static const Vector2 UnitY;
     static const Vector2 Zero;
     static const Vector2 One;
+    fx   DistanceEuc(Vector2 other);
+    fx   DistanceMan(Vector2 other);
+    Vector2 Normalized();
+    fx      Magnitude();
 
     Vector2 Right();
     Vector2 Up();
