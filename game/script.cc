@@ -7,7 +7,7 @@
 
 extern "C" { // Without this it doensn't work
     GameData *gd2;
-    void Init(GameData *gd, uint si){
+    void Init(GameData *gd, u32 si){
         Info("Intializing script with index " + std::to_string(si));
         gd2 = gd; // get the pointer out of scope
 
@@ -27,7 +27,7 @@ extern "C" { // Without this it doensn't work
 
         // Play some audio
         AudioControl* control = ((AudioControl**)gd2->stream)[3];
-        uint b = control->LoadTrack(
+        u32 b = control->LoadTrack(
              (i8*)std::string("example.mp3").c_str());
         control->Play(b, 1);
         control->Play3D({}, {}, {}, b, 1);

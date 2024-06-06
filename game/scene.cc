@@ -13,7 +13,7 @@ using std::string;
 extern "C" {
     GameData* d;
     void LoadSceneFile(const char* scene);
-    void Init(GameData* gd, uint scriptIndex){
+    void Init(GameData* gd, u32 scriptIndex){
         (void)scriptIndex;
         ((void**)gd->stream)[0] = (void*)&LoadSceneFile;
         d = gd;

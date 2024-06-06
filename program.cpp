@@ -10,18 +10,18 @@
 #include <chrono>
 
 // Fallback script functions
-void d_init(void *gd, uint scriptIndex) {
+void d_init(void *gd, u32 scriptIndex) {
     (void)scriptIndex;
     (void)gd;
 }
-void d_other(uint index) {
+void d_other(u32 index) {
     (void)index;
 }
 
 std::vector<Model> modelBuffer;
 std::vector<Script> scriptBuffer;
 
-uint loadModel(const char *name) {
+u32 loadModel(const char *name) {
     Debg("Loading model  " + std::string(name));
     Model m = loadModel(std::string(assetsDir + name));
     if(!m.verticies.size())return 0;
@@ -36,12 +36,12 @@ uint loadModel(const char *name) {
 }
 
 // Load script and get pointer to needed functions
-uint loadScript(const char *name, void* gd) {
+u32 loadScript(const char *name, void* gd) {
     Script s;
     s.handle = loadScript((char*)(scriptsDir + std::string(name)).c_str());
-    s.init   = getFunction<void (*)(void*, uint)>(s.handle, (char*)initFName);
-    s.start  = getFunction<void (*)(uint)>(s.handle, (char*)startFname);
-    s.update = getFunction<void (*)(uint)>(s.handle, (char*)updateFname);
+    s.init   = getFunction<void (*)(void*, u32)>(s.handle, (char*)initFName);
+    s.start  = getFunction<void (*)(u32)>(s.handle, (char*)startFname);
+    s.update = getFunction<void (*)(u32)>(s.handle, (char*)updateFname);
 
     // Check if something is missing
     if(!s.handle)return 0;

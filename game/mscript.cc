@@ -37,7 +37,7 @@ extern "C" {
         }
         //LOAD_SCENE("assets/scene.bin");
     }
-    void Update(uint index){
+    void Update(u32 index){
         if((*d->gameObjects)[index].flags == 10){
             d->drawText({1, 10}, ("dT: " +std::to_string(1000000.0 / (u32)*d->deltaTime)).c_str());
             d->drawText({1, 25}, ("x: " + std::to_string(d->cp->pos.X) + " y:" + std::to_string(d->cp->pos.Y) + " z:" + std::to_string(d->cp->pos.Z)).c_str());

@@ -74,7 +74,7 @@ Model loadOBJ(std::vector<std::string> file) {
             u16* n = new u16[parts0.size()-1];
             for(u32 i =1; i < parts0.size(); i++){
                 std::string n1 = split(parts0[i], '/')[0];
-                n[i-1] = (ushort)(atoi(n1.c_str()) -1);
+                n[i-1] = (u16)(atoi(n1.c_str()) -1);
             }
             m.faces.push_back(
                 (Face){
@@ -122,7 +122,7 @@ void optimizeModel(std::string fileName) {
             std::vector<u16> face;
             for(u32 i =1; i < parts0.size(); i++){
                 std::string n1 = split(parts0[i], '/')[0];
-                face.push_back((ushort)(atoi(n1.c_str()) -1));
+                face.push_back((u16)(atoi(n1.c_str()) -1));
             }
             faces.push_back(face);
         }
