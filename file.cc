@@ -42,7 +42,7 @@ u8 eDirectory(const char* dir) {
 std::vector<std::string> getFiles(const std::string& dir) {
     std::vector<std::string> strs;
     WIN32_FIND_DATA data;
-    HANDLE hFind = FindFirstFile(dir, &data);
+    HANDLE hFind = FindFirstFile(dir.c_str(), &data);
     if (hFind != INVALID_HANDLE_VALUE) {
         do { strs.push_back(data.cFileName);
         } while (FindNextFile(hFind, &data));
