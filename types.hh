@@ -99,7 +99,7 @@ typedef fx matrix2x2[2][2];
 typedef fx matrix3x2[3][2];
 typedef fx matrix2x3[2][3];
 
-typedef unsigned long  u64;
+typedef unsigned long long u64;
 typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
