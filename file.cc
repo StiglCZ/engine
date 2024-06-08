@@ -29,7 +29,6 @@ std::vector<std::string> split(std::string str, char c) {
     return result;
 }
 
-#include <dirent.h>
 // 0 = Nothing/Not found
 // 1 = File
 // 2 = Directory
@@ -38,8 +37,23 @@ u8 eDirectory(const char* dir) {
     if(stat(dir, &info))return 0;
     return S_ISDIR(info.st_mode) + 1;
 }
+#ifdef _WIN32
+#include <windows.h>
+std::vector<std::string> getFiles(const std::string& dir) {
+    std::vector<std::string> strs;
+    WIN32_FIND_DATA data;
+    HANDLE hFind = FindFirstFile(dir, &data);
+    if (hFind != INVALID_HANDLE_VALUE) {
+        do { strs.push_back(data.cFileName);
+        } while (FindNextFile(hFind, &data));
+        FindClose(hFind);
+    }
+    return strs;
+}
+#else
 
-/*std::vector<std::string> getFiles(std::string dir) {
+#include <dirent.h>
+std::vector<std::string> getFiles(std::string dir) {
     std::vector<std::string> strs;
     DIR* directory = opendir(dir.c_str());
     // Doesn't exist
@@ -54,7 +68,8 @@ u8 eDirectory(const char* dir) {
     }
     closedir(directory);
     return strs;
-    }*/
+}
+#endif
 
 /*
   Avoid comments in the obj file begining
