@@ -2,7 +2,6 @@
 #define PROGRAM
 #include "types.hh"
 #include <string>
-#include <unistd.h>
 
 //#define DEBUG
 #define STREAM_SIZE 8192

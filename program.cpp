@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <chrono>
-
+#include <unistd.h>
 // Fallback script functions
 void d_init(void *gd, u32 scriptIndex) {
     (void)scriptIndex;

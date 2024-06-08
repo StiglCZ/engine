@@ -1,8 +1,4 @@
-/*
-   Platform specific graphics lib.
-   Currently: Linux
-*/
-
+#ifdef __unix__
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -18,10 +14,6 @@
 
 #include <thread>
 #include <string.h>
-
-#ifndef __unix__
-    #error Unix only!
-#endif
 
 int W, H;
 u64 backColor = 0x0000000000000000;
@@ -196,3 +188,34 @@ void Exiter() {
     Info("Exiting");
     exit(0);
 }
+#elif defined _WIN32
+#include <windows.h>
+#include "native.hh"
+#include "renderer.hh"
+#include "scripting.hh"
+#include "logging.hh"
+#include "types.hh"
+#include "file.hh"
+
+#include <thread>
+#include <string.h>
+
+u8 button[16];
+u8 keys[256];
+Point mouse;
+bool  isRunning = 1;
+std::vector<void *> exitFuncs;
+std::vector<Model> *modelBufferPtr;
+void t2(){
+    
+}
+void NativeInit(int w, int h, char* title){
+    HWND hwnd = CreateWindowEx(0, CLASS_NAME, title,
+                               WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
+                               CW_USEDEFAULT, CW_USEDEFAULT,
+                               CW_USEDEFAULT, NULL, NULL, hInstance, NULL
+                              );
+    if (hwnd == NULL) return 0;
+    ShowWindow(hwnd, nCmdShow);
+}
+#endif
