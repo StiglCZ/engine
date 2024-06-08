@@ -208,6 +208,10 @@ bool  isRunning = 1;
 std::vector<void *> exitFuncs;
 std::vector<Model> *modelBufferPtr;
 
+struct Line{
+    Point a, b;
+}
+std::vector<Line> lines = {};
 void freeModels() {
     Info("Freeing models...");
     for(u32 i =0; i < (*modelBufferPtr).size(); i++){
@@ -288,7 +292,7 @@ void NativeInit(int w, int h, char* title){
         Exiter();
         exit(0);
     }
-    ShowWindow(window, nCmdShow);
+    ShowWindow(window, SW_SHOWNORMAL);
     UpdateWindow(window);
     
     // Get the first window create message
@@ -297,7 +301,7 @@ void NativeInit(int w, int h, char* title){
     TranslateMessage(&msg);
     DispatchMessage(&msg);
     
-    win = (int)msg.wParam;
+    window = (int)msg.wParam;
     std::thread(t2).detach();
 }
 void ChangeColor(Color col) {

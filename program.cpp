@@ -65,8 +65,8 @@ void CamSync(CamProps* cp, bool updateProjection) {
         const fx
             xp = 1.0 / tan(rad(FOV) / 2.0),
             yp = xp / AR,
-            np = (-NEAR - FAR) / AR,
-            fp = 2.0 * FAR * NEAR / AR;
+            np = (-PNEAR - PFAR) / AR,
+            fp = 2.0 * PFAR * PNEAR / AR;
         matrix4x4 newProjMatrix = {
             {xp, 00, 00, 00},
             {00, yp, 00, 00},
@@ -106,7 +106,7 @@ void* getResource(u8 type, u64 uID) {
 
 void RenderGameObject(GameObject& go, CamProps& cp) {
     if(!go.model || modelBuffer[go.model].freed ||
-       go.position.DistanceEuc(cp.pos) > FAR
+       go.position.DistanceEuc(cp.pos) > PFAR
       )return;
     ChangeColor(go.color);
     
@@ -144,8 +144,8 @@ int main() {
         .rot  = {0, 0, 0},
         .sync = CamSync,
         .fov  = FOV,
-        .far  = FAR,
-        .near = NEAR,
+        .far  = PFAR,
+        .near = PNEAR,
         .ar   = AR,
         .w    = SIZE_X,
         .h    = SIZE_Y,
