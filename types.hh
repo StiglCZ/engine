@@ -217,10 +217,18 @@ enum ResourceType {
     RESOURCE_Model_Count = 5,
 };
 
+#ifndef _WIN32
+#define memcpy(a, b, c)              \
+    for(typeof(c) i = 0; i < c; i++) \
+        a[i] = b[i];
 #define strcpy(a, b)    \
     int i = 0;          \
     while (a[i])        \
         b[i] = a[i++];
+#else
+#include <cstring>
+#define typeof(T) auto
+#endif
 
 #define fillMat(mat, pos, rot) \
     rotateW(mat, rot);         \
@@ -247,13 +255,5 @@ enum ResourceType {
 #define collisions(gd)((std::vector<u32> *)((void **)gd->stream)[2])
 #define audioct(gd) (((AudioControl**)gd->stream)[3])
 #define physics(gd) ((PhysicsProps*)((void**)gd->stream)[4])
-
-#ifndef _WIN32
-#define memcpy(a, b, c)              \
-    for(typeof(c) i = 0; i < c; i++) \
-        a[i] = b[i];
-#else
-#define typeof(T) auto
-#endif
 
 #endif
