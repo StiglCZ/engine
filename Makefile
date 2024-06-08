@@ -57,10 +57,6 @@ windows:
 	mkdir bin
 	mkdir bin\o bin\assets bin\scripts
 
-	$(WINARGS0) renderer.cc  -o bin\o\renderer.obj
-	$(WINARGS0) native.cc    -o bin\o\native.obj
-	$(WINARGS0) scripting.cc -o bin\o\scripting.obj
-
 	$(WINARGS0) net.cc         -o bin\o\net.obj
 	$(WINARGS0) file.cc        -o bin\o\file.obj
 	$(WINARGS0) types.cc       -o bin\o\types.obj
@@ -73,4 +69,8 @@ windows:
 	$(WINARGS1) game\movement.cc                   -o bin\scripts\movement.dll
 	$(WINARGS1) game\collision.cc                  -o bin\scripts\collision.dll
 	$(WINARGS1) bin\o\logging.obj game/audio.cc    -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
+
+	$(WINARGS0) renderer.cc  -o bin\o\renderer.obj
+	$(WINARGS0) native.cc    -o bin\o\native.obj
+	$(WINARGS0) scripting.cc -o bin\o\scripting.obj
 
