@@ -306,7 +306,9 @@ void ChangeColor(Color col) {
 void Screenshot(const char* filename){
 
 }
+void CenterMouse(){
 
+}
 void ClearScreen(){
 
 }
@@ -319,5 +321,6 @@ void DrawText(Point pos, const char* str){
 void FrameFinished(){
 
 }
+u64 backColor = 0x0000000000000000;
 
 #endif
