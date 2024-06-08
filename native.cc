@@ -197,6 +197,7 @@ void Exiter() {
 #include "types.hh"
 #include "file.hh"
 
+#include <string>
 #include <thread>
 #include <string.h>
 
@@ -210,26 +211,17 @@ u64 backColor = 0x0000000000000000;
 Color color;
 std::vector<void *> exitFuncs;
 std::vector<Model> *modelBufferPtr;
+struct Texts{
+    Point pos;
+    std::string str;
+};
 struct Ln{
     Point start, end;
 };
 std::vector<Ln> lines;
-void freeModels() {
-    Info("Freeing models...");
-    for(u32 i =0; i < modelBufferPtr->size(); i++){
-        Debg("Freeing model " + std::to_string(i));
-        if((*modelBufferPtr)[i].freed)continue;
-        std::vector<Face> cfs = (*modelBufferPtr)[i].faces;
-        for(u32 j =0; j < cfs.size(); j++)
-            delete[] cfs[j].m;
-        cfs->clear();
-        (*modelBufferPtr)[i].freed = 1;
-    }
-}
 
 void Exiter(){
     closeAllScripts();
-    freeModels();
     Info("Exiting");
 }
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
@@ -318,16 +310,15 @@ void CenterMouse(){
     
 }
 void ClearScreen(){
-    
+    HBRUSH hBrush = CreateSolidBrush((u32)backColor);
+    FillRect(hdc, &ps.rcPaint, hBrush);
 }
 void DrawLine(Point src, Point dst){
-    
+    lines.Add({src, dst});
 }
 void DrawText(Point pos, const char* str){
     
 }
-void FrameFinished(){
-    
-}
+void FrameFinished(){}
 
 #endif
