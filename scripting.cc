@@ -47,6 +47,9 @@ void closeScript(HINSTANCE *script) {
     if(status)scriptErr(2);
 }
 
+void closeScript(void *script) {
+    closeScript((HINSTANCE*)script);
+}
 #endif
 void closeAllScripts() {
     Info("Closing scripts...");
