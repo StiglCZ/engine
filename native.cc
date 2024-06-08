@@ -310,11 +310,9 @@ void CenterMouse(){
     
 }
 void ClearScreen(){
-    HBRUSH hBrush = CreateSolidBrush((u32)backColor);
-    FillRect(hdc, &ps.rcPaint, hBrush);
 }
 void DrawLine(Point src, Point dst){
-    lines.Add({src, dst});
+    lines.push_back({src, dst});
 }
 void DrawText(Point pos, const char* str){
     
