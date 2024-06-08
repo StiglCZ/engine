@@ -18,6 +18,7 @@ T getFunction(void* script, char* funcName) {
 }
 
 #elif defined _WIN32
+template <typename T>
 T getFunction(void* script, char* funcName) {
     T func = reinterpret_cast<T>(GetProcAddress((HINSTANCE)script, funcName));
     if(!func){scriptErr(1);}

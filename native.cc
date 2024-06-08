@@ -200,6 +200,7 @@ void Exiter() {
 #include <thread>
 #include <string.h>
 
+int win;
 HWND window;
 u8 button[16];
 u8 keys[256];
@@ -210,7 +211,8 @@ std::vector<Model> *modelBufferPtr;
 
 struct Line{
     Point a, b;
-}
+};
+
 typedef struct Line Line;
 std::vector<Line> lines;
 void freeModels() {
@@ -302,7 +304,7 @@ void NativeInit(int w, int h, char* title){
     TranslateMessage(&msg);
     DispatchMessage(&msg);
     
-    window = (int)msg.wParam;
+    win = (int)msg.wParam;
     std::thread(t2).detach();
 }
 void ChangeColor(Color col) {
