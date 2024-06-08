@@ -3,7 +3,7 @@ name: Build for linux
 on: [push, pull_request]
 
 jobs:
-  build-and-release:
+  build-for-linux:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repo code
@@ -29,3 +29,48 @@ jobs:
           name: built-artifacts
           path: bin/**
 
+  build-for-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get cached audio libs
+        id: cache-audio
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-windows-audio
+        with:
+          path: |
+            lib\
+            include\
+          key: ${{ env.cache-name }}-build-0
+      - name: Install audio dependencies
+        if: steps.cache-audio.outputs.cache-hit != 'true'
+        run: |
+           C:\msys64\usr\bin\wget.exe https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2-win64.zip -O sndfile.zip
+           C:\msys64\usr\bin\wget.exe https://github.com/kcat/openal-soft/releases/download/1.23.1/openal-soft-1.23.1-bin.zip     -O openal.zip
+           7z x sndfile.zip
+           7z x openal.zip
+
+           md lib
+           md include
+           md include\AL
+
+           copy libsndfile-1.2.2-win64\bin\sndfile.dll lib\sndfile.dll
+           copy libsndfile-1.2.2-win64\lib\sndfile.lib lib\sndfile.lib
+           copy libsndfile-1.2.2-win64\include\sndfile.h include\sndfile.h
+
+           copy openal-soft-1.23.1-bin\bin\Win64\soft_oal.dll lib\openal.dll
+           copy openal-soft-1.23.1-bin\libs\Win64\OpenAL32.lib lib\openal.lib
+           copy openal-soft-1.23.1-bin\include\AL\*.h include\AL\
+
+      - name: Compile the binaries
+        run: |
+          .\build.cmd
+          clang++ -Wno-everything -Ofast -shared bin\o\types.obj bin\o\logging.obj game/audio.cc -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: bin/**
