@@ -20,7 +20,7 @@ void* loadScript(char* file) {
 }
 
 void closeScript(void *script) {
-    Debg("Closing script " + std::to_string((long)script) + "...");
+    Debg("Closing script...");
     int status = dlclose(script);
     if(status)scriptErr(2);
 }
