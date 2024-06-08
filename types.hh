@@ -217,9 +217,13 @@ enum ResourceType {
     RESOURCE_Model_Count = 5,
 };
 
+#ifdef __unix__
+
 #define memcpy(a, b, c)              \
     for(typeof(c) i = 0; i < c; i++) \
         a[i] = b[i];
+
+#endif
 
 #define strcpy(a, b)    \
     int i = 0;          \
@@ -251,5 +255,10 @@ enum ResourceType {
 #define collisions(gd)((std::vector<u32> *)((void **)gd->stream)[2])
 #define audioct(gd) (((AudioControl**)gd->stream)[3])
 #define physics(gd) ((PhysicsProps*)((void**)gd->stream)[4])
+
+#ifndef __unix__
+#define typeof(T) auto
+
+#endif
 
 #endif
