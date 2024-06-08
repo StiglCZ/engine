@@ -27,15 +27,11 @@ extern "C" {
         gd->gameObjects->push_back(go);
     }
     void Start(u32 index){
-        // Add collision
-        std::vector<u32>* cols = (std::vector<u32>*)((void**)d->stream)[2];
-        cols->push_back(index);
-        if((*d->gameObjects)[index].flags == 10){
+        // Add collision to the object
+        collisions(d)->push_back(index);
+        if((*d->gameObjects)[index].flags == 10)
             // Make physics object
-            PhysicsProps* pp = (PhysicsProps*)((void**)d->stream)[4];
-            pp->physicsObjects->push_back(index);
-        }
-        //LOAD_SCENE("assets/scene.bin");
+            physics(d)->physicsObjects->push_back(index);
     }
     void Update(u32 index){
         if((*d->gameObjects)[index].flags == 10){
