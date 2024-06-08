@@ -4,7 +4,7 @@ ARGS1= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -c
 ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -shared bin/o/types.o
 ARGS3= $(CC) -Wall -Wextra -s -Ofast
 
-WCC= gcc
+WCC= g++
 WINARGS0= $(WCC) -Wno-everything -Ofast -c
 WINARGS1= $(WCC) -Wno-everything -Ofast -shared bin\o\types.obj
 
