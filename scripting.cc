@@ -20,7 +20,7 @@ void* loadScript(char* file) {
 }
 
 void closeScript(void *script) {
-    Debg("Closing script...");
+    Debg("Closing script " + std::to_string((long)script) + "...");
     int status = dlclose(script);
     if(status)scriptErr(2);
 }
@@ -42,8 +42,8 @@ void* loadScript(char* file) {
 }
 
 void closeScript(HINSTANCE *script) {
-    Debg("Closing script " + std::to_string((long)script) + "...");
-    int status = FreeLibrary(script);
+    Debg("Closing script...");
+    int status = 0; //FreeLibrary(script);
     if(status)scriptErr(2);
 }
 
