@@ -210,6 +210,10 @@ u64 backColor = 0x0000000000000000;
 Color color;
 std::vector<void *> exitFuncs;
 std::vector<Model> *modelBufferPtr;
+struct Ln{
+    Point start, end;
+};
+std::vector<Ln> lines;
 void freeModels() {
     Info("Freeing models...");
     for(u32 i =0; i < modelBufferPtr->size(); i++){
