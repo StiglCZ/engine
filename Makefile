@@ -53,24 +53,26 @@ run: build
 	cd bin && ./a.out
 all: build utils
 
-windows:
+wsetup:
 	mkdir bin
 	mkdir bin\o bin\assets bin\scripts
-
+wobjects:
+	$(WINARGS0) net.cc         -o bin\o\net.obj
+	$(WINARGS0) file.cc        -o bin\o\file.obj
 	$(WINARGS0) types.cc       -o bin\o\types.obj
 	$(WINARGS0) logging.cc     -o bin\o\logging.obj
 	$(WINARGS0) game\saving.cc -o bin\o\saving.obj
-
+	$(WINARGS0) renderer.cc    -o bin\o\renderer.obj
+wscripts:
 	$(WINARGS1) game\mscript.cc                    -o bin\scripts\main.dll
 	$(WINARGS1) game\physics.cc                    -o bin\scripts\physics.dll
 	$(WINARGS1) game\scene.cc bin\o\logging.obj    -o bin\scripts\scene.dll
 	$(WINARGS1) game\movement.cc                   -o bin\scripts\movement.dll
 	$(WINARGS1) game\collision.cc                  -o bin\scripts\collision.dll
 	$(WINARGS1) bin\o\logging.obj game/audio.cc    -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
-
-	$(WINARGS0) renderer.cc  -o bin\o\renderer.obj
-	$(WINARGS0) file.cc        -o bin\o\file.obj
-	$(WINARGS0) net.cc         -o bin\o\net.obj
-	$(WINARGS0) native.cc    -o bin\o\native.obj
-	$(WINARGS0) scripting.cc -o bin\o\scripting.obj
+windows: wsetup wobjects
+	$(WINARGS0) native.cc      -o bin\o\native.obj
+	$(WINARGS0) scripting.cc   -o bin\o\scripting.obj
+	g++ program.cpp bin\o\types.obj bin\o\native.obj bin\o\scripting.obj bin\o\file.obj bin\o\logging.obj bin\o\renderer.obj
+	rmdir bin\o
 
