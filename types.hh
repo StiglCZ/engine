@@ -217,10 +217,6 @@ enum ResourceType {
     RESOURCE_Model_Count = 5,
 };
 
-#define memcpy(a, b, c)              \
-    for(typeof(c) i = 0; i < c; i++) \
-        a[i] = b[i];
-
 #define strcpy(a, b)    \
     int i = 0;          \
     while (a[i])        \
@@ -253,6 +249,9 @@ enum ResourceType {
 #define physics(gd) ((PhysicsProps*)((void**)gd->stream)[4])
 
 #ifndef _WIN32
+#define memcpy(a, b, c)              \
+    for(typeof(c) i = 0; i < c; i++) \
+        a[i] = b[i];
 #else
 #define typeof(T) auto
 #endif
