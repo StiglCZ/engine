@@ -4,8 +4,9 @@ ARGS1= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -c
 ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -shared bin/o/types.o
 ARGS3= $(CC) -Wall -Wextra -s -Ofast
 
-WINARGS0= $(CC) -Wno-everything -Ofast -c
-WINARGS1= $(CC) -Wno-everything -Ofast -shared bin\o\types.obj
+WCC= gcc
+WINARGS0= $(WCC) -Wno-everything -Ofast -c
+WINARGS1= $(WCC) -Wno-everything -Ofast -shared bin\o\types.obj
 
 # Object, script and util file output arguments
 D1= -o bin/o
