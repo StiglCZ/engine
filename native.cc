@@ -211,7 +211,8 @@ std::vector<Model> *modelBufferPtr;
 struct Line{
     Point a, b;
 }
-std::vector<Line> lines = {};
+typedef struct Line Line;
+std::vector<Line> lines;
 void freeModels() {
     Info("Freeing models...");
     for(u32 i =0; i < (*modelBufferPtr).size(); i++){
