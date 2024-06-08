@@ -71,8 +71,8 @@ wscripts:
 	$(WINARGS1) game\collision.cc                  -o bin\scripts\collision.dll
 	$(WINARGS1) bin\o\logging.obj game/audio.cc    -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
 windows: wsetup wobjects
-	$(WINARGS0) native.cc      -o bin\o\native.obj
 	$(WINARGS0) scripting.cc   -o bin\o\scripting.obj
+	$(WINARGS0) native.cc      -o bin\o\native.obj
 	g++ program.cpp bin\o\types.obj bin\o\native.obj bin\o\scripting.obj bin\o\file.obj bin\o\logging.obj bin\o\renderer.obj
 	rmdir bin\o
 
