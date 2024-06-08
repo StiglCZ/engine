@@ -73,5 +73,5 @@ wscripts:
 windows: wsetup wobjects wscripts
 	$(WINARGS0) scripting.cc   -o bin\o\scripting.obj
 	$(WINARGS0) native.cc      -o bin\o\native.obj
-	g++ program.cpp bin\o\types.obj bin\o\native.obj bin\o\scripting.obj bin\o\file.obj bin\o\logging.obj bin\o\renderer.obj
+	g++ -mwindows program.cpp bin\o\types.obj bin\o\native.obj bin\o\scripting.obj bin\o\file.obj bin\o\logging.obj bin\o\renderer.obj
 
