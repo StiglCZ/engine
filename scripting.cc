@@ -35,7 +35,7 @@ std::vector<HINSTANCE> handlers;
 void* loadScript(char* file) {
     Debg(std::string("Loading script ") + file);
     // RTLD_LAZY can be used if theres some unlinked function
-    HINSTANCE handle = dlopen(file, RTLD_NOW);
+    HINSTANCE handle = LoadLibrary(file);
     if(!handle)scriptErr(0);
     handlers.push_back(handle);
     return (void*)handle;
