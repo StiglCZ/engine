@@ -200,22 +200,124 @@ void Exiter() {
 #include <thread>
 #include <string.h>
 
+HWND window;
 u8 button[16];
 u8 keys[256];
 Point mouse;
 bool  isRunning = 1;
 std::vector<void *> exitFuncs;
 std::vector<Model> *modelBufferPtr;
-void t2(){
-    
+
+void freeModels() {
+    Info("Freeing models...");
+    for(u32 i =0; i < (*modelBufferPtr).size(); i++){
+        Debg("Freeing model " + std::to_string(i));
+        if((*modelBufferPtr)[i].freed)continue;
+        std::vector<Face>* cfs = &(*modelBufferPtr)[i].faces;
+        for(u32 j =0; j < cfs->size(); j++)
+            delete[] (*cfs)[j].m;
+        cfs->clear();
+        (*modelBufferPtr)[i].freed = 1;
+    }
 }
+
+void Exiter(){
+    closeAllScripts();
+    freeModels();
+    Info("Exiting");
+}
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    switch (uMsg) {
+        default:
+            return DefWindowProc(hwnd, uMsg, wParam, lParam);
+            break;
+        case WM_DESTROY:
+            Exiter();
+            PostQuitMessage(0);
+            break;
+        case WM_PAINT:
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
+            HPEN hPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
+            SelectObject(hdc, hPen);
+            // Clear the screen
+            HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            for(int i =0; i < lines.size(); i++){
+                MoveToEx(hdc, lines[i].start.X, lines[i].start.Y, NULL);
+                LineTo(hdc, lines[i].end.X, lines[i].end.Y);
+            }
+            EndPaint(hwnd, &ps);
+            break;
+    }
+    return 0;
+}
+
+void t2(){
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
+
+u16 GetKeyFromString(char* str){ return *str; }
+
 void NativeInit(int w, int h, char* title){
-    HWND hwnd = CreateWindowEx(0, CLASS_NAME, title,
+    HINSTANCE hInstance = GetModuleHandle(NULL);
+    WNDCLASSEX wc;
+    wc.cbSize         = sizeof(WNDCLASSEX);
+    wc.style          = CS_HREDRAW | CS_VREDRAW;
+    wc.lpfnWndProc    = WindowProc;
+    wc.cbClsExtra     = 0;
+    wc.cbWndExtra     = 0;
+    wc.hInstance      = hInstance;
+    wc.hIcon          = LoadIcon(NULL, IDI_APPLICATION);
+    wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground  = (HBRUSH)(0x0001);
+    wc.lpszMenuName   = NULL;
+    wc.lpszClassName  = "Engine";
+    ATOM result = RegisterClassEx(&wc);
+    window = CreateWindowEx(0, "Engine", title,
                                WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
                                CW_USEDEFAULT, CW_USEDEFAULT,
                                CW_USEDEFAULT, NULL, NULL, hInstance, NULL
                               );
-    if (hwnd == NULL) return 0;
-    ShowWindow(hwnd, nCmdShow);
+    if (!window || !result){
+        Err("Window creation failed!", 1);
+        Exiter();
+        exit(0);
+    }
+    ShowWindow(window, nCmdShow);
+    UpdateWindow(window);
+    
+    // Get the first window create message
+    MSG msg;
+    GetMessage(&msg, NULL, 0, 0);
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+    
+    win = (int)msg.wParam;
+    std::thread(t2).detach();
 }
+void ChangeColor(Color col) {
+
+}
+void Screenshot(const char* filename){
+
+}
+
+void ClearScreen(){
+
+}
+void DrawLine(Point src, Point dst){
+    lines.push_back({src, dst});
+}
+void DrawText(Point pos, const char* str){
+
+}
+void FrameFinished(){
+
+}
+
 #endif
