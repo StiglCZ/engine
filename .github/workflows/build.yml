@@ -65,9 +65,10 @@ jobs:
            copy openal-soft-1.23.1-bin\libs\Win64\OpenAL32.lib lib\openal.lib
            copy openal-soft-1.23.1-bin\include\AL\*.h include\AL\
 
+           dir
       - name: Compile the binaries
         run: |
-          build.cmd
+          .\engine\build.cmd
           clang++ -Wno-everything -Ofast -shared bin\o\types.obj bin\o\logging.obj game/audio.cc -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
 
       - uses: actions/upload-artifact@v4
