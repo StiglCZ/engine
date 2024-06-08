@@ -206,11 +206,13 @@ u8 button[16];
 u8 keys[256];
 Point mouse;
 bool  isRunning = 1;
+u64 backColor = 0x0000000000000000;
+u64 color = 0;
 std::vector<void *> exitFuncs;
 std::vector<Model> *modelBufferPtr;
 void freeModels() {
     Info("Freeing models...");
-    for(u32 i =0; i < (*modelBufferPtr).size(); i++){
+    for(u32 i =0; i < modelBufferPtr->size(); i++){
         Debg("Freeing model " + std::to_string(i));
         if((*modelBufferPtr)[i].freed)continue;
         std::vector<Face>* cfs = &(*modelBufferPtr)[i].faces;
@@ -237,17 +239,17 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             break;
         case WM_PAINT:
             PAINTSTRUCT ps;
-            //HDC hdc = BeginPaint(hwnd, &ps);
-            //HPEN hPen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));
-            //SelectObject(hdc, hPen);
+            HDC hdc = BeginPaint(hwnd, &ps);
+            HPEN hPen = CreatePen(PS_SOLID, 2, RGB(color & 0xff, color >> 8 & 0xff, color >> 16 & 0xff));
+            SelectObject(hdc, hPen);
             // Clear the screen
-            //HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
-            //FillRect(hdc, &ps.rcPaint, hBrush);
-            /*for(int i =0; i < lines.size(); i++){
+            HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            for(int i =0; i < lines.size(); i++){
                 MoveToEx(hdc, lines[i].start.X, lines[i].start.Y, NULL);
                 LineTo(hdc, lines[i].end.X, lines[i].end.Y);
             }
-            EndPaint(hwnd, &ps);*/
+            EndPaint(hwnd, &ps);
             break;
     }
     return 0;
@@ -301,26 +303,28 @@ void NativeInit(int w, int h, char* title){
     std::thread(t2).detach();
 }
 void ChangeColor(Color col) {
-
+    color = col.B | col.G << 8 | col.R << 24;
+}
+void ChangeColor(long col) {
+    color = col;
 }
 void Screenshot(const char* filename){
-
+    
 }
 void CenterMouse(){
-
+    
 }
 void ClearScreen(){
-
+    
 }
 void DrawLine(Point src, Point dst){
     
 }
 void DrawText(Point pos, const char* str){
-
+    
 }
 void FrameFinished(){
-
+    
 }
-u64 backColor = 0x0000000000000000;
 
 #endif
