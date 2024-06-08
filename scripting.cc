@@ -2,10 +2,7 @@
 #include "logging.hh"
 
 void scriptErr(int source) {
-    if(source == 1) // Missing function isn't critical
-        Debg("Script  error: " + std::string(dlerror()));
-    else
-        Warn("Script  error: " + std::string(dlerror()));
+    Warn("Script error!");
 }
 
 #ifdef __unix__
@@ -30,6 +27,8 @@ void closeScript(void *script) {
 #endif
 
 #ifdef _WIN32
+#include <string>
+#include <vector>
 #include <windows.h>
 std::vector<HINSTANCE> handlers;
 
