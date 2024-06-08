@@ -219,9 +219,9 @@ void freeModels() {
     for(u32 i =0; i < modelBufferPtr->size(); i++){
         Debg("Freeing model " + std::to_string(i));
         if((*modelBufferPtr)[i].freed)continue;
-        std::vector<Face>* cfs = &(*modelBufferPtr)[i].faces;
-        //for(u32 j =0; j < cfs->size(); j++)
-            //delete[] (*cfs)[j].m;
+        std::vector<Face> cfs = (*modelBufferPtr)[i].faces;
+        for(u32 j =0; j < cfs.size(); j++)
+            delete[] cfs[j].m;
         cfs->clear();
         (*modelBufferPtr)[i].freed = 1;
     }
