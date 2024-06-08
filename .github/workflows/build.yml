@@ -67,7 +67,7 @@ jobs:
            copy openal-soft-1.23.1-bin\include\AL\*.h include\AL\
            
       - name: Compile the binaries
-        run: dir
+        run: make windows
 
       - uses: actions/upload-artifact@v4
         with:

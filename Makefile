@@ -4,6 +4,9 @@ ARGS1= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -c
 ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -shared bin/o/types.o
 ARGS3= $(CC) -Wall -Wextra -s -Ofast
 
+WINARGS0= $(CC) -Wno-everything -Ofast -c
+WINARGS1= $(CC) -Wno-everything -Ofast -shared bin\o\types.obj
+
 # Object, script and util file output arguments
 D1= -o bin/o
 D2= -o bin/scripts
@@ -48,3 +51,24 @@ utils:
 run: build
 	cd bin && ./a.out
 all: build utils
+
+windows:
+	mkdir bin
+	mkdir bin\o bin\assets bin\scripts
+	$(WINARGS0) renderer.cc  -o bin\o\renderer.obj
+	$(WINARGS0) native.cc    -o bin\o\native.obj
+	$(WINARGS0) scripting.cc -o bin\o\scripting.obj
+
+	$(WINARGS0) net.cc         -o bin\o\net.obj
+	$(WINARGS0) file.cc        -o bin\o\file.obj
+	$(WINARGS0) types.cc       -o bin\o\types.obj
+	$(WINARGS0) logging.cc     -o bin\o\logging.obj
+	$(WINARGS0) game\saving.cc -o bin\o\saving.obj
+
+	$(WINARGS1) game\mscript.cc                    -o bin\scripts\main.dll
+	$(WINARGS1) game\physics.cc                    -o bin\scripts\physics.dll
+	$(WINARGS1) game\scene.cc bin\o\logging.obj    -o bin\scripts\scene.dll
+	$(WINARGS1) game\movement.cc                   -o bin\scripts\movement.dll
+	$(WINARGS1) game\collision.cc                  -o bin\scripts\collision.dll
+	$(WINARGS1) bin\o\logging.obj game/audio.cc    -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
+
