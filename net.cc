@@ -1,3 +1,9 @@
+#ifdef _WIN32
+#define TODO
+#pragma message(TODO "Add windows support")
+#endif
+
+#ifdef __unix__
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -48,3 +54,4 @@ Message Recieve(Client& cl) {
 void End(Client& cl) {
     close(cl.socket);
 }
+#endif
