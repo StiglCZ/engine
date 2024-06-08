@@ -243,11 +243,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             // Clear the screen
             HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
             FillRect(hdc, &ps.rcPaint, hBrush);
-            for(int i =0; i < lines.size(); i++){
+            /*for(int i =0; i < lines.size(); i++){
                 MoveToEx(hdc, lines[i].start.X, lines[i].start.Y, NULL);
                 LineTo(hdc, lines[i].end.X, lines[i].end.Y);
             }
-            EndPaint(hwnd, &ps);
+            EndPaint(hwnd, &ps);*/
             break;
     }
     return 0;
