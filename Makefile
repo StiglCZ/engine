@@ -70,7 +70,7 @@ wscripts:
 	$(WINARGS1) game\movement.cc                   -o bin\scripts\movement.dll
 	$(WINARGS1) game\collision.cc                  -o bin\scripts\collision.dll
 	$(WINARGS1) bin\o\logging.obj game/audio.cc    -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
-windows: wsetup wobjects
+windows: wsetup wobjects wscripts
 	$(WINARGS0) scripting.cc   -o bin\o\scripting.obj
 	$(WINARGS0) native.cc      -o bin\o\native.obj
 	g++ program.cpp bin\o\types.obj bin\o\native.obj bin\o\scripting.obj bin\o\file.obj bin\o\logging.obj bin\o\renderer.obj
