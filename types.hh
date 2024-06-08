@@ -252,9 +252,9 @@ enum ResourceType {
 #define audioct(gd) (((AudioControl**)gd->stream)[3])
 #define physics(gd) ((PhysicsProps*)((void**)gd->stream)[4])
 
-#ifndef __unix__
+#ifndef _WIN32
+#else
 #define typeof(T) auto
-
 #endif
 
 #endif
