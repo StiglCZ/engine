@@ -39,7 +39,7 @@ u8 eDirectory(const char* dir) {
     return S_ISDIR(info.st_mode) + 1;
 }
 
-std::vector<std::string> getFiles(std::string dir) {
+/*std::vector<std::string> getFiles(std::string dir) {
     std::vector<std::string> strs;
     DIR* directory = opendir(dir.c_str());
     // Doesn't exist
@@ -54,7 +54,7 @@ std::vector<std::string> getFiles(std::string dir) {
     }
     closedir(directory);
     return strs;
-}
+    }*/
 
 /*
   Avoid comments in the obj file begining
