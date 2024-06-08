@@ -207,7 +207,7 @@ u8 keys[256];
 Point mouse;
 bool  isRunning = 1;
 u64 backColor = 0x0000000000000000;
-u64 color = 0;
+Color color;
 std::vector<void *> exitFuncs;
 std::vector<Model> *modelBufferPtr;
 void freeModels() {
@@ -240,7 +240,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
         case WM_PAINT:
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hwnd, &ps);
-            HPEN hPen = CreatePen(PS_SOLID, 2, RGB(color & 0xff, color >> 8 & 0xff, color >> 16 & 0xff));
+            HPEN hPen = CreatePen(PS_SOLID, 2, RGB(color.R, color.G, color.B));
             SelectObject(hdc, hPen);
             // Clear the screen
             HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
@@ -303,9 +303,6 @@ void NativeInit(int w, int h, char* title){
     std::thread(t2).detach();
 }
 void ChangeColor(Color col) {
-    color = col.B | col.G << 8 | col.R << 24;
-}
-void ChangeColor(long col) {
     color = col;
 }
 void Screenshot(const char* filename){

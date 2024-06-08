@@ -87,7 +87,7 @@ typedef struct Trigger Trigger;
 typedef struct Vector3 Vector3;
 typedef struct Vector2 Vector2;
 typedef struct Script Script;
-typedef struct Color color;
+typedef struct Color Color;
 typedef struct Point Point;
 typedef struct Model Model;
 typedef struct Face Face;
