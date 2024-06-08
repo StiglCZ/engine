@@ -208,13 +208,6 @@ Point mouse;
 bool  isRunning = 1;
 std::vector<void *> exitFuncs;
 std::vector<Model> *modelBufferPtr;
-
-struct Line{
-    Point a, b;
-};
-
-typedef struct Line Line;
-std::vector<Line> lines;
 void freeModels() {
     Info("Freeing models...");
     for(u32 i =0; i < (*modelBufferPtr).size(); i++){
@@ -318,7 +311,7 @@ void ClearScreen(){
 
 }
 void DrawLine(Point src, Point dst){
-    lines.push_back({src, dst});
+    
 }
 void DrawText(Point pos, const char* str){
 
