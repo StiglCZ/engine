@@ -246,14 +246,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             HDC hdc = BeginPaint(hwnd, &ps);
             HPEN hPen = CreatePen(PS_SOLID, 2, RGB(color.R, color.G, color.B));
             SelectObject(hdc, hPen);
+            
             // Clear the screen
-            HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
+            HBRUSH hBrush = CreateSolidBrush((u32)backColor);
             FillRect(hdc, &ps.rcPaint, hBrush);
             for(int i =0; i < lines.size(); i++){
                 MoveToEx(hdc, lines[i].start.X, lines[i].start.Y, NULL);
                 LineTo(hdc, lines[i].end.X, lines[i].end.Y);
             }
             EndPaint(hwnd, &ps);
+            lines.clear();
             break;
     }
     return 0;
