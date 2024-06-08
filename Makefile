@@ -55,6 +55,7 @@ all: build utils
 windows:
 	mkdir bin
 	mkdir bin\o bin\assets bin\scripts
+
 	$(WINARGS0) renderer.cc  -o bin\o\renderer.obj
 	$(WINARGS0) native.cc    -o bin\o\native.obj
 	$(WINARGS0) scripting.cc -o bin\o\scripting.obj
