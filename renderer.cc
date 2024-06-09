@@ -7,8 +7,8 @@ typedef fx rvec[4];
 const fx
     a = 1.0 / tan(rad(FOV) / 2.0),
     b = a / AR,
-    c = (-PNEAR - PFAR) / AR,
-    d = 2.0 * PFAR * PNEAR / AR;
+    c = (-NEARP - FARP) / AR,
+    d = 2.0 * FARP * NEARP / AR;
     
 matrix4x4 projMatrix = {
     {a, 0, 0, 0},

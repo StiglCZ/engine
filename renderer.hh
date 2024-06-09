@@ -6,8 +6,8 @@
 #define FOV 80.0
 #define SIZE_X 1280
 #define SIZE_Y 720
-#define PFAR 100.0
-#define PNEAR 0.01
+#define FARP 100.0
+#define NEARP 0.01
 
 #define CUTOFF_Z 0
 #define CUTOFF_W 0
