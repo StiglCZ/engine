@@ -221,6 +221,7 @@ enum ResourceType {
 #define memcpy(a, b, c)              \
     for(typeof(c) i = 0; i < c; i++) \
         a[i] = b[i];
+
 #define strcpy(a, b)    \
     int i = 0;          \
     while (a[i])        \
