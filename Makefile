@@ -5,8 +5,8 @@ ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -share
 ARGS3= $(CC) -Wall -Wextra -s -Ofast
 
 WCC= g++
-WINARGS0= $(WCC) -Wno-everything -Ofast -c
-WINARGS1= $(WCC) -Wno-everything -Ofast -shared bin\o\types.obj
+WARGS0= $(WCC) -Wno-everything -Ofast -c
+WARGS1= $(WCC) -Wno-everything -Ofast -shared bin\o\types.obj
 
 # Object, script and util file output arguments
 D1= -o bin/o
@@ -57,21 +57,21 @@ wsetup:
 	mkdir bin
 	mkdir bin\o bin\assets bin\scripts
 wobjects:
-	$(WINARGS0) net.cc         -o bin\o\net.obj
-	$(WINARGS0) file.cc        -o bin\o\file.obj
-	$(WINARGS0) types.cc       -o bin\o\types.obj
-	$(WINARGS0) logging.cc     -o bin\o\logging.obj
-	$(WINARGS0) game\saving.cc -o bin\o\saving.obj
-	$(WINARGS0) renderer.cc    -o bin\o\renderer.obj
+	$(WARGS0) net.cc         -o bin\o\net.obj
+	$(WARGS0) file.cc        -o bin\o\file.obj
+	$(WARGS0) types.cc       -o bin\o\types.obj
+	$(WARGS0) native.cc      -o bin\o\native.obj
+	$(WARGS0) logging.cc     -o bin\o\logging.obj
+	$(WARGS0) renderer.cc    -o bin\o\renderer.obj
+	$(WARGS0) scripting.cc   -o bin\o\scripting.obj
+	$(WARGS0) game\saving.cc -o bin\o\saving.obj
 wscripts:
-	$(WINARGS1) game\mscript.cc                    -o bin\scripts\main.dll
-	$(WINARGS1) game\physics.cc                    -o bin\scripts\physics.dll
-	$(WINARGS1) game\scene.cc bin\o\logging.obj    -o bin\scripts\scene.dll
-	$(WINARGS1) game\movement.cc                   -o bin\scripts\movement.dll
-	$(WINARGS1) game\collision.cc                  -o bin\scripts\collision.dll
-	$(WINARGS1) bin\o\logging.obj game/audio.cc    -o bin/scripts/audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
+	$(WARGS1) game\mscript.cc                    -o bin\scripts\main.dll
+	$(WARGS1) game\scene.cc bin\o\logging.obj    -o bin\scripts\scene.dll
+	$(WARGS1) game\physics.cc                    -o bin\scripts\physics.dll
+	$(WARGS1) game\movement.cc                   -o bin\scripts\movement.dll
+	$(WARGS1) game\collision.cc                  -o bin\scripts\collision.dll
+	$(WARGS1) bin\o\logging.obj game/audio.cc    -o bin\scripts\audio.dll -I.\include\ -L.\lib\ -lopenal -lsndfile
 windows: wsetup wobjects wscripts
-	$(WINARGS0) scripting.cc   -o bin\o\scripting.obj
-	$(WINARGS0) native.cc      -o bin\o\native.obj
 	g++ -mwindows program.cpp bin\o\types.obj bin\o\native.obj bin\o\scripting.obj bin\o\file.obj bin\o\logging.obj bin\o\renderer.obj
 

@@ -8,11 +8,7 @@
 #include "file.hh"
 #include "math.hh"
 #include "types.hh"
-#ifdef _WIN32
-u64 uIDc = rand();
-#else
-u64 uIDc = random(); // ID counter for adding new objects
-#endif
+u64 uIDc = rand();  // ID counter for adding new objects
 
 const u32 SIGNATURE = 0xAABB;
 

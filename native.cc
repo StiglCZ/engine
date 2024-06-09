@@ -168,7 +168,7 @@ void Screenshot(const char* filename){
     SaveScreenshot((u8*)pixels, {SIZE_X, SIZE_Y}, filename);
 }
 void Exiter() {
-    // The main thread is hopefully stopped by this
+    // The main thread is stopped by this if the timing's correct
     isRunning = 0;
     for(u32 i =0; i < exitFuncs.size(); i++){
         Debg("Exiting function is being ran: " + std::to_string(i));
