@@ -3,29 +3,27 @@ name: Build for linux
 on: [push, pull_request]
 
 jobs:
-  build-and-release:
+  build-for-linux:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repo code
       - name: Checkout code 
         uses: actions/checkout@v4
-      
+
       - name: Cache openal
         uses: awalsh128/cache-apt-pkgs-action@v1.4.2
         with:
           packages: libopenal-dev
           version: 0.0.1
           execute_install_scripts: true
+          
       - name: Install sndfile
         run: sudo apt install libsndfile-dev
-          
-      # Compile the code itself
-      - name: Compile the binaries
+
+      - name: Compile all the binaries
         run: make all
 
-      # Upload the bin folder
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: built-artifacts
+          name: linux-build
           path: bin/**
-
