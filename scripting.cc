@@ -1,15 +1,18 @@
 #include "scripting.hh"
 #include "logging.hh"
+#include <string>
+#include <vector>
 
+#ifdef __unix__
 void scriptErr(int source) {
+    if(source == 1) // Missing function isn't critical
+        Debg("Script  error: " + std::string(dlerror()));
+    else
+        Warn("Script  error: " + std::string(dlerror()));
     Warn("Script error!");
 }
 
-#ifdef __unix__
-#include <string>
-#include <vector>
 std::vector<void *> handlers;
-
 void* loadScript(char* file) {
     Debg(std::string("Loading script ") + file);
     // RTLD_LAZY can be used if theres some unlinked function
@@ -27,9 +30,10 @@ void closeScript(void *script) {
 #endif
 
 #ifdef _WIN32
-#include <string>
-#include <vector>
 #include <windows.h>
+void scriptErr(int source) {
+    Warn("Script error!");
+}
 std::vector<HINSTANCE> handlers;
 
 void* loadScript(char* file) {
