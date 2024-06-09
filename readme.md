@@ -1,5 +1,5 @@
 # WireFrame engine
-
+[![Build for linux](https://github.com/StiglCZ/engine/actions/workflows/build.yml/badge.svg)](https://github.com/StiglCZ/engine/actions/workflows/build.yml) 
 This game engine is completely wireframe and runs only on CPU! <br>
 [LICENSE](LICENSE.md) - [CONTRIBUTING](CONTRIBUTING.md) <br>
 
