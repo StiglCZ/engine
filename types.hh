@@ -187,7 +187,7 @@ struct GameObject {
 struct CamProps {
     Vector3 pos, rot;
     void (*const sync)(CamProps*, bool);
-    const fx fov, pfar, pnear, ar, w, h;
+    const fx fov, farp, nearp, ar, w, h;
 };
 
 struct GameData {
