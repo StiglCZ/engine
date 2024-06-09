@@ -9,7 +9,6 @@ void scriptErr(int source) {
         Debg("Script  error: " + std::string(dlerror()));
     else
         Warn("Script  error: " + std::string(dlerror()));
-    Warn("Script error!");
 }
 
 std::vector<void *> handlers;
