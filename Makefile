@@ -71,7 +71,7 @@ wscripts:
 	$(WARGS1) game\physics.cc                    -o bin\scripts\physics.dll
 	$(WARGS1) game\movement.cc                   -o bin\scripts\movement.dll
 	$(WARGS1) game\collision.cc                  -o bin\scripts\collision.dll
-	$(WARGS1) bin\o\logging.obj game/audio.cc    -o bin\scripts\audio.dll -I.\include\ -L.\lib\ -lopenal -lsndfile
+	$(WARGS1) bin\o\logging.obj game/audio.cc    -o bin\scripts\audio.dll -I./include/ -L./lib/ -lopenal -lsndfile
 windows: wsetup wobjects wscripts
 	g++ -mwindows program.cpp bin\o\types.obj bin\o\native.obj bin\o\scripting.obj bin\o\file.obj bin\o\logging.obj bin\o\renderer.obj
 
