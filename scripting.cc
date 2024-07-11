@@ -23,7 +23,7 @@ void* loadScript(char* file) {
     // RTLD_LAZY can be used if theres some unlinked function
     void* handle = dlopen(file, RTLD_NOW);
     if(!handle)scriptErr(0);
-    handlers.push_back(handle);
+    else handlers.push_back(handle);
     return handle;
 }
 
