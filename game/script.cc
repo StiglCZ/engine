@@ -5,25 +5,25 @@
 
 #include "audio.hh"
 
-extern "C" { // Without this it doensn't work
-    GameData *d;
+extern "C" { // Without this function naming is broken
+    GameData *d; // Global variable with the pointer
     void Init(GameData *gd, u32 si){
         Info("Intializing script with index " + std::to_string(si));
-        d = gd; // get the pointer out of scope
+        d = gd; // get the pointer to the global scope
 
         // load the script example.so
-        gd->loadScript((char*)(std::string("example.so")).c_str(), gd);
+        d->loadScript((char*)(std::string("example.so")).c_str(), gd);
 
         GameObject go;
         go.position = go.rotation = go.coll = {1};
         go.scale = {1, 1, 1};
-        go.model = 0; // no object(empty)
+        go.model = 0; // no model(invisible)
         go.script = si; // asign THIS script to the object
         gd->gameObjects->push_back(go);
     }
 
     void Start(u32 index){
-        Info("Object " + std::to_string(index) + "has been created");
+        Info("Object " + std::to_string(index) + "has been created in last frame");
 
         // Play some audio
         AudioControl* control = audioct(d);
@@ -34,7 +34,7 @@ extern "C" { // Without this it doensn't work
     }
 
     void Update(u32 index){
-        // Move the object with speeding depends on the frametime
+        // Move the object with speed depending on the frametime
         (*d->gameObjects)[index].position.X +=
             1.0 * (u32)getDelta(d);
     }
