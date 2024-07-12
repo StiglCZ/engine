@@ -33,27 +33,30 @@ extern "C"{
             d->cp->rot = {0, f, 0};
             d->cp->sync(d->cp, false);
         }
+        float speed = SPEED * getDelta(d);
         if(d->keys[W]){
-            d->cp->pos += d->cp->rot.Forward() * SPEED;
+            d->cp->pos += d->cp->rot.Forward() * speed;
         }
         if(d->keys[S]){
-            d->cp->pos -= d->cp->rot.Forward() * SPEED;
+            d->cp->pos -= d->cp->rot.Forward() * speed;
         }
         if(d->keys[A]){
-            d->cp->pos += d->cp->rot.Right() * SPEED;
+            d->cp->pos += d->cp->rot.Right() * speed;
         }
         if(d->keys[D]){
-            d->cp->pos -= d->cp->rot.Right() * SPEED;
+            d->cp->pos -= d->cp->rot.Right() * speed;
         }
+        speed = SPEED / 2 * getDelta(d);
+        
         // Moving the physics Object
         if(d->keys[T])
-            ((*d->gameObjects)[3]).position.Z += 0.003;
+            ((*d->gameObjects)[3]).position.Z += SPEED / 2 * getDelta(d);
         if(d->keys[G])
-            ((*d->gameObjects)[3]).position.Z -= 0.003;
+            ((*d->gameObjects)[3]).position.Z -= SPEED / 2 * getDelta(d);
         if(d->keys[F])
-            ((*d->gameObjects)[3]).position.X -= 0.003;
+            ((*d->gameObjects)[3]).position.X -= SPEED / 2 * getDelta(d);
         if(d->keys[H])
-            ((*d->gameObjects)[3]).position.X += 0.003;
+            ((*d->gameObjects)[3]).position.X += SPEED / 2 * getDelta(d);
 
         // Pause
         if(d->keys[esc]){
