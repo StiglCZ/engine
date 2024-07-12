@@ -36,7 +36,7 @@ extern "C" { // Without this it doensn't work
     void Update(u32 index){
         // Move the object with speeding depends on the frametime
         (*d->gameObjects)[index].position.X +=
-            1.0 / (u32)getDelta(d);
+            1.0 * (u32)getDelta(d);
     }
     
 }

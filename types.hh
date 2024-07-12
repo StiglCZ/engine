@@ -242,7 +242,7 @@ enum ResourceType {
 #define drawnum(gd, num, x, y)  gd->drawText({x, y}, std::to_string(text).c_str());
 #define pushgo(gd, go) gd->gameObjects->push_back(go);
 
-#define getDelta(gd) (gd->sleepTime > *gd->deltaTime) ? 1.0 : (fx)gd->sleepTime / *gd->deltaTime
+#define getDelta(gd) ((gd->sleepTime > *gd->deltaTime) ? 1.0 : (*gd->deltaTime / (fx)gd->sleepTime))
 #define getKey(gd, key) (u64)gd->getResource(4, (u64)key)
 #define keyDown(gd, key) (gd->keys[keycode])
 #define keyUp(gd, key)  !(gd->keys[keycode])
