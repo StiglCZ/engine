@@ -50,13 +50,13 @@ extern "C"{
         
         // Moving the physics Object
         if(d->keys[T])
-            ((*d->gameObjects)[3]).position.Z += SPEED / 2 * getDelta(d);
+            ((*d->gameObjects)[3]).position.Z += speed;
         if(d->keys[G])
-            ((*d->gameObjects)[3]).position.Z -= SPEED / 2 * getDelta(d);
+            ((*d->gameObjects)[3]).position.Z -= speed;
         if(d->keys[F])
-            ((*d->gameObjects)[3]).position.X -= SPEED / 2 * getDelta(d);
+            ((*d->gameObjects)[3]).position.X -= speed;
         if(d->keys[H])
-            ((*d->gameObjects)[3]).position.X += SPEED / 2 * getDelta(d);
+            ((*d->gameObjects)[3]).position.X += speed;
 
         // Pause
         if(d->keys[esc]){
