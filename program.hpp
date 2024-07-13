@@ -4,7 +4,6 @@
 #include <string>
 #include <unistd.h>
 
-//#define DEBUG
 #define STREAM_SIZE 8192
 #define SLEEP_TIME 1000
 const std::string

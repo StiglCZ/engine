@@ -113,10 +113,9 @@ void RenderGameObject(GameObject& go, CamProps& cp) {
     matrix4x4 modelMatrix = {};
     Vector3 pos = go.position + cp.pos;
     fillMat(modelMatrix, pos, go.rotation);
-    
-    Vector3 scale = go.scale;
-    // After I've seen minecrafts scaling on rotation, I would consider this acceptable implementation
+
     // Fixes the scaling when X and Z rotation are non zero
+    Vector3 scale = go.scale;
     fx scaleFactor =
         (fabs(sin(go.rotation.X)) + 1) *
         (fabs(sin(go.rotation.Z)) + 1) *
@@ -190,7 +189,7 @@ int main() {
         Err("ERR: Main script(main.so) hasn't been found!(Wrong directory?)", -1);
     
     // Main script at index 1
-    loadScript((char*)mainScript.c_str(), &gd);
+    loadScript(mainScript.c_str(), &gd);
 
     if(scriptBuffer.size() <= 1 || !scriptBuffer[1].handle)
         Err("Main script could not be loaded!", 1);
