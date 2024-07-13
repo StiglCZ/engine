@@ -22,4 +22,3 @@ extern void d_init(void*, u32);
 extern void d_other(u32);
 extern inline u64 time();
 #endif
-

@@ -13,9 +13,12 @@ u64 uIDc = random(); // ID counter for adding new objects
 
 const u32 SIGNATURE = 0xAABB;
 
-std::vector<std::string> split(std::string str, char c) {
-    std::string tmp;
-    std::vector<std::string> result;
+using std::string;
+using std::vector;
+
+vector<string> split(string str, char c) {
+    string tmp;
+    vector<string> result;
     for(u32 i =0; i < str.size();i++){
         if(str[i] == c){
             result.push_back(tmp);
@@ -36,15 +39,15 @@ u8 eDirectory(const char* dir) {
     return S_ISDIR(info.st_mode) + 1;
 }
 
-std::vector<std::string> getFiles(std::string dir) {
-    std::vector<std::string> strs;
+vector<string> getFiles(string dir) {
+    vector<string> strs;
     DIR* directory = opendir(dir.c_str());
     // Doesn't exist
     if (directory == nullptr)
         return strs;
     dirent* entry;
     while ((entry = readdir(directory)) != nullptr) {
-        std::string fileName = entry->d_name;
+        string fileName = entry->d_name;
         if (entry->d_type == 4)
             continue; // Skip if subdirectory
         strs.push_back(fileName);
@@ -58,11 +61,11 @@ std::vector<std::string> getFiles(std::string dir) {
   with letter 'v' or 'f' folowed by space
   Auto-scaling to size XYZ1 not implemented
  */
-Model loadOBJ(std::vector<std::string> file) {
+Model loadOBJ(vector<string> file) {
     Model m;
     for(u32 i =0; i < file.size();i++){
         if(file[i][0] == 'v' && file[i][1] == ' '){
-            std::vector<std::string> parts0 = split(file[i], ' ');
+            vector<string> parts0 = split(file[i], ' ');
             m.verticies.push_back((Vector3){
                     (fx)atof(parts0[1].c_str()),
                     (fx)atof(parts0[2].c_str()),
@@ -70,10 +73,10 @@ Model loadOBJ(std::vector<std::string> file) {
                 });
         }
         if(file[i][0] == 'f' && file[i][1] == ' '){
-            std::vector<std::string> parts0 = split(file[i], ' ');
+            vector<string> parts0 = split(file[i], ' ');
             u16* n = new u16[parts0.size()-1];
             for(u32 i =1; i < parts0.size(); i++){
-                std::string n1 = split(parts0[i], '/')[0];
+                string n1 = split(parts0[i], '/')[0];
                 n[i-1] = (u16)(atoi(n1.c_str()) -1);
             }
             m.faces.push_back(
@@ -93,15 +96,15 @@ fx biggest(Vector3 v) {
     return big;
 }
 
-void optimizeModel(std::string fileName) {
-    std::vector<Vector3> vecs;
-    std::vector<std::vector<u16>> faces;
+void optimizeModel(string fileName) {
+    vector<Vector3> vecs;
+    vector<vector<u16>> faces;
     std::ifstream ifs(fileName);
     if(!ifs.is_open())return;
-    std::string line;
+    string line;
     Vector3 min, max;
     while(std::getline(ifs, line)){
-        std::vector<std::string> parts0 = split(line, ' ');
+        vector<string> parts0 = split(line, ' ');
         if(line[1] != ' ')continue;
         if(line[0] == 'v'){
             Vector3 vec;
@@ -119,9 +122,9 @@ void optimizeModel(std::string fileName) {
                 if(vec.Z > max.Z) max.Z = vec.X;
             }
         }else if(line[0] == 'f'){
-            std::vector<u16> face;
+            vector<u16> face;
             for(u32 i =1; i < parts0.size(); i++){
-                std::string n1 = split(parts0[i], '/')[0];
+                string n1 = split(parts0[i], '/')[0];
                 face.push_back((u16)(atoi(n1.c_str()) -1));
             }
             faces.push_back(face);
@@ -198,13 +201,13 @@ Model readOptimizedModel(std::string fileName) {
 }
     
 // Wrapper cuz the objload is also possible to add
-Model loadModel(std::string filename) {
+Model loadModel(string filename) {
     return readOptimizedModel(filename);
 }
 
 void SaveScreenshot(u8* data, Point size, const char* filename) {
     std::ofstream ofs(filename, std::ios::binary);
-    std::string str = "P6\n"
+    string str = "P6\n"
         + std::to_string(size.X) + " "
         + std::to_string(size.Y) + "\n255\n";
     ofs.write(str.c_str(), str.size());
