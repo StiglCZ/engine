@@ -3,8 +3,9 @@
 #define SPEED 0.006
 extern "C"{
     GameData* d;
-    u8 W, S, A, D, space, esc;
-    u8 T, F, G, H;
+    u8 W, S, A, D,
+       space, esc,
+       T, F, G, H;
     fx f = 0, wp = 10, ap = 0;
     void Init(GameData* gd, u32 scriptIndex){
         GameObject go = emptyGameObj;
@@ -39,7 +40,7 @@ extern "C"{
         if(d->keys[A]) d->cp->pos += d->cp->rot.Right() * speed;
         if(d->keys[D]) d->cp->pos -= d->cp->rot.Right() * speed;
         
-        // Moving the physics Object
+        // Moving the physics object
         speed /= 2;
         if(d->keys[T]) ((*d->gameObjects)[3]).position.Z += speed;
         if(d->keys[G]) ((*d->gameObjects)[3]).position.Z -= speed;

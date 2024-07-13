@@ -10,9 +10,7 @@ extern "C" {
         ((void**)d->stream)[2] =
             (void*)&collidingObjects;
     }
-    void Start(u32 index){
-        (void)index;
-    }
+
     #define between(lo, hi, lo2) \
         ((lo2 >= lo && lo2 <= hi) || (lo2 <= lo && lo2 >= hi))
     
