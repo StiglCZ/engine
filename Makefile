@@ -1,8 +1,8 @@
 CC= clang++
-ARGS0= $(CC) -Wall -Wextra -g -Ofast -march=native -lX11 -ftree-vectorize -funroll-loops
-ARGS1= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -c
-ARGS2= $(CC) -Wall -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -shared bin/o/types.o
-ARGS3= $(CC) -Wall -Wextra -s -Ofast
+ARGS0= $(CC) -Wall -Wno-vla-extension -Wextra -g -Ofast -march=native -lX11 -ftree-vectorize -funroll-loops
+ARGS1= $(CC) -Wall -Wno-vla-extension -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -c
+ARGS2= $(CC) -Wall -Wno-vla-extension -Wextra -g -Ofast -march=native -fPIC -ftree-vectorize -shared bin/o/types.o
+ARGS3= $(CC) -Wall -Wno-vla-extension -Wextra -s -Ofast
 
 # Object, script and util file output arguments
 D1= -o bin/o

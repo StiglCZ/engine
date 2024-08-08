@@ -20,11 +20,11 @@ extern "C" {
         go.coll = {1, 3, 2.5};
         go.script = scriptIndex;
         go.bounce = 100;
-        gd->gameObjects->push_back(go);
+        pushgo(gd, go);
 
         go.position.Y += 20;
         go.flags = 10;
-        gd->gameObjects->push_back(go);
+        pushgo(gd, go);
     }
     void Start(u32 index){
         // Add collision to the object
