@@ -42,10 +42,12 @@ Image readHead(std::ifstream& file) {
     std::string str;
     std::getline(file, str);
     if(str.empty()) return img;
-    if(str == "PPM3" || str == "P3")
-        img.gen = 3;
-    else if(str == "PPM6" || str == "P6")
-        img.gen = 6;
+    if(str == "PPM1" || str == "P1") img.gen = 1;
+    else if(str == "PPM2" || str == "P2") img.gen = 2;
+    else if(str == "PPM3" || str == "P3") img.gen = 3;
+    else if(str == "PPM3" || str == "P4") img.gen = 4;
+    else if(str == "PPM3" || str == "P5") img.gen = 5;
+    else if(str == "PPM6" || str == "P6") img.gen = 6;
 
     // Fetch 2 lines, detect the maxval and dimensions
     std::getline(file, str);
@@ -57,6 +59,39 @@ Image readHead(std::ifstream& file) {
     img.ptr = new byte[img.size];
     return img;
 }
+
+// PPM1 - text bit format
+void ReadPPM1(Image &img, std::ifstream& file) {
+    byte* b = img.ptr;
+    std::string str;
+    for(int i =0; i < img.sizeX * img.sizeY; i++){
+        std::getline(file, str);
+        std::stringstream ss(str);
+        int A, R = 0, G = 0, B = 0;
+        ss >> A;
+        if(A) R = G = B = 255;
+        *b++ = R;
+        *b++ = G;
+        *b++ = B;
+    }
+}
+
+// PPM2 - text gray format
+void ReadPPM2(Image &img, std::ifstream& file) {
+    byte* b = img.ptr;
+    std::string str;
+    for(int i =0; i < img.sizeX * img.sizeY; i++){
+        std::getline(file, str);
+        std::stringstream ss(str);
+        int R = 0, G = 0, B = 0;
+        ss >> B;
+        R = G = B;
+        *b++ = R;
+        *b++ = G;
+        *b++ = B;
+    }
+}
+
 // PPM3 - text format
 void ReadPPM3(Image &img, std::ifstream& file) {
     byte* b = img.ptr;
@@ -71,6 +106,33 @@ void ReadPPM3(Image &img, std::ifstream& file) {
         *b++ = B;
     }
 }
+
+// PPM4 - binary gray format
+void ReadPPM4(Image& img, std::ifstream& ifs) {
+    byte* b = img.ptr;
+    std::string str;
+    for(int i =0; i < img.sizeX * img.sizeY / 8; i++){
+        byte B;
+        ifs.read((char*)&B, 1);
+        for(int i =0; i <= 0x80; i *= 2)
+            *b++ = *b++ = *b++ = B & i;
+    }
+}
+
+// PPM5 - binary gray format
+void ReadPPM5(Image& img, std::ifstream& ifs) {
+    byte* b = img.ptr;
+    std::string str;
+    for(int i =0; i < img.sizeX * img.sizeY; i++){
+        byte R, G, B;
+        ifs.read((char*)&B, 1);
+        R = G = B;
+        *b++ = R;
+        *b++ = G;
+        *b++ = B;
+    }
+}
+
 // PPM6 - binary format
 void ReadPPM6(Image& img, std::ifstream& ifs) {
     byte* b = img.ptr;
@@ -85,6 +147,7 @@ void ReadPPM6(Image& img, std::ifstream& ifs) {
         *b++ = B;
     }
 }
+
 int main(int argc, char** argv) {
     if(argc < 2)
         error(1, 0, "Too few args");
@@ -96,9 +159,28 @@ int main(int argc, char** argv) {
     if(!ifs.is_open())
         error(1, 0, "Cannot open file %s", argv[1]);
     Image img = readHead(ifs);
-    if(img.gen == 3)ReadPPM3(img, ifs);
-    else if(img.gen == 6)ReadPPM6(img, ifs);
-    else error(1, 0, "PPM generation not supported! %d\n", img.gen);
+    switch(img.gen) {
+        case 1:
+            ReadPPM1(img, ifs);
+            break;
+        case 2:
+            ReadPPM2(img, ifs);
+            break;
+        case 3:
+            ReadPPM3(img, ifs);
+            break;
+        case 4:
+            ReadPPM4(img, ifs);
+            break;
+        case 5:
+            ReadPPM5(img, ifs);
+            break;
+        case 6:
+            ReadPPM6(img, ifs);
+            break;
+        default:
+            error(1, 0, "PPM generation not supported! %d\n", img.gen);
+    }
     image_create(img);
     delete[] img.ptr;
 }
