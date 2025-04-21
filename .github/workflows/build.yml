@@ -17,7 +17,7 @@ jobs:
           execute_install_scripts: true
           
       - name: Install sndfile
-        run: sudo apt install -y libpng libsndfile-dev libx11-dev
+        run: sudo apt install -y libpng-dev libsndfile-dev libx11-dev
 
       - name: Compile all the binaries
         run: make all
